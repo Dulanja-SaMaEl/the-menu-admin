@@ -1913,7 +1913,7 @@
                                     $dLines[] = $it->quantity . 'x ' . ($it->food->name ?? 'Dish');
                                 }
                                 $dishesSummary = implode(', ', $dLines);
-                                $bevText = ""; {{-- BEVERAGE FEATURE (DISABLED FOR LATER USE) !empty($m['has_beverage']) ? ("\n🍹 *Beverage:* + " . ($m['beverage_name'] ?? 'Coca Cola') . " (Monthly Plan)") : "" --}}
+                                $bevText = ''; /* BEVERAGE FEATURE (DISABLED FOR LATER USE) !empty($m['has_beverage']) ? ("\n🍹 *Beverage:* + " . ($m['beverage_name'] ?? 'Coca Cola') . " (Monthly Plan)") : "" */
                                 $driverTag = !empty($m['driver']) ? ("\n🛵 *Driver:* " . $m['driver']->name) : "";
 
                                 $routeManifestText .= "*STOP #{$stopNum}*\n"
@@ -2238,7 +2238,7 @@
                                                     $rowDishes[] = $it->quantity . 'x ' . ($it->food->name ?? 'Dish');
                                                 }
                                                 $rowDishesStr = implode(', ', $rowDishes);
-                                                $rowBevStr = ""; {{-- BEVERAGE FEATURE (DISABLED FOR LATER USE) !empty($meal['has_beverage']) ? ("\n🍹 *Beverage:* + " . ($meal['beverage_name'] ?? 'Coca Cola') . " (Monthly Plan)") : "" --}}
+                                                $rowBevStr = ''; /* BEVERAGE FEATURE (DISABLED FOR LATER USE) !empty($meal['has_beverage']) ? ("\n🍹 *Beverage:* + " . ($meal['beverage_name'] ?? 'Coca Cola') . " (Monthly Plan)") : "" */
                                                 $assignedMealDriver = $meal['driver'] ?? ($meal['order']->driver ?? null);
                                                 if (!$assignedMealDriver && !empty($meal['driver_id'])) {
                                                     $assignedMealDriver = $drivers->firstWhere('id', $meal['driver_id']);
