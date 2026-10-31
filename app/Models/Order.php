@@ -102,7 +102,7 @@ class Order extends Model
 
     public static function generateReference(int $userId): string
     {
-        $shortHash = strtoupper(substr(md5(uniqid((string)$userId, true)), 0, 6));
+        $shortHash = strtoupper(substr(hash('sha256', uniqid((string)$userId, true)), 0, 6));
         return "REF-U{$userId}-{$shortHash}";
     }
 

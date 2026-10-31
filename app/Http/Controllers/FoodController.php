@@ -63,7 +63,7 @@ class FoodController extends Controller
 
             // Compute ETag for fast 304 cache validation and bandwidth reduction
             $lastUpdated = Food::max('updated_at') ?? '0';
-            $etag = '"' . md5($lastUpdated . '_' . $foods->count()) . '"';
+            $etag = '"' . hash('sha256', $lastUpdated . '_' . $foods->count()) . '"';
 
             $clientEtag = $request->header('If-None-Match');
             if ($clientEtag && trim($clientEtag) === $etag) {
