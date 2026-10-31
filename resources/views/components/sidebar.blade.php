@@ -2,6 +2,8 @@
     $navItems = [
         ['route' => 'dashboard', 'label' => 'Dashboard', 'match' => 'dashboard', 'icon' => 'M4 6h16M4 12h16m-7 6h7'],
         ['route' => 'orders', 'label' => 'Orders', 'match' => 'orders*', 'icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'],
+        ['route' => 'transactions.index', 'label' => 'Transactions', 'match' => 'transactions*', 'icon' => 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z'],
+        ['route' => 'customers.index', 'label' => 'Customers', 'match' => 'customers*', 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'],
         ['route' => 'offers', 'label' => 'Special Offers', 'match' => 'offers*', 'icon' => 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z'],
         ['route' => 'drivers', 'label' => 'Drivers', 'match' => 'drivers*', 'icon' => 'M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6 0a1 1 0 001 1h1'],
         ['route' => 'events', 'label' => 'Events', 'match' => 'events*', 'icon' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
@@ -19,25 +21,28 @@
     @foreach($navItems as $item)
         @php
             $isRestrictedForChef = in_array($item['label'], [
-                'Special Offers', 'Drivers', 'Events', 'Bills & POS', 'Users', 'History & Logs', 'Settings'
+                'Transactions', 'Customers', 'Special Offers', 'Drivers', 'Events', 'Bills & POS', 'Users', 'History & Logs', 'Settings'
             ]);
         @endphp
         @if(auth()->user()?->role === 'Chef' && $isRestrictedForChef)
             @continue
         @endif
         @php 
-            $isActive = request()->routeIs($item['match']) || (isset($item['alt_match']) && request()->routeIs($item['alt_match'])); 
+            $isActive = request()->routeIs($item['match']) || (isset($item['alt_match']) && (request()->routeIs($item['alt_match']) || ($item['route'] === 'foods.index' && request()->routeIs('beverages*')))); 
         @endphp
         <a href="{{ route($item['route']) }}" 
-           class="flex items-center space-x-3.5 px-3.5 py-3 rounded-2xl transition-all duration-200 group {{ $isActive ? 'bg-[#C9A050] text-white shadow-lg shadow-[#C9A050]/25 font-bold' : 'text-white/70 hover:bg-white/10 hover:text-white font-medium' }}">
+           class="sidebar-nav-item flex items-center space-x-3.5 px-3.5 py-3 rounded-2xl transition-all duration-200 group {{ $isActive ? 'active bg-[#C9A050] text-[#0A2E2A] font-bold shadow-lg shadow-black/25' : 'text-gray-300 hover:text-white hover:bg-white/10 font-medium' }}">
             <div class="flex-shrink-0 flex items-center justify-center w-6 h-6">
-                <svg class="w-5 h-5 {{ $isActive ? 'text-white' : 'text-white/70 group-hover:text-white group-hover:scale-110 transition-transform' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 transition-transform duration-200 {{ $isActive ? 'text-[#0A2E2A]' : 'text-gray-300 group-hover:text-white group-hover:scale-110' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"></path>
                 </svg>
             </div>
-            <span class="text-sm tracking-tight truncate">
+            <span class="text-sm tracking-tight truncate transition-colors duration-200 {{ $isActive ? 'text-[#0A2E2A] font-bold' : 'text-gray-300 group-hover:text-white font-medium' }}">
                 {{ $item['label'] }}
             </span>
+            @if($isActive)
+                <span class="ml-auto w-2 h-2 rounded-full bg-[#0A2E2A]"></span>
+            @endif
         </a>
     @endforeach
 </nav>

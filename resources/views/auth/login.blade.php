@@ -3,7 +3,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <title>The Menu - Management Console Sign In</title>
+
+    <!-- Instant Anti-FOUC Theme Persistence Script -->
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('menu_theme');
+                if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+    <title>{{ config('app.name', 'Menu') }} - Management Console Sign In</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo.svg') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap" rel="stylesheet" />
@@ -106,7 +121,7 @@
                     <!-- Ambient gold glow accent behind the blended logo -->
                     <div class="absolute inset-0 bg-[#C9A050]/20 rounded-full blur-xl pointer-events-none transform scale-90"></div>
                     <img src="{{ asset('images/logo.svg') }}" 
-                         alt="The Menu Logo" 
+                         alt="Menu Logo" 
                          class="h-20 sm:h-24 w-auto object-contain relative z-10 logo-blend mix-blend-screen filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
                          style="mix-blend-mode: screen; aspect-ratio: 2048 / 1374;">
                 </div>
@@ -114,7 +129,7 @@
                     Welcome Back
                 </h1>
                 <p class="text-xs sm:text-sm text-gray-300 mt-1 font-medium glass-card-subtitle">
-                    The Menu Management &amp; Culinary Operations
+                    Menu Management &amp; Culinary Operations
                 </p>
             </div>
 
@@ -235,7 +250,7 @@
             </div>
 
             <p class="mt-6 text-center text-[10px] text-gray-300 font-medium">
-                © 2026 The Menu Management Console &middot; Confidential
+                © 2026 Menu Management Console &middot; Confidential
             </p>
         </div>
     </main>

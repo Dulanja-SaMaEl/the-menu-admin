@@ -1,57 +1,53 @@
-<x-app-layout>
+<x-app-layout :title="$title">
     <div class="mb-8 flex items-center justify-between">
         <div>
-            <nav class="flex text-sm text-gray-500 mb-2">
-                <a href="#" class="hover:text-[#C9A050]">Settings</a>
-                <span class="mx-2">></span>
-                <span class="text-gray-900 font-semibold">{{ $title }}</span>
+            <nav class="flex items-center text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
+                <a href="#" class="hover:text-[#C9A050] transition-colors">Settings</a>
+                <span class="mx-2 text-gray-300">/</span>
+                <span class="text-[#0A2E2A] font-black">{{ $title }}</span>
             </nav>
-            <h1 class="text-3xl font-bold text-gray-900">Settings</h1>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0A2E2A] tracking-tight">System Settings</h1>
         </div>
         
-        <div class="flex items-center space-x-4">
-            <button class="p-2 bg-white rounded-xl shadow-sm text-gray-400">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-            </button>
-            <div class="flex space-x-1">
-                <div class="w-1.5 h-1.5 bg-gray-200 rounded-full"></div>
-                <div class="w-1.5 h-1.5 bg-gray-200 rounded-full"></div>
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-white/95 backdrop-blur-md rounded-2xl shadow-md shadow-[#0A2E2A]/5 border border-gray-200/70 flex items-center justify-center text-[#0A2E2A]">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             </div>
         </div>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-8 h-[calc(100vh-200px)]">
+    <div class="flex flex-col lg:flex-row gap-8">
         <!-- Settings Sidebar -->
-        <div class="lg:w-1/3 bg-white rounded-[2.5rem] p-8 flex flex-col shadow-sm border border-gray-100 overflow-hidden">
-            <nav class="space-y-4">
+        <div class="lg:w-1/3 bg-white/95 backdrop-blur-md rounded-[2.5rem] p-6 sm:p-8 flex flex-col shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70">
+            <nav class="space-y-2">
                 @php
                     $menus = [
                         ['id' => 'profile', 'label' => 'Profile', 'icon' => '👤', 'route' => '#'],
                         ['id' => 'notifications', 'label' => 'Notifications', 'icon' => '🔔', 'route' => '#'],
                         ['id' => 'appearance', 'label' => 'Appearance', 'icon' => '🎨', 'route' => '#'],
-                        ['id' => 'checkout', 'label' => 'Checkout settings', 'icon' => '⚙️', 'route' => route('settings.checkout')],
+                        ['id' => 'checkout', 'label' => 'Checkout Settings', 'icon' => '⚙️', 'route' => route('settings.checkout')],
                         ['id' => 'security', 'label' => 'Security', 'icon' => '🛡️', 'route' => route('settings.security')],
                         ['id' => 'language', 'label' => 'Language & Region', 'icon' => '🌍', 'route' => '#'],
                     ];
                 @endphp
 
                 @foreach($menus as $menu)
-                    <a href="{{ $menu['route'] }}" class="flex items-center space-x-4 p-4 rounded-2xl transition-all {{ $active == $menu['id'] ? 'bg-gray-50 text-gray-900 shadow-sm border border-gray-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50/50' }}">
+                    <a href="{{ $menu['route'] }}" class="flex items-center space-x-4 p-4 rounded-2xl transition-all duration-300 {{ $active == $menu['id'] ? 'bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] text-white font-bold shadow-lg shadow-[#0A2E2A]/20 border border-[#C9A050]/20' : 'text-gray-600 hover:text-[#0A2E2A] hover:bg-[#C9A050]/5 font-semibold' }}">
                         <span class="text-xl">{{ $menu['icon'] }}</span>
-                        <span class="font-bold">{{ $menu['label'] }}</span>
+                        <span class="text-sm tracking-wide">{{ $menu['label'] }}</span>
                     </a>
                 @endforeach
             </nav>
         </div>
 
         <!-- Settings Content -->
-        <div class="lg:w-2/3 bg-white rounded-[2.5rem] flex flex-col shadow-sm border border-gray-100 overflow-hidden">
-            <div class="flex-grow overflow-y-auto p-12 custom-scrollbar">
+        <div class="lg:w-2/3 bg-white/95 backdrop-blur-md rounded-[2.5rem] flex flex-col shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 overflow-hidden">
+            <div class="flex-grow overflow-y-auto p-8 sm:p-12 custom-scrollbar">
                 {{ $slot }}
             </div>
             
-            <div class="p-8 border-t border-gray-50 flex justify-end">
-                <button class="px-12 py-4 bg-[#C9A050] text-white rounded-2xl font-bold text-lg hover:bg-[#B38E46] transition-all shadow-lg shadow-[#C9A050]/20">
+            <div class="p-6 sm:p-8 border-t border-gray-100 bg-gray-50/50 flex justify-end">
+                <button class="px-8 py-3.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black rounded-2xl shadow-lg shadow-[#C9A050]/25 transition-all duration-300 hover:scale-[1.02] text-sm">
                     Save Changes
                 </button>
             </div>

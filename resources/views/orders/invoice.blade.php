@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Menu - Invoice #INV-{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</title>
+    <title>{{ config('app.name', 'Menu') }} - Invoice #INV-{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo.svg') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -42,7 +42,7 @@
             <div>
                 <div class="flex items-center gap-2">
                     <span class="w-10 h-10 rounded-2xl bg-[#0A2E2A] flex items-center justify-center text-[#C9A050] font-black text-xl">M</span>
-                    <h1 class="text-2xl font-black text-[#0A2E2A] tracking-tight">THE MENU</h1>
+                    <h1 class="text-2xl font-black text-[#0A2E2A] tracking-tight">MENU</h1>
                 </div>
                 <p class="text-xs text-gray-500 mt-2 font-medium">Monthly Meal Subscription & Gourmet Catering</p>
                 <p class="text-xs text-gray-400">Kollupitiya, Colombo 03, Sri Lanka</p>
@@ -156,7 +156,7 @@
 
         <!-- Footer Notice -->
         <div class="mt-10 pt-6 border-t border-gray-100 text-center text-[11px] text-gray-400">
-            <p>Thank you for choosing The Menu. For meal plan alterations, kindly inform at least 24 hours prior.</p>
+            <p>Thank you for choosing Menu. For meal plan alterations, kindly inform at least 24 hours prior.</p>
             <p class="mt-1">Generated electronically • Valid without physical signature</p>
         </div>
     </div>

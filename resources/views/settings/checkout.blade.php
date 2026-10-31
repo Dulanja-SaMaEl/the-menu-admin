@@ -11,14 +11,14 @@
             setTimeout(() => this.savedNotice = false, 4000);
         }
     }">
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Checkout Settings</h2>
+                <h2 class="text-2xl font-extrabold text-[#0A2E2A] tracking-tight">Checkout Preferences</h2>
                 <p class="text-xs text-gray-500 mt-1">Configure checkout preferences, payment gateways, and delivery thresholds</p>
             </div>
             
-            <button @click="saveSettings()" class="px-5 py-2.5 bg-[#C9A050] hover:bg-[#b58f43] text-white rounded-xl font-bold text-xs sm:text-sm shadow-md shadow-[#C9A050]/20 transition-all flex items-center space-x-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <button @click="saveSettings()" class="px-6 py-2.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black rounded-2xl text-xs sm:text-sm shadow-lg shadow-[#C9A050]/25 transition-all duration-300 hover:scale-[1.02] flex items-center space-x-2 shrink-0 self-start sm:self-auto">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                 <span>Save Preferences</span>
             </button>
         </div>
@@ -30,15 +30,15 @@
             <span>Checkout preferences saved successfully!</span>
         </div>
 
-        <div class="space-y-8">
+        <div class="space-y-6">
             <!-- Payment History Section -->
-            <div class="bg-white p-6 sm:p-7 rounded-[2rem] border border-gray-100 shadow-xs">
-                <h3 class="text-base font-bold text-gray-900 mb-2">Order & Payment Archiving</h3>
-                <p class="text-xs text-gray-500 mb-6">Automatically preserve historical checkout invoices and customer receipts</p>
+            <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] border border-gray-200/70 shadow-xl shadow-[#0A2E2A]/5">
+                <h3 class="text-base font-extrabold text-[#0A2E2A] mb-1">Order & Payment Archiving</h3>
+                <p class="text-xs text-gray-400 mb-6">Automatically preserve historical checkout invoices and customer receipts</p>
                 
-                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                <div class="flex items-center justify-between p-5 bg-gray-50/80 rounded-2xl border border-gray-100">
                     <div>
-                        <span class="font-bold text-gray-800 text-sm block">Save Customer Transaction History</span>
+                        <span class="font-bold text-gray-900 text-sm block">Save Customer Transaction History</span>
                         <span class="text-xs text-gray-400">Allows users and staff to review past itemized bills</span>
                     </div>
                     <button type="button" @click="saveHistory = !saveHistory" 
@@ -51,17 +51,17 @@
             </div>
 
             <!-- Payment Method Section -->
-            <div class="bg-white p-6 sm:p-7 rounded-[2rem] border border-gray-100 shadow-xs">
-                <h3 class="text-base font-bold text-gray-900 mb-2">Enabled Payment Methods</h3>
-                <p class="text-xs text-gray-500 mb-6">Select which payment options are accepted during mobile and web checkout</p>
+            <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] border border-gray-200/70 shadow-xl shadow-[#0A2E2A]/5">
+                <h3 class="text-base font-extrabold text-[#0A2E2A] mb-1">Enabled Payment Methods</h3>
+                <p class="text-xs text-gray-400 mb-6">Select which payment options are accepted during mobile and web checkout</p>
                 
                 <div class="space-y-4">
                     <!-- Bank Card / Online -->
-                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                        <div class="flex items-center space-x-3">
+                    <div class="flex items-center justify-between p-5 bg-gray-50/80 rounded-2xl border border-gray-100">
+                        <div class="flex items-center space-x-3.5">
                             <span class="text-2xl">💳</span>
                             <div>
-                                <span class="font-bold text-gray-800 text-sm block">Credit / Debit Card (Online Gateway)</span>
+                                <span class="font-bold text-gray-900 text-sm block">Credit / Debit Card (Online Gateway)</span>
                                 <span class="text-xs text-gray-400">Accept Visa, Mastercard, and digital payments</span>
                             </div>
                         </div>
@@ -74,11 +74,11 @@
                     </div>
 
                     <!-- Cash on Delivery -->
-                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                        <div class="flex items-center space-x-3">
+                    <div class="flex items-center justify-between p-5 bg-gray-50/80 rounded-2xl border border-gray-100">
+                        <div class="flex items-center space-x-3.5">
                             <span class="text-2xl">💵</span>
                             <div>
-                                <span class="font-bold text-gray-800 text-sm block">Cash on Delivery (COD)</span>
+                                <span class="font-bold text-gray-900 text-sm block">Cash on Delivery (COD)</span>
                                 <span class="text-xs text-gray-400">Customer pays upon physical meal arrival</span>
                             </div>
                         </div>
@@ -93,25 +93,25 @@
             </div>
 
             <!-- Delivery & Pricing Thresholds -->
-            <div class="bg-white p-6 sm:p-7 rounded-[2rem] border border-gray-100 shadow-xs">
-                <h3 class="text-base font-bold text-gray-900 mb-2">Delivery & Order Thresholds</h3>
-                <p class="text-xs text-gray-500 mb-6">Default delivery surcharge and minimum order amount</p>
+            <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] border border-gray-200/70 shadow-xl shadow-[#0A2E2A]/5">
+                <h3 class="text-base font-extrabold text-[#0A2E2A] mb-1">Delivery & Order Thresholds</h3>
+                <p class="text-xs text-gray-400 mb-6">Default delivery surcharge and minimum order amount</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1.5">Standard Delivery Fee (Rs.)</label>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Standard Delivery Fee (Rs.)</label>
                         <div class="relative">
-                            <span class="absolute left-3.5 top-3 text-xs font-bold text-gray-400">Rs.</span>
+                            <span class="absolute left-4 top-3.5 text-xs font-black text-gray-400">Rs.</span>
                             <input type="number" step="10" x-model="deliveryFee" 
-                                   class="w-full pl-10 pr-4 py-2.5 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-bold text-gray-800 focus:ring-0">
+                                   class="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 text-sm font-extrabold text-[#0A2E2A] outline-none transition-all">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1.5">Minimum Order Amount (Rs.)</label>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Minimum Order Amount (Rs.)</label>
                         <div class="relative">
-                            <span class="absolute left-3.5 top-3 text-xs font-bold text-gray-400">Rs.</span>
+                            <span class="absolute left-4 top-3.5 text-xs font-black text-gray-400">Rs.</span>
                             <input type="number" step="50" x-model="minOrder" 
-                                   class="w-full pl-10 pr-4 py-2.5 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-bold text-gray-800 focus:ring-0">
+                                   class="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 text-sm font-extrabold text-[#0A2E2A] outline-none transition-all">
                         </div>
                     </div>
                 </div>

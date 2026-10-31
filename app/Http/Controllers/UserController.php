@@ -13,14 +13,25 @@ class UserController extends Controller
     /**
      * Display a listing of the users.
      */
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->user()?->role === 'Chef') {
             abort(403, 'Unauthorized. Chefs are not allowed to access user management.');
         }
 
-        $users = User::all();
-        return view('users.index', compact('users'));
+        $search = $request->input('search');
+        $query = User::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('role', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->latest()->get();
+        return view('users.index', compact('users', 'search'));
     }
 
 

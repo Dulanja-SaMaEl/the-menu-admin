@@ -10,22 +10,45 @@ class DriverController extends Controller
     /**
      * Display a listing of drivers with summary statistics.
      */
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->user()?->role === 'Chef') {
             abort(403, 'Unauthorized. Chefs are not allowed to access Driver Management.');
         }
 
-        $drivers = Driver::latest()->get();
+        $search = trim($request->input('search', ''));
 
+        // Global fleet statistics
+        $allDrivers = Driver::all();
         $stats = [
-            'total'        => $drivers->count(),
-            'available'    => $drivers->where('status', 'available')->count(),
-            'on_delivery'  => $drivers->where('status', 'on_delivery')->count(),
-            'offline'      => $drivers->where('status', 'offline')->count(),
+            'total'        => $allDrivers->count(),
+            'available'    => $allDrivers->where('status', 'available')->count(),
+            'on_delivery'  => $allDrivers->where('status', 'on_delivery')->count(),
+            'offline'      => $allDrivers->where('status', 'offline')->count(),
         ];
 
-        return view('drivers', compact('drivers', 'stats'));
+        $query = Driver::with(['assignedOrders' => function ($q) {
+            $q->whereIn('status', ['pending', 'processing', 'assigned']);
+        }])
+        ->withCount([
+            'assignedOrders as completed_orders_count' => function ($q) {
+                $q->whereIn('status', ['completed', 'delivered']);
+            }
+        ]);
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('vehicle_type', 'like', "%{$search}%")
+                  ->orWhere('vehicle_number', 'like', "%{$search}%");
+            });
+        }
+
+        $drivers = $query->latest()->get();
+
+        return view('drivers', compact('drivers', 'stats', 'search'));
     }
 
     /**
@@ -39,13 +62,11 @@ class DriverController extends Controller
             'phone'          => ['nullable', 'string', 'max:50'],
             'vehicle_type'   => ['nullable', 'string', 'max:50'],
             'vehicle_number' => ['nullable', 'string', 'max:50'],
-            'status'         => ['required', 'in:available,on_delivery,offline'],
-            'total_deliveries' => ['nullable', 'integer', 'min:0'],
+            'status'         => ['nullable', 'in:available,on_delivery,offline'],
+            'max_orders'     => ['nullable', 'integer', 'min:1', 'max:100'],
         ], [
             'name.required' => 'Please enter the driver\'s name.',
             'email.email'   => 'Please enter a valid email address.',
-            'status.required' => 'Please select a status.',
-            'status.in'     => 'Please select a valid status.',
         ]);
 
         $driver = Driver::create([
@@ -55,8 +76,9 @@ class DriverController extends Controller
             'phone'            => $validated['phone'] ?? null,
             'vehicle_type'     => $validated['vehicle_type'] ?? null,
             'vehicle_number'   => $validated['vehicle_number'] ?? null,
-            'status'           => $validated['status'],
-            'total_deliveries' => $validated['total_deliveries'] ?? 0,
+            'status'           => $validated['status'] ?? 'available',
+            'total_deliveries' => 0,
+            'max_orders'       => $validated['max_orders'] ?? 5,
         ]);
 
         return redirect()->route('drivers')->with('success', 'Driver added successfully.');
@@ -73,9 +95,17 @@ class DriverController extends Controller
             'phone'          => ['nullable', 'string', 'max:50'],
             'vehicle_type'   => ['nullable', 'string', 'max:50'],
             'vehicle_number' => ['nullable', 'string', 'max:50'],
-            'status'         => ['required', 'in:available,on_delivery,offline'],
-            'total_deliveries' => ['nullable', 'integer', 'min:0'],
+            'status'         => ['nullable', 'in:available,on_delivery,offline'],
+            'max_orders'     => ['nullable', 'integer', 'min:1', 'max:100'],
         ]);
+
+        if (!isset($validated['max_orders'])) {
+            $validated['max_orders'] = 5;
+        }
+
+        if (!isset($validated['status'])) {
+            $validated['status'] = $driver->status;
+        }
 
         $driver->update($validated);
         
