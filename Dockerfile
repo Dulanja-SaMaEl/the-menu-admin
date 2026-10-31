@@ -12,10 +12,20 @@ RUN apt-get update && apt-get install -y \
     curl \
     ca-certificates \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql gd bcmath zip
+    && docker-php-ext-install pdo pdo_mysql gd bcmath zip opcache
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Enable Apache modules (mod_rewrite, mod_deflate for gzip, headers, expires)
+RUN a2enmod rewrite deflate headers expires
+
+# Configure PHP OPCache for maximum production performance
+RUN { \
+        echo 'opcache.enable=1'; \
+        echo 'opcache.memory_consumption=128'; \
+        echo 'opcache.interned_strings_buffer=8'; \
+        echo 'opcache.max_accelerated_files=10000'; \
+        echo 'opcache.revalidate_freq=2'; \
+        echo 'opcache.save_comments=1'; \
+    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # Configure Apache document root to Laravel's public directory
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Food;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class FoodController extends Controller
@@ -59,23 +60,31 @@ class FoodController extends Controller
 
         // Mobile API response
         if ($request->is('api/*') || $request->wantsJson()) {
-            $foods = $query->get();
+            $cacheKey = 'api_foods_' . md5($request->fullUrl());
 
-            // Compute ETag for fast 304 cache validation and bandwidth reduction
-            $lastUpdated = Food::max('updated_at') ?? '0';
-            $etag = '"' . hash('sha256', $lastUpdated . '_' . $foods->count()) . '"';
+            $cached = Cache::remember($cacheKey, 600, function () use ($query) {
+                $foods = $query->get();
+                $lastUpdated = Food::max('updated_at') ?? '0';
+                $etag = '"' . hash('sha256', $lastUpdated . '_' . $foods->count()) . '"';
 
+                return [
+                    'foods' => $foods,
+                    'etag' => $etag,
+                ];
+            });
+
+            $etag = $cached['etag'];
             $clientEtag = $request->header('If-None-Match');
             if ($clientEtag && trim($clientEtag) === $etag) {
                 return response('', 304, [
                     'ETag' => $etag,
-                    'Cache-Control' => 'public, max-age=60',
+                    'Cache-Control' => 'public, max-age=120',
                 ]);
             }
 
-            return response()->json($foods)
+            return response()->json($cached['foods'])
                 ->header('ETag', $etag)
-                ->header('Cache-Control', 'public, max-age=60');
+                ->header('Cache-Control', 'public, max-age=120');
         }
 
         // Web Admin View
