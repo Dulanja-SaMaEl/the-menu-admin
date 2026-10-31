@@ -231,7 +231,7 @@ class OrderController extends Controller
                     continue;
                 }
 
-                $foodId = $tItem->food_id ?: ('custom_' . md5($tItem->food->name ?? 'Dish'));
+                $foodId = $tItem->food_id ?: ('custom_' . hash('sha256', $tItem->food->name ?? 'Dish'));
                 $foodName = $tItem->food->name ?? 'Chef Special Dish';
                 $category = $tItem->food->category ?? 'Main';
                 $imageUrl = $tItem->food->image_url ?? null;
