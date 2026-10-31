@@ -34,6 +34,7 @@ class Order extends Model
         'payment_reference',
         'bank_receipt_url',
         'is_subscription',
+        'subscription_beverage',
         'renewed_from_order_id',
         'renewed_to_order_id',
         'auto_renew',
@@ -128,5 +129,22 @@ class Order extends Model
     public function renewedTo()
     {
         return $this->belongsTo(Order::class, 'renewed_to_order_id');
+    }
+
+    /**
+     * Get the subscription beverage (e.g. for Monthly Plan Lunches).
+     * Defaults to Coca Cola for active subscriptions if not explicitly customized.
+     */
+    public function getSubscriptionBeverageAttribute($value): ?string
+    {
+        if (!empty($value)) {
+            return $value;
+        }
+
+        if ($this->is_subscription) {
+            return 'Coca Cola';
+        }
+
+        return null;
     }
 }

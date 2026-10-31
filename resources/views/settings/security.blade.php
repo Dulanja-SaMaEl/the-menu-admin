@@ -36,14 +36,14 @@
             setTimeout(() => this.savedNotice = false, 4000);
         }
     }">
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Security & Access</h2>
+                <h2 class="text-2xl font-extrabold text-[#0A2E2A] tracking-tight">Security & Safeguards</h2>
                 <p class="text-xs text-gray-500 mt-1">Review active devices, protect administrator access, and update credentials</p>
             </div>
 
-            <button @click="saveSecurity()" class="px-5 py-2.5 bg-[#C9A050] hover:bg-[#b58f43] text-white rounded-xl font-bold text-xs sm:text-sm shadow-md shadow-[#C9A050]/20 transition-all flex items-center space-x-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <button @click="saveSecurity()" class="px-6 py-2.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black rounded-2xl text-xs sm:text-sm shadow-lg shadow-[#C9A050]/25 transition-all duration-300 hover:scale-[1.02] flex items-center space-x-2 shrink-0 self-start sm:self-auto">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                 <span>Save Security Rules</span>
             </button>
         </div>
@@ -61,22 +61,22 @@
             </div>
         @endif
 
-        <div class="space-y-8">
+        <div class="space-y-6">
             <!-- Security Overview Banner -->
-            <div class="flex items-start space-x-5 p-6 bg-emerald-50/60 rounded-3xl border border-emerald-100">
-                <div class="p-3 bg-emerald-500 text-white rounded-2xl shadow-sm">
+            <div class="flex items-start space-x-5 p-6 bg-emerald-500/10 rounded-[2rem] border border-emerald-500/20">
+                <div class="w-12 h-12 bg-emerald-600 text-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold text-gray-900 mb-1">Account Protection Status: Strong</h3>
+                    <h3 class="text-sm font-extrabold text-[#0A2E2A] mb-1">Account Protection Status: Strong</h3>
                     <p class="text-xs text-gray-600 leading-relaxed">Your administrator session is authenticated with token encryption and HTTPS protection. No suspicious access attempts detected.</p>
                 </div>
             </div>
 
             <!-- Change Password Form -->
-            <div class="bg-white p-6 sm:p-7 rounded-[2rem] border border-gray-100 shadow-xs">
-                <h3 class="text-base font-bold text-gray-900 mb-1">Update Administrator Password</h3>
-                <p class="text-xs text-gray-500 mb-6">Ensure your account uses a long, random password to stay secure</p>
+            <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] border border-gray-200/70 shadow-xl shadow-[#0A2E2A]/5">
+                <h3 class="text-base font-extrabold text-[#0A2E2A] mb-1">Update Administrator Password</h3>
+                <p class="text-xs text-gray-400 mb-6">Ensure your account uses a long, random password to stay secure</p>
 
                 <div x-show="passwordSuccess" x-cloak class="mb-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-xl">
                     Password updated successfully!
@@ -86,39 +86,39 @@
 
                 <form @submit.prevent="changePassword()" class="space-y-4 max-w-lg">
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1.5">Current Password</label>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Current Password</label>
                         <input type="password" x-model="currentPassword" placeholder="••••••••" 
-                               class="w-full px-4 py-2.5 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm focus:ring-0">
+                               class="w-full px-5 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 text-sm outline-none transition-all">
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1.5">New Password</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">New Password</label>
                             <input type="password" x-model="newPassword" placeholder="••••••••" 
-                                   class="w-full px-4 py-2.5 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm focus:ring-0">
+                                   class="w-full px-5 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 text-sm outline-none transition-all">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1.5">Confirm Password</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Confirm Password</label>
                             <input type="password" x-model="confirmPassword" placeholder="••••••••" 
-                                   class="w-full px-4 py-2.5 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm focus:ring-0">
+                                   class="w-full px-5 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 text-sm outline-none transition-all">
                         </div>
                     </div>
 
-                    <button type="submit" class="px-5 py-2.5 bg-[#0A2E2A] hover:bg-[#12423d] text-white rounded-xl font-bold text-xs shadow-md transition-all">
+                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] hover:bg-[#0D3833] text-white rounded-2xl font-bold text-xs shadow-md shadow-[#0A2E2A]/20 transition-all hover:scale-[1.02]">
                         Update Password
                     </button>
                 </form>
             </div>
 
             <!-- Two-Factor Authentication & Session Timeout -->
-            <div class="bg-white p-6 sm:p-7 rounded-[2rem] border border-gray-100 shadow-xs">
-                <h3 class="text-base font-bold text-gray-900 mb-2">Access Rules</h3>
-                <p class="text-xs text-gray-500 mb-6">Manage session timeouts and login safeguards</p>
+            <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] border border-gray-200/70 shadow-xl shadow-[#0A2E2A]/5">
+                <h3 class="text-base font-extrabold text-[#0A2E2A] mb-1">Access Rules</h3>
+                <p class="text-xs text-gray-400 mb-6">Manage session timeouts and login safeguards</p>
 
                 <div class="space-y-4">
-                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                    <div class="flex items-center justify-between p-5 bg-gray-50/80 rounded-2xl border border-gray-100">
                         <div>
-                            <span class="font-bold text-gray-800 text-sm block">Two-Factor Authentication (2FA)</span>
+                            <span class="font-bold text-gray-900 text-sm block">Two-Factor Authentication (2FA)</span>
                             <span class="text-xs text-gray-400">Require OTP verification on unknown devices</span>
                         </div>
                         <button type="button" @click="twoFactor = !twoFactor" 
@@ -129,12 +129,12 @@
                         </button>
                     </div>
 
-                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                    <div class="flex items-center justify-between p-5 bg-gray-50/80 rounded-2xl border border-gray-100">
                         <div>
-                            <span class="font-bold text-gray-800 text-sm block">Admin Session Idle Timeout</span>
+                            <span class="font-bold text-gray-900 text-sm block">Admin Session Idle Timeout</span>
                             <span class="text-xs text-gray-400">Automatically logout inactive administrator tabs</span>
                         </div>
-                        <select x-model="sessionTimeout" class="px-3 py-1.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700">
+                        <select x-model="sessionTimeout" class="px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700 outline-none focus:border-[#C9A050]">
                             <option value="30">30 minutes</option>
                             <option value="60">1 hour</option>
                             <option value="120">2 hours</option>
@@ -145,25 +145,25 @@
             </div>
 
             <!-- Active Sessions Section -->
-            <div class="bg-white p-6 sm:p-7 rounded-[2rem] border border-gray-100 shadow-xs">
-                <h3 class="text-base font-bold text-gray-900 mb-1">Active Administrator Sessions</h3>
-                <p class="text-xs text-gray-500 mb-6">Devices currently authenticated with this account</p>
+            <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] border border-gray-200/70 shadow-xl shadow-[#0A2E2A]/5">
+                <h3 class="text-base font-extrabold text-[#0A2E2A] mb-1">Active Administrator Sessions</h3>
+                <p class="text-xs text-gray-400 mb-6">Devices currently authenticated with this account</p>
 
                 <div class="space-y-3">
-                    <div class="flex items-center justify-between p-4 bg-gray-50/80 rounded-2xl border border-gray-100">
+                    <div class="flex items-center justify-between p-5 bg-gray-50/80 rounded-2xl border border-gray-100">
                         <div class="flex items-center space-x-3.5">
-                            <div class="w-10 h-10 rounded-xl bg-white text-[#C9A050] flex items-center justify-center shadow-xs">
+                            <div class="w-11 h-11 rounded-2xl bg-white text-[#C9A050] flex items-center justify-center shadow-sm border border-gray-100 text-xl">
                                 💻
                             </div>
                             <div>
                                 <h4 class="text-xs sm:text-sm font-bold text-gray-900">Current Windows Browser (Chrome / Edge)</h4>
-                                <p class="text-[11px] text-emerald-600 font-semibold flex items-center">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
+                                <p class="text-[11px] text-emerald-600 font-semibold flex items-center mt-0.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
                                     Active Now • This Device
                                 </p>
                             </div>
                         </div>
-                        <span class="px-2.5 py-1 text-[10px] font-bold rounded-lg bg-emerald-100 text-emerald-800">Online</span>
+                        <span class="px-3 py-1 text-[10px] font-black uppercase rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">Online</span>
                     </div>
                 </div>
             </div>

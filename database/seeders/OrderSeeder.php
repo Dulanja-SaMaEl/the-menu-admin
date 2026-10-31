@@ -75,13 +75,21 @@ class OrderSeeder extends Seeder
                 $scheduledDate = now()->addDays(rand(1, 18))->toDateString();
             }
 
-            foreach ($orderItems as $item) {
+            $mealOptions = ['Breakfast', 'Lunch', 'Dinner'];
+            foreach ($orderItems as $idx => $item) {
+                $seededMealType = match ($item['food']->type) {
+                    'Breakfast' => 'Breakfast',
+                    'Dinner'    => 'Dinner',
+                    'Drinks'    => ($idx % 2 === 0 ? 'Breakfast' : 'Lunch'),
+                    default     => $mealOptions[$idx % count($mealOptions)],
+                };
+
                 OrderItem::create([
                     'order_id'       => $order->id,
                     'food_id'        => $item['food']->id,
                     'quantity'       => $item['quantity'],
                     'price'          => $item['price'],
-                    'meal_type'      => 'Lunch',
+                    'meal_type'      => $seededMealType,
                     'scheduled_date' => $scheduledDate,
                 ]);
             }

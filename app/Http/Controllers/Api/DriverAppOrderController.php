@@ -49,6 +49,12 @@ class DriverAppOrderController extends Controller
 
         $order->update(['status' => $request->status]);
 
+        $driver = $request->user();
+        if ($driver) {
+            \App\Events\DriverStatusUpdated::safeDispatch($driver->fresh());
+        }
+        \App\Events\OrderStatusUpdated::safeDispatch($order->fresh(['user', 'driver', 'items.food']));
+
         return response()->json([
             'success' => true,
             'message' => 'Order status updated.',

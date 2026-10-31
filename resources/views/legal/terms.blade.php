@@ -42,7 +42,7 @@
                     M
                 </div>
                 <div>
-                    <h1 class="text-base sm:text-lg font-bold tracking-tight text-white leading-none">The Menu</h1>
+                    <h1 class="text-base sm:text-lg font-bold tracking-tight text-white leading-none">Menu</h1>
                     <span class="text-xs text-emerald-200">Secret Menu Private Limited</span>
                 </div>
             </div>

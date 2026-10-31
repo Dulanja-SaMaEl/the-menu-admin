@@ -9,6 +9,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\CustomerController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -39,11 +41,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/foods/{food}', [FoodController::class, 'update'])->name('foods.update');
     Route::delete('/foods/{food}', [FoodController::class, 'destroy'])->name('foods.destroy');
     Route::get('/categories', [FoodController::class, 'index'])->name('categories');
+    // Route::get('/beverages', [FoodController::class, 'beverages'])->name('beverages.index');
     
     // Orders (Accessible by Chef; financial columns & driver actions hidden)
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::patch('/orders/{order}/update-address', [OrderController::class, 'updateAddress'])->name('orders.updateAddress');
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    // Route::patch('/orders/{order}/beverage', [OrderController::class, 'updateBeverage'])->name('orders.updateBeverage');
     Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
     
     // Notifications & Messages
@@ -76,6 +80,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/drivers/{driver}', [DriverController::class, 'destroy'])->name('drivers.destroy');
         
         Route::get('/bills', [PageController::class, 'bills'])->name('bills');
+        
+        // Financial & Transactions Management
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+        Route::post('/transactions/{order}/verify', [TransactionController::class, 'verifyPayment'])->name('transactions.verify');
+        Route::post('/transactions/{order}/reject', [TransactionController::class, 'rejectPayment'])->name('transactions.reject');
+        
+        // Customers Management
+        Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+        Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
         
         // History & Logs
         Route::get('/logs', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('logs.index');

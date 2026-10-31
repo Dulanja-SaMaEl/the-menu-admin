@@ -23,32 +23,32 @@
                 </a>
             </div>
             <div class="p-0 overflow-x-auto">
-                <table class="w-full text-left text-sm whitespace-nowrap">
-                    <thead class="text-xs text-gray-400 bg-gray-50 uppercase font-bold tracking-wider">
+                <table class="w-full text-left text-sm whitespace-nowrap border-collapse min-w-[550px]">
+                    <thead class="bg-gray-50/80 border-b border-gray-100">
                         <tr>
-                            <th class="px-6 py-4">Date</th>
-                            <th class="px-6 py-4">Action</th>
-                            <th class="px-6 py-4">User</th>
-                            <th class="px-6 py-4">Changes</th>
+                            <th class="px-6 py-4.5 text-[11px] font-black text-gray-400 uppercase tracking-widest min-w-[150px]">Date</th>
+                            <th class="px-6 py-4.5 text-[11px] font-black text-gray-400 uppercase tracking-widest min-w-[100px]">Action</th>
+                            <th class="px-6 py-4.5 text-[11px] font-black text-gray-400 uppercase tracking-widest min-w-[140px]">User</th>
+                            <th class="px-6 py-4.5 text-[11px] font-black text-gray-400 uppercase tracking-widest min-w-[160px]">Changes</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-gray-100/70">
                         @forelse($orderLogs as $log)
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4 text-gray-500">{{ $log->created_at->format('M d, Y H:i') }}</td>
-                            <td class="px-6 py-4">
+                        <tr class="hover:bg-[#C9A050]/[0.03] transition-colors">
+                            <td class="px-6 py-5 align-middle text-gray-500 font-medium">{{ $log->created_at->format('M d, Y H:i') }}</td>
+                            <td class="px-6 py-5 align-middle">
                                 <span class="px-2.5 py-1 rounded-md text-xs font-bold @if($log->event == 'created') bg-green-50 text-green-600 @elseif($log->event == 'updated') bg-blue-50 text-blue-600 @else bg-gray-100 text-gray-600 @endif">
                                     {{ ucfirst($log->event) }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 font-medium text-gray-900">{{ $log->causer->name ?? 'System' }}</td>
-                            <td class="px-6 py-4 text-xs text-gray-500 truncate max-w-[200px]" title="{{ json_encode($log->properties) }}">
+                            <td class="px-6 py-5 align-middle font-bold text-gray-900">{{ $log->causer->name ?? 'System' }}</td>
+                            <td class="px-6 py-5 align-middle text-xs text-gray-500 truncate max-w-[200px]" title="{{ json_encode($log->properties) }}">
                                 {{ \Illuminate\Support\Str::limit(json_encode($log->properties), 30) }}
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="px-6 py-8 text-center text-gray-400">No order logs found.</td>
+                            <td colspan="4" class="px-6 py-12 text-center text-gray-400">No order logs found.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -71,31 +71,31 @@
                 </a>
             </div>
             <div class="p-0 overflow-x-auto">
-                <table class="w-full text-left text-sm whitespace-nowrap">
-                    <thead class="text-xs text-gray-400 bg-gray-50 uppercase font-bold tracking-wider">
+                <table class="w-full text-left text-sm whitespace-nowrap border-collapse min-w-[550px]">
+                    <thead class="bg-gray-50/80 border-b border-gray-100">
                         <tr>
-                            <th class="px-6 py-4">Date</th>
-                            <th class="px-6 py-4">Module / Action</th>
-                            <th class="px-6 py-4">User</th>
-                            <th class="px-6 py-4">Changes</th>
+                            <th class="px-6 py-4.5 text-[11px] font-black text-gray-400 uppercase tracking-widest min-w-[150px]">Date</th>
+                            <th class="px-6 py-4.5 text-[11px] font-black text-gray-400 uppercase tracking-widest min-w-[150px]">Module / Action</th>
+                            <th class="px-6 py-4.5 text-[11px] font-black text-gray-400 uppercase tracking-widest min-w-[140px]">User</th>
+                            <th class="px-6 py-4.5 text-[11px] font-black text-gray-400 uppercase tracking-widest min-w-[160px]">Changes</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-gray-100/70">
                         @forelse($systemLogs as $log)
-                        <tr class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4 text-gray-500">{{ $log->created_at->format('M d, Y H:i') }}</td>
-                            <td class="px-6 py-4">
+                        <tr class="hover:bg-[#C9A050]/[0.03] transition-colors">
+                            <td class="px-6 py-5 align-middle text-gray-500 font-medium">{{ $log->created_at->format('M d, Y H:i') }}</td>
+                            <td class="px-6 py-5 align-middle">
                                 <span class="font-bold text-gray-700 block">{{ class_basename($log->subject_type) ?: 'System' }}</span>
-                                <span class="text-xs text-gray-500 uppercase tracking-widest mt-0.5 block">{{ $log->event }}</span>
+                                <span class="text-[10px] text-gray-400 uppercase tracking-widest font-semibold mt-0.5 block">{{ $log->event }}</span>
                             </td>
-                            <td class="px-6 py-4 font-medium text-gray-900">{{ $log->causer->name ?? 'System' }}</td>
-                            <td class="px-6 py-4 text-xs text-gray-500 truncate max-w-[200px]" title="{{ json_encode($log->properties) }}">
+                            <td class="px-6 py-5 align-middle font-bold text-gray-900">{{ $log->causer->name ?? 'System' }}</td>
+                            <td class="px-6 py-5 align-middle text-xs text-gray-500 truncate max-w-[200px]" title="{{ json_encode($log->properties) }}">
                                 {{ \Illuminate\Support\Str::limit(json_encode($log->properties), 30) }}
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="px-6 py-8 text-center text-gray-400">No system logs found.</td>
+                            <td colspan="4" class="px-6 py-12 text-center text-gray-400">No system logs found.</td>
                         </tr>
                         @endforelse
                     </tbody>
