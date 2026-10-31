@@ -24,6 +24,16 @@ class Offer extends Model
         'is_active' => 'boolean',
     ];
 
+    protected static function booted()
+    {
+        static::saved(function () {
+            \Illuminate\Support\Facades\Cache::forget('api_active_offers');
+        });
+        static::deleted(function () {
+            \Illuminate\Support\Facades\Cache::forget('api_active_offers');
+        });
+    }
+
     public function food()
     {
         return $this->belongsTo(Food::class);
