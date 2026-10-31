@@ -34,6 +34,24 @@ class Offer extends Model
         });
     }
 
+    public function getBannerImageUrlAttribute($value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
+        if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
+            $url = $value;
+        } else {
+            $url = asset(ltrim($value, '/'));
+        }
+
+        if (app()->environment('production') || str_contains($url, 'onrender.com') || (request() && (request()->isSecure() || request()->header('X-Forwarded-Proto') === 'https'))) {
+            $url = preg_replace('/^http:/i', 'https:', $url);
+        }
+
+        return $url;
+    }
+
     public function food()
     {
         return $this->belongsTo(Food::class);
