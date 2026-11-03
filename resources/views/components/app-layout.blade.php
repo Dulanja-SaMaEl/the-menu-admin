@@ -9,7 +9,7 @@
         (function() {
             try {
                 var theme = localStorage.getItem('menu_theme');
-                if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                if (theme === 'dark') {
                     document.documentElement.classList.add('dark');
                 } else {
                     document.documentElement.classList.remove('dark');
@@ -56,6 +56,37 @@
         .sidebar-nav-item.active span {
             color: #0A2E2A !important;
             font-weight: 700 !important;
+        }
+
+        /* ==========================================================================
+           LIGHT MODE CONTRAST & PURITY ENGINE
+           Guarantees 100% crisp contrast for typography, light backgrounds,
+           and borders when Dark Mode is inactive (i.e. html:not(.dark))
+           ========================================================================== */
+        html:not(.dark) {
+            color-scheme: light;
+        }
+        html:not(.dark) body {
+            background-color: #F8F9FA !important;
+            color: #111827 !important;
+        }
+        html:not(.dark) main {
+            background-color: #F8F9FA !important;
+        }
+        html:not(.dark) h1.text-gray-900,
+        html:not(.dark) h2.text-gray-900,
+        html:not(.dark) h3.text-gray-900,
+        html:not(.dark) h1.text-slate-900,
+        html:not(.dark) h2.text-slate-900,
+        html:not(.dark) h3.text-slate-900 {
+            color: #111827 !important;
+        }
+        html:not(.dark) p.text-gray-500,
+        html:not(.dark) p.text-slate-500 {
+            color: #6B7280 !important;
+        }
+        html:not(.dark) .bg-white {
+            background-color: #FFFFFF !important;
         }
 
         /* ==========================================================================
@@ -233,7 +264,7 @@
         }
         html.dark .text-gray-400,
         html.dark .text-slate-400 {
-            color: #5E7A74 !important;
+            color: #8FA8A3 !important;
         }
         html.dark .text-\[\#C9A050\],
         html.dark .text-amber-600 {
@@ -674,7 +705,7 @@
         }
         html.dark input::placeholder,
         html.dark textarea::placeholder {
-            color: #5E7A74 !important;
+            color: #8FA8A3 !important;
         }
         html.dark input:focus,
         html.dark textarea:focus,
@@ -873,6 +904,355 @@
             color: #061513 !important;
             border-color: #C9A050 !important;
         }
+
+        /* ==========================================================================
+           REPORTS & ANALYTICS LUXURY DARK THEME ENGINE
+           ========================================================================== */
+        /* 1. Reports Sub-Tabs Bar (Executive Overview, Orders Analysis, etc.) */
+        html.dark .report-subtab.active,
+        html.dark .report-subtab[data-active="true"] {
+            background: #C9A050 !important;
+            background-color: #C9A050 !important;
+            color: #061513 !important;
+            border: 1px solid #C9A050 !important;
+            font-weight: 800 !important;
+            box-shadow: 0 4px 18px rgba(201, 160, 80, 0.35) !important;
+        }
+        html.dark .report-subtab.active *,
+        html.dark .report-subtab[data-active="true"] * {
+            color: #061513 !important;
+            stroke: #061513 !important;
+        }
+        html.dark .report-subtab.active svg,
+        html.dark .report-subtab[data-active="true"] svg {
+            color: #061513 !important;
+            stroke: #061513 !important;
+        }
+        html.dark .report-subtab.active span,
+        html.dark .report-subtab[data-active="true"] span {
+            color: #061513 !important;
+        }
+        html.dark .report-subtab:not(.active):not([data-active="true"]) {
+            background-color: #081A17 !important;
+            border: 1px solid #163832 !important;
+            color: #8FA8A3 !important;
+            box-shadow: none !important;
+        }
+        html.dark .report-subtab:not(.active):not([data-active="true"]) * {
+            color: #8FA8A3 !important;
+        }
+        html.dark .report-subtab:not(.active):not([data-active="true"]) svg {
+            color: #8FA8A3 !important;
+            stroke: #8FA8A3 !important;
+        }
+        html.dark .report-subtab:not(.active):not([data-active="true"]):hover {
+            background-color: #123831 !important;
+            border-color: #1E4940 !important;
+            color: #F5F3EF !important;
+        }
+        html.dark .report-subtab:not(.active):not([data-active="true"]):hover * {
+            color: #F5F3EF !important;
+        }
+        html.dark .report-subtab:not(.active):not([data-active="true"]):hover svg {
+            color: #F5F3EF !important;
+            stroke: #F5F3EF !important;
+        }
+
+        /* 2. Top Metric KPI Cards & Badge Icon Pill Containers */
+        html.dark .report-kpi-card {
+            background-color: #0A211E !important;
+            border: 1px solid #163832 !important;
+        }
+        html.dark .report-kpi-icon {
+            background-color: #123831 !important;
+            border: 1px solid #1E4940 !important;
+            color: #D8B060 !important;
+        }
+        html.dark .report-kpi-icon svg {
+            color: #D8B060 !important;
+            stroke: #D8B060 !important;
+        }
+        html.dark .report-kpi-pill {
+            background-color: #123831 !important;
+            border: 1px solid #1E4940 !important;
+            color: #D8B060 !important;
+            font-weight: 800 !important;
+        }
+        html.dark .report-kpi-title {
+            color: #8FA8A3 !important;
+        }
+        html.dark .report-kpi-value {
+            color: #F5F3EF !important;
+        }
+
+        /* 3. Module Summary Cards */
+        html.dark .report-module-card {
+            background-color: #0A211E !important;
+            border: 1px solid #163832 !important;
+        }
+        html.dark .report-module-row {
+            border-color: #163832 !important;
+        }
+        html.dark .report-module-label {
+            color: #8FA8A3 !important;
+        }
+        html.dark .report-module-value {
+            color: #F5F3EF !important;
+            font-weight: 800 !important;
+        }
+        html.dark .report-module-desc {
+            color: #8FA8A3 !important;
+        }
+        html.dark .report-module-btn {
+            background-color: #0E2925 !important;
+            border: 1px solid #1E4940 !important;
+            color: #D8B060 !important;
+        }
+        html.dark .report-module-btn:hover {
+            background-color: #16463D !important;
+            border-color: #C9A050 !important;
+            color: #F5F3EF !important;
+        }
+        html.dark .report-module-btn:hover * {
+            color: #F5F3EF !important;
+        }
+
+        /* ==========================================================================
+           8. ORDERS TOP SWITCHER TABS & ICON PILL CONTAINERS (DARK MODE FIX)
+           ========================================================================== */
+        /* Active Tab in Dark Mode */
+        html.dark #toggle-view-full[class*="from-\[\#C9A050\]"],
+        html.dark #toggle-view-meal-wise[class*="from-\[\#C9A050\]"],
+        html.dark #toggle-view-history[class*="from-\[\#C9A050\]"] {
+            background: linear-gradient(to right, #D8B060, #C9A050) !important;
+            border-color: #D8B060 !important;
+            color: #061513 !important;
+        }
+        html.dark #toggle-view-full[class*="from-\[\#C9A050\]"] *,
+        html.dark #toggle-view-meal-wise[class*="from-\[\#C9A050\]"] *,
+        html.dark #toggle-view-history[class*="from-\[\#C9A050\]"] * {
+            color: #061513 !important;
+        }
+        html.dark #toggle-view-full[class*="from-\[\#C9A050\]"] svg,
+        html.dark #toggle-view-meal-wise[class*="from-\[\#C9A050\]"] svg,
+        html.dark #toggle-view-history[class*="from-\[\#C9A050\]"] svg {
+            color: #061513 !important;
+            stroke: #061513 !important;
+        }
+        /* Active Tab Inner Icon Box (Deep Emerald & Gold) */
+        html.dark #toggle-view-full[class*="from-\[\#C9A050\]"] .w-12.h-12,
+        html.dark #toggle-view-meal-wise[class*="from-\[\#C9A050\]"] .w-12.h-12,
+        html.dark #toggle-view-history[class*="from-\[\#C9A050\]"] .w-12.h-12 {
+            background-color: #061513 !important;
+            border: 1px solid #C9A050 !important;
+            color: #C9A050 !important;
+        }
+        html.dark #toggle-view-full[class*="from-\[\#C9A050\]"] .w-12.h-12 svg,
+        html.dark #toggle-view-meal-wise[class*="from-\[\#C9A050\]"] .w-12.h-12 svg,
+        html.dark #toggle-view-history[class*="from-\[\#C9A050\]"] .w-12.h-12 svg {
+            color: #C9A050 !important;
+            stroke: #C9A050 !important;
+        }
+        /* Active Tab Pill Badge */
+        html.dark #toggle-view-full[class*="from-\[\#C9A050\]"] span.rounded-full,
+        html.dark #toggle-view-meal-wise[class*="from-\[\#C9A050\]"] span.rounded-full,
+        html.dark #toggle-view-history[class*="from-\[\#C9A050\]"] span.rounded-full {
+            background-color: #061513 !important;
+            border: 1px solid #C9A050 !important;
+            color: #C9A050 !important;
+        }
+
+        /* Inactive Tabs in Dark Mode */
+        html.dark #toggle-view-full:not([class*="from-\[\#C9A050\]"]),
+        html.dark #toggle-view-meal-wise:not([class*="from-\[\#C9A050\]"]),
+        html.dark #toggle-view-history:not([class*="from-\[\#C9A050\]"]) {
+            background-color: #081A17 !important;
+            border: 1px solid #163832 !important;
+            color: #F5F3EF !important;
+        }
+        html.dark #toggle-view-full:not([class*="from-\[\#C9A050\]"]):hover,
+        html.dark #toggle-view-meal-wise:not([class*="from-\[\#C9A050\]"]):hover,
+        html.dark #toggle-view-history:not([class*="from-\[\#C9A050\]"]):hover {
+            background-color: #0D2824 !important;
+            border-color: rgba(201, 160, 80, 0.4) !important;
+        }
+        /* Inactive Tab Icon Box */
+        html.dark #toggle-view-full:not([class*="from-\[\#C9A050\]"]) .w-12.h-12,
+        html.dark #toggle-view-meal-wise:not([class*="from-\[\#C9A050\]"]) .w-12.h-12,
+        html.dark #toggle-view-history:not([class*="from-\[\#C9A050\]"]) .w-12.h-12 {
+            background-color: #123831 !important;
+            border: 1px solid #1E4940 !important;
+            color: #C9A050 !important;
+        }
+        html.dark #toggle-view-full:not([class*="from-\[\#C9A050\]"]) .w-12.h-12 svg,
+        html.dark #toggle-view-meal-wise:not([class*="from-\[\#C9A050\]"]) .w-12.h-12 svg,
+        html.dark #toggle-view-history:not([class*="from-\[\#C9A050\]"]) .w-12.h-12 svg {
+            color: #C9A050 !important;
+            stroke: #C9A050 !important;
+        }
+        /* Inactive Tab Title, Subtitle & Pill */
+        html.dark #toggle-view-full:not([class*="from-\[\#C9A050\]"]) h3,
+        html.dark #toggle-view-meal-wise:not([class*="from-\[\#C9A050\]"]) h3,
+        html.dark #toggle-view-history:not([class*="from-\[\#C9A050\]"]) h3 {
+            color: #F5F3EF !important;
+        }
+        html.dark #toggle-view-full:not([class*="from-\[\#C9A050\]"]) p,
+        html.dark #toggle-view-meal-wise:not([class*="from-\[\#C9A050\]"]) p,
+        html.dark #toggle-view-history:not([class*="from-\[\#C9A050\]"]) p {
+            color: #8FA8A3 !important;
+        }
+        html.dark #toggle-view-full:not([class*="from-\[\#C9A050\]"]) span.rounded-full,
+        html.dark #toggle-view-meal-wise:not([class*="from-\[\#C9A050\]"]) span.rounded-full,
+        html.dark #toggle-view-history:not([class*="from-\[\#C9A050\]"]) span.rounded-full {
+            background-color: #123831 !important;
+            border: 1px solid #1E4940 !important;
+            color: #C9A050 !important;
+        }
+
+        /* Prevent .bg-gray-200 and .bg-gray-300 from ever rendering as light/white boxes */
+        html.dark .bg-gray-200,
+        html.dark .bg-gray-300,
+        html.dark .bg-slate-200,
+        html.dark .bg-slate-300 {
+            background-color: #123831 !important;
+            border-color: #1E4940 !important;
+            color: #D1E0DD !important;
+        }
+        html.dark .bg-gray-200 svg,
+        html.dark .bg-gray-300 svg {
+            color: #C9A050 !important;
+            stroke: #C9A050 !important;
+        }
+
+        /* WhatsApp action buttons in Dark Mode */
+        html.dark button[class*="bg-\[\#25D366\]"],
+        html.dark a[class*="bg-\[\#25D366\]"],
+        html.dark button[id*="whatsapp"] {
+            background-color: #128C7E !important;
+            color: #FFFFFF !important;
+            border: 1px solid #25D366 !important;
+        }
+        html.dark button[class*="bg-\[\#25D366\]"] svg,
+        html.dark a[class*="bg-\[\#25D366\]"] svg,
+        html.dark button[id*="whatsapp"] svg {
+            color: #FFFFFF !important;
+            fill: #FFFFFF !important;
+        }
+
+        /* ==========================================================================
+           9. COMPREHENSIVE MODALS & INNER PANELS DARK MODE POLISH
+           ========================================================================== */
+        /* Modal Inner Backgrounds & Nested Panels */
+        html.dark [x-teleport="body"] .bg-gray-50\/40,
+        html.dark [x-teleport="body"] .bg-gray-50\/50,
+        html.dark [x-teleport="body"] .bg-gray-50\/60,
+        html.dark [x-teleport="body"] .bg-gray-50\/70,
+        html.dark [x-teleport="body"] .bg-gray-50\/80,
+        html.dark [x-teleport="body"] .bg-gray-50,
+        html.dark [x-teleport="body"] .bg-gray-100,
+        html.dark .fixed.inset-0 .bg-gray-50\/40,
+        html.dark .fixed.inset-0 .bg-gray-50\/50,
+        html.dark .fixed.inset-0 .bg-gray-50\/60,
+        html.dark .fixed.inset-0 .bg-gray-50\/70,
+        html.dark .fixed.inset-0 .bg-gray-50\/80,
+        html.dark .fixed.inset-0 .bg-gray-50,
+        html.dark .fixed.inset-0 .bg-gray-100 {
+            background-color: #061513 !important;
+            border-color: #163832 !important;
+        }
+
+        /* Inner Containers inside Modals */
+        html.dark [x-teleport="body"] .relative.bg-white .bg-white,
+        html.dark .fixed.inset-0 .relative.bg-white .bg-white {
+            background-color: #081A17 !important;
+            border-color: #163832 !important;
+        }
+
+        /* Modal Cancel and Secondary Buttons */
+        html.dark [x-teleport="body"] button.bg-gray-100,
+        html.dark .fixed.inset-0 button.bg-gray-100 {
+            background-color: #081A17 !important;
+            border: 1px solid #163832 !important;
+            color: #8FA8A3 !important;
+        }
+        html.dark [x-teleport="body"] button.bg-gray-100:hover,
+        html.dark .fixed.inset-0 button.bg-gray-100:hover {
+            background-color: #123831 !important;
+            border-color: #1E4940 !important;
+            color: #F5F3EF !important;
+        }
+
+        /* Assign Driver Modal Radio Options */
+        html.dark label.border-gray-200\/80.bg-white,
+        html.dark label.border-gray-200.bg-white {
+            background-color: #081A17 !important;
+            border-color: #163832 !important;
+        }
+        html.dark label.border-gray-200\/80.bg-white:hover,
+        html.dark label.border-gray-200.bg-white:hover {
+            background-color: #123831 !important;
+            border-color: rgba(201, 160, 80, 0.4) !important;
+        }
+        html.dark label.border-\[\#C9A050\].bg-\[\#C9A050\]\/10 {
+            background-color: rgba(201, 160, 80, 0.12) !important;
+            border-color: #C9A050 !important;
+        }
+
+        /* Modal Textarea / Inputs */
+        html.dark textarea.font-mono {
+            background-color: #061513 !important;
+            border-color: #163832 !important;
+            color: #D1E0DD !important;
+        }
+        html.dark textarea.font-mono:focus {
+            border-color: #C9A050 !important;
+        }
+
+        /* Table Small Action Buttons (Edit, View, Invoice) */
+        html.dark td a[class*="border-gray-200"],
+        html.dark td button[class*="border-gray-200"] {
+            background-color: #081A17 !important;
+            border-color: #163832 !important;
+            color: #8FA8A3 !important;
+        }
+        html.dark td a[class*="border-gray-200"]:hover,
+        html.dark td button[class*="border-gray-200"]:hover {
+            background-color: #123831 !important;
+            border-color: #C9A050 !important;
+            color: #D8B060 !important;
+        }
+        html.dark td a[class*="border-gray-200"] svg,
+        html.dark td button[class*="border-gray-200"] svg {
+            color: #8FA8A3 !important;
+            stroke: #8FA8A3 !important;
+        }
+        html.dark td a[class*="border-gray-200"]:hover svg,
+        html.dark td button[class*="border-gray-200"]:hover svg {
+            color: #D8B060 !important;
+            stroke: #D8B060 !important;
+        }
+
+        /* WhatsApp Small Buttons inside Table Rows */
+        html.dark td button[id*="whatsapp"],
+        html.dark td button[class*="text-emerald-600"][class*="bg-emerald-50"] {
+            background-color: rgba(18, 140, 126, 0.2) !important;
+            border: 1px solid rgba(37, 211, 102, 0.4) !important;
+            color: #25D366 !important;
+        }
+        html.dark td button[id*="whatsapp"] svg,
+        html.dark td button[class*="text-emerald-600"][class*="bg-emerald-50"] svg {
+            color: #25D366 !important;
+            fill: #25D366 !important;
+        }
+        html.dark td button[id*="whatsapp"]:hover,
+        html.dark td button[class*="text-emerald-600"][class*="bg-emerald-50"]:hover {
+            background-color: #25D366 !important;
+            color: #061513 !important;
+        }
+        html.dark td button[id*="whatsapp"]:hover svg,
+        html.dark td button[class*="text-emerald-600"][class*="bg-emerald-50"]:hover svg {
+            color: #061513 !important;
+            fill: #061513 !important;
         }
     </style>
 </head>
@@ -926,6 +1306,7 @@
                         ['route' => 'orders', 'label' => 'Orders', 'match' => 'orders*', 'icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'],
                         ['route' => 'transactions.index', 'label' => 'Transactions', 'match' => 'transactions*', 'icon' => 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z'],
                         ['route' => 'customers.index', 'label' => 'Customers', 'match' => 'customers*', 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'],
+                        ['route' => 'reports.index', 'label' => 'Reports', 'match' => 'reports*', 'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'],
                         ['route' => 'offers', 'label' => 'Special Offers', 'match' => 'offers*', 'icon' => 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z'],
                         ['route' => 'drivers', 'label' => 'Drivers', 'match' => 'drivers*', 'icon' => 'M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6 0a1 1 0 001 1h1'],
                         ['route' => 'events', 'label' => 'Events', 'match' => 'events*', 'icon' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
@@ -942,7 +1323,7 @@
                 @foreach($navItems as $item)
                     @php
                         $isRestrictedForChef = in_array($item['label'], [
-                            'Transactions', 'Customers', 'Special Offers', 'Drivers', 'Events', 'Bills & POS', 'Users', 'History & Logs', 'Settings'
+                            'Transactions', 'Customers', 'Reports', 'Special Offers', 'Drivers', 'Events', 'Bills & POS', 'Users', 'History & Logs', 'Settings'
                         ]);
                     @endphp
                     @if(auth()->user()?->role === 'Chef' && $isRestrictedForChef)

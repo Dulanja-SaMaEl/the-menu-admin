@@ -177,9 +177,10 @@ class FoodController extends Controller
         */
 
         $totalCount = Food::where('type', '!=', 'Beverage')->count();
-        $breakfastCount = Food::where('type', 'Breakfast')->count();
-        $lunchCount = Food::where('type', 'Lunch')->count();
-        $dinnerCount = Food::where('type', 'Dinner')->count();
+        $breakfastCount = Food::where('type', 'Sri Lankan Style Breakfast Menu')->count();
+        $lunchCount = Food::where('type', 'Sri Lankan Style Lunch Menu')->count();
+        $dinnerCount = Food::where('type', 'Sri Lankan Style Dinner Menu')->count();
+        $englishBreakfastCount = Food::where('type', 'English breakfast Menu')->count();
         $avgPrice = round((float) Food::where('type', '!=', 'Beverage')->avg('price'), 2);
 
         $foods = $query->paginate(12)->withQueryString();
@@ -187,7 +188,7 @@ class FoodController extends Controller
 
         return view('foods.index', compact(
             'foods', 'totalCount', 'breakfastCount', 'lunchCount',
-            'dinnerCount', 'beverageCount', 'avgPrice', 'activeType', 'search', 'sort', 'beverages'
+            'dinnerCount', 'englishBreakfastCount', 'beverageCount', 'avgPrice', 'activeType', 'search', 'sort', 'beverages'
         ));
     }
 
@@ -207,7 +208,7 @@ class FoodController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:Breakfast,Lunch,Dinner,Beverage',
+            'type' => 'required|in:Sri Lankan Style Breakfast Menu,Sri Lankan Style Lunch Menu,Sri Lankan Style Dinner Menu,English breakfast Menu,Beverage',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string|max:1000',
             'prep_time' => 'nullable|string|max:50',
@@ -220,11 +221,13 @@ class FoodController extends Controller
             'image_url' => 'nullable|url|max:1000',
         ]);
 
-        // Handle uploaded image file
+        // Handle local image file upload (saves to storage/app/public/foods and stores path in DB)
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('foods', 'public');
-            $validated['image_url'] = asset('storage/' . $path);
-        } elseif (empty($validated['image_url'])) {
+            $validated['image_url'] = 'storage/' . $path;
+        } elseif ($request->filled('image_url')) {
+            $validated['image_url'] = $request->input('image_url');
+        } else {
             // Default placeholder based on type
             $validated['image_url'] = ($validated['type'] === 'Beverage')
                 ? 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80'
@@ -286,7 +289,7 @@ class FoodController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:Breakfast,Lunch,Dinner,Beverage',
+            'type' => 'required|in:Sri Lankan Style Breakfast Menu,Sri Lankan Style Lunch Menu,Sri Lankan Style Dinner Menu,English breakfast Menu,Beverage',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string|max:1000',
             'prep_time' => 'nullable|string|max:50',
@@ -300,8 +303,19 @@ class FoodController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+            // Delete old file if saved locally in public storage
+            $rawOld = $food->getRawOriginal('image_url');
+            if ($rawOld && !str_starts_with($rawOld, 'http')) {
+                $cleanOld = preg_replace('#^(storage/|/storage/)#', '', $rawOld);
+                if (Storage::disk('public')->exists($cleanOld)) {
+                    Storage::disk('public')->delete($cleanOld);
+                }
+            }
+
             $path = $request->file('image')->store('foods', 'public');
-            $validated['image_url'] = asset('storage/' . $path);
+            $validated['image_url'] = 'storage/' . $path;
+        } elseif ($request->filled('image_url')) {
+            $validated['image_url'] = $request->input('image_url');
         }
 
         if (isset($validated['available_days']) && empty($validated['available_days'])) {

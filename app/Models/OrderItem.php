@@ -23,6 +23,18 @@ class OrderItem extends Model
         'is_paused' => 'boolean',
     ];
 
+    protected static function booted()
+    {
+        static::saving(function ($item) {
+            if (empty($item->meal_type) && $item->food_id) {
+                $food = $item->food ?: Food::find($item->food_id);
+                if ($food && !empty($food->type)) {
+                    $item->meal_type = \App\Http\Controllers\OrderController::normalizeMealType(null, $food->type);
+                }
+            }
+        });
+    }
+
     public function order()
     {
         return $this->belongsTo(Order::class);

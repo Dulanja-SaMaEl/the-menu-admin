@@ -22,26 +22,22 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         @php
-            $categories = [
-                ['name' => 'Seafood', 'icon' => '🦞', 'items' => 12, 'slug' => 'seafood'],
-                ['name' => 'Burger', 'icon' => '🍔', 'items' => 24, 'slug' => 'burger'],
-                ['name' => 'Pizza', 'icon' => '🍕', 'items' => 18, 'slug' => 'pizza'],
-                ['name' => 'Pasta', 'icon' => '🍝', 'items' => 15, 'slug' => 'pasta'],
-                ['name' => 'Desserts', 'icon' => '🍰', 'items' => 10, 'slug' => 'desserts'],
-                ['name' => 'Drinks', 'icon' => '🥤', 'items' => 30, 'slug' => 'drinks'],
-                ['name' => 'Salad', 'icon' => '🥗', 'items' => 8, 'slug' => 'salad'],
-                ['name' => 'Sushi', 'icon' => '🍣', 'items' => 20, 'slug' => 'sushi'],
+            $displayCategories = isset($categories) && count($categories) ? $categories : [
+                ['name' => 'Sri Lankan Style Breakfast Menu', 'icon' => '🍳', 'items' => \App\Models\Food::where('type', 'Sri Lankan Style Breakfast Menu')->count(), 'slug' => 'sl-breakfast'],
+                ['name' => 'Sri Lankan Style Lunch Menu',     'icon' => '☀️', 'items' => \App\Models\Food::where('type', 'Sri Lankan Style Lunch Menu')->count(),     'slug' => 'sl-lunch'],
+                ['name' => 'Sri Lankan Style Dinner Menu',    'icon' => '🌙', 'items' => \App\Models\Food::where('type', 'Sri Lankan Style Dinner Menu')->count(),    'slug' => 'sl-dinner'],
+                ['name' => 'English breakfast Menu',          'icon' => '🥪', 'items' => \App\Models\Food::where('type', 'English breakfast Menu')->count(),          'slug' => 'english-breakfast'],
             ];
         @endphp
 
-        @foreach($categories as $category)
-            <a href="{{ route('category', $category['slug']) }}" class="bg-white/95 backdrop-blur-md rounded-[2.5rem] p-7 sm:p-8 flex flex-col items-center justify-center text-center shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 hover:border-[#C9A050]/40 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
+        @foreach($displayCategories as $category)
+            <a href="{{ route('category', $category['slug']) }}" class="bg-white/95 dark:bg-[#081A17] backdrop-blur-md rounded-[2.5rem] p-7 sm:p-8 flex flex-col items-center justify-center text-center shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] hover:border-[#C9A050]/40 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="text-5xl sm:text-6xl mb-5 transform group-hover:scale-110 transition-transform duration-300">
                     {{ $category['icon'] }}
                 </div>
-                <h3 class="text-lg sm:text-xl font-black text-gray-900 mb-1 group-hover:text-[#C9A050] transition-colors tracking-tight">{{ $category['name'] }}</h3>
-                <p class="text-gray-400 text-xs sm:text-sm font-semibold">{{ $category['items'] }} items</p>
-                <div class="mt-5 w-12 h-1.5 bg-gray-100 rounded-full group-hover:bg-gradient-to-r group-hover:from-[#C9A050] group-hover:to-[#b88f3f] transition-all"></div>
+                <h3 class="text-lg sm:text-xl font-black text-gray-900 dark:text-[#F5F3EF] mb-1 group-hover:text-[#C9A050] transition-colors tracking-tight">{{ $category['name'] }}</h3>
+                <p class="text-gray-400 dark:text-[#8FA8A3] text-xs sm:text-sm font-semibold">{{ $category['items'] }} items</p>
+                <div class="mt-5 w-12 h-1.5 bg-gray-100 dark:bg-[#123831] rounded-full group-hover:bg-gradient-to-r group-hover:from-[#C9A050] group-hover:to-[#b88f3f] transition-all"></div>
             </a>
         @endforeach
     </div>
