@@ -94,7 +94,7 @@ class ReportController extends Controller
         if ($ordersRevenue == 0 && $totalOrdersCount > 0) {
             $ordersRevenue = (clone $ordersQuery)
                 ->whereNotIn('status', ['cancelled'])
-                ->sum('total_amount');
+                ->sum('total_price');
         }
 
         $fulfilledOrdersCount = $completedOrdersCount + $activeOrdersCount;
@@ -179,9 +179,6 @@ class ReportController extends Controller
         $applyDate($txQuery, 'created_at');
 
         $totalTxVolume = (clone $txQuery)->sum('total_price');
-        if ($totalTxVolume == 0) {
-            $totalTxVolume = (clone $txQuery)->sum('total_amount');
-        }
 
         $verifiedTxCount = (clone $txQuery)->whereIn('payment_status', ['verified', 'paid'])->count();
         $verifiedTxVolume = (clone $txQuery)->whereIn('payment_status', ['verified', 'paid'])->sum('total_price');
@@ -700,7 +697,7 @@ class ReportController extends Controller
                         $order->order_number ?: ('ORD-' . $order->id),
                         $order->customer_name ?: ($order->user->name ?? 'N/A'),
                         $order->customer_phone ?: ($order->user->phone ?? 'N/A'),
-                        number_format($order->total_price ?: $order->total_amount, 2, '.', ''),
+                        number_format($order->total_price ?: 0, 2, '.', ''),
                         ucfirst($order->status),
                         $order->payment_method ?: 'Bank Transfer',
                         $order->created_at->format('Y-m-d H:i:s'),
@@ -727,7 +724,7 @@ class ReportController extends Controller
                         $tx->customer_phone ?: ($tx->user->phone ?? 'N/A'),
                         $tx->payment_method ?: 'Bank Transfer',
                         $tx->payment_reference ?: 'N/A',
-                        number_format($tx->total_price ?: $tx->total_amount, 2, '.', ''),
+                        number_format($tx->total_price ?: 0, 2, '.', ''),
                         ucfirst($tx->payment_status ?: 'Pending'),
                         $tx->bank_receipt_url ? 'Yes' : 'No',
                         $tx->created_at->format('Y-m-d H:i:s'),
