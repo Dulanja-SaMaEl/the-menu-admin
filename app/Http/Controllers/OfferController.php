@@ -15,12 +15,14 @@ class OfferController extends Controller
      */
     public function apiIndex()
     {
-        $offers = Offer::with(['food.ingredients'])
-            ->where('is_active', true)
-            ->latest()
-            ->get();
+        $offers = \Illuminate\Support\Facades\Cache::remember('api_active_offers', 600, function () {
+            return Offer::with(['food.ingredients'])
+                ->where('is_active', true)
+                ->latest()
+                ->get();
+        });
 
-        return response()->json($offers);
+        return response()->json($offers)->header('Cache-Control', 'public, max-age=120');
     }
 
     /**
