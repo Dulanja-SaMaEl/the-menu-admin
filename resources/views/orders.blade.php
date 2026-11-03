@@ -600,12 +600,12 @@
         <!-- Page Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
             <div>
-                <h1 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">Orders Management</h1>
-                <p class="text-xs sm:text-sm text-gray-500 mt-1 font-medium">Real-time order tracking, kitchen prep schedules, and driver dispatch</p>
+                <h1 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Orders Management</h1>
+                <p class="text-xs sm:text-sm text-gray-500 dark:text-[#8FA8A3] mt-1 font-medium">Real-time order tracking, kitchen prep schedules, and driver dispatch</p>
             </div>
             <div class="flex items-center space-x-2.5 shrink-0">
                 <a href="{{ request()->fullUrlWithQuery(['schedule' => 'today']) }}" 
-                   class="px-5 py-3 rounded-2xl text-xs sm:text-sm font-black transition-all flex items-center space-x-2 border shadow-md {{ $scheduleFilter === 'today' ? 'bg-[#0A2E2A] text-[#C9A050] border-[#0A2E2A] shadow-[#0A2E2A]/20 scale-[1.02]' : 'bg-white text-gray-800 border-gray-200 hover:border-[#C9A050]/50 hover:bg-gray-50' }}">
+                   class="px-5 py-3 rounded-2xl text-xs sm:text-sm font-black transition-all flex items-center space-x-2 border shadow-md {{ $scheduleFilter === 'today' ? 'bg-[#0A2E2A] text-[#C9A050] border-[#0A2E2A] shadow-[#0A2E2A]/20 scale-[1.02]' : 'bg-white dark:bg-[#081A17] text-gray-800 dark:text-[#F5F3EF] border-gray-200 dark:border-[#163832] hover:border-[#C9A050]/50 hover:bg-gray-50 dark:hover:bg-[#0D2824]' }}">
                     <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
                     <span>Today's Schedule ({{ $todayScheduledCount }})</span>
                 </a>
@@ -613,18 +613,18 @@
         </div>
 
         <!-- PRIMARY VIEW MODE TOGGLE: Active Full Orders vs Meal-wise vs Completed & History -->
-        <div class="bg-white rounded-[2.5rem] p-3 shadow-xl shadow-[#0A2E2A]/5 border border-gray-100">
+        <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-3 shadow-xl shadow-[#0A2E2A]/5 border border-gray-100 dark:border-[#163832]">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
                 <!-- Tab 1: Active Full Orders -->
                 <button type="button" 
                         id="toggle-view-full"
                         @click="switchView('full')" 
                         :class="viewMode === 'full' 
-                            ? 'bg-gradient-to-r from-[#C9A050] to-[#d8b05f] text-[#0A2E2A] shadow-xl shadow-[#C9A050]/25 font-black ring-2 ring-[#C9A050]/60 border-transparent' 
-                            : 'bg-gray-50/80 hover:bg-white text-gray-900 font-bold border border-gray-100 hover:border-[#C9A050]/40 hover:shadow-md'"
+                            ? 'bg-gradient-to-r from-[#C9A050] to-[#d8b05f] text-[#061513] shadow-xl shadow-[#C9A050]/25 font-black ring-2 ring-[#C9A050]/60 border-transparent dark:from-[#C9A050] dark:to-[#d8b05f] dark:text-[#061513]' 
+                            : 'bg-gray-50/80 hover:bg-white text-gray-900 font-bold border border-gray-100 hover:border-[#C9A050]/40 hover:shadow-md dark:bg-[#081A17] dark:hover:bg-[#0D2824] dark:text-[#F5F3EF] dark:border-[#163832] dark:hover:border-[#C9A050]/40'"
                         class="group flex items-center justify-between px-5 py-4.5 rounded-2xl transition-all duration-300 text-left cursor-pointer">
                     <div class="flex items-center space-x-3.5 flex-1">
-                        <div :class="viewMode === 'full' ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md' : 'bg-gray-200 text-gray-800 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050] group-hover:shadow-md'"
+                        <div :class="viewMode === 'full' ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md dark:bg-[#061513] dark:text-[#C9A050]' : 'bg-gray-200 text-gray-800 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050] group-hover:shadow-md dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#C9A050] dark:group-hover:bg-[#061513]'"
                              class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
@@ -632,22 +632,22 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center space-x-2">
-                                <h3 :class="viewMode === 'full' ? 'text-[#0A2E2A] group-hover:text-black' : 'text-gray-900 group-hover:text-black'"
-                                    class="text-base font-black tracking-tight leading-snug group-hover:text-black truncate">
+                                <h3 :class="viewMode === 'full' ? 'text-[#061513] dark:text-[#061513]' : 'text-gray-900 group-hover:text-black dark:text-[#F5F3EF] dark:group-hover:text-white'"
+                                    class="text-base font-black tracking-tight leading-snug truncate">
                                     Active Full Orders
                                 </h3>
-                                <span :class="viewMode === 'full' ? 'bg-[#0A2E2A] text-[#C9A050]' : 'bg-gray-200 text-gray-900 border border-gray-300 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050]'"
+                                <span :class="viewMode === 'full' ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#061513] dark:text-[#C9A050]' : 'bg-gray-200 text-gray-900 border border-gray-300 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050] dark:bg-[#123831] dark:text-[#C9A050] dark:border-[#1E4940] dark:group-hover:bg-[#061513]'"
                                       class="text-[10px] font-black px-2.5 py-0.5 rounded-full whitespace-nowrap transition-colors">
                                     {{ $activeOrdersCount }} Ongoing
                                 </span>
                             </div>
-                            <p :class="viewMode === 'full' ? 'text-[#0A2E2A]/90 group-hover:text-black' : 'text-gray-500 group-hover:text-gray-900'"
-                               class="text-xs mt-0.5 font-medium leading-normal group-hover:text-gray-900 truncate">
+                            <p :class="viewMode === 'full' ? 'text-[#061513]/90 dark:text-[#061513]/90' : 'text-gray-500 group-hover:text-gray-900 dark:text-[#8FA8A3] dark:group-hover:text-[#F5F3EF]'"
+                               class="text-xs mt-0.5 font-medium leading-normal truncate">
                                 Ongoing customer purchases, prep & status
                             </p>
                         </div>
                     </div>
-                    <div :class="viewMode === 'full' ? 'opacity-100 text-[#0A2E2A]' : 'opacity-40 text-gray-700 group-hover:opacity-100 group-hover:text-[#0A2E2A]'"
+                    <div :class="viewMode === 'full' ? 'opacity-100 text-[#061513] dark:text-[#061513]' : 'opacity-40 text-gray-700 group-hover:opacity-100 group-hover:text-[#0A2E2A] dark:text-[#8FA8A3] dark:group-hover:text-[#C9A050]'"
                          class="hidden xl:flex items-center transition-all group-hover:translate-x-1 shrink-0 ml-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </div>
@@ -658,11 +658,11 @@
                         id="toggle-view-meal-wise"
                         @click="switchView('meal_wise')" 
                         :class="viewMode === 'meal_wise' 
-                            ? 'bg-gradient-to-r from-[#C9A050] to-[#d8b05f] text-[#0A2E2A] shadow-xl shadow-[#C9A050]/25 font-black ring-2 ring-[#C9A050]/60 border-transparent' 
-                            : 'bg-gray-50/80 hover:bg-white text-gray-900 font-bold border border-gray-100 hover:border-[#C9A050]/40 hover:shadow-md'"
+                            ? 'bg-gradient-to-r from-[#C9A050] to-[#d8b05f] text-[#061513] shadow-xl shadow-[#C9A050]/25 font-black ring-2 ring-[#C9A050]/60 border-transparent dark:from-[#C9A050] dark:to-[#d8b05f] dark:text-[#061513]' 
+                            : 'bg-gray-50/80 hover:bg-white text-gray-900 font-bold border border-gray-100 hover:border-[#C9A050]/40 hover:shadow-md dark:bg-[#081A17] dark:hover:bg-[#0D2824] dark:text-[#F5F3EF] dark:border-[#163832] dark:hover:border-[#C9A050]/40'"
                         class="group flex items-center justify-between px-5 py-4.5 rounded-2xl transition-all duration-300 text-left cursor-pointer">
                     <div class="flex items-center space-x-3.5 flex-1">
-                        <div :class="viewMode === 'meal_wise' ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md' : 'bg-amber-100 text-amber-900 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050] group-hover:shadow-md'"
+                        <div :class="viewMode === 'meal_wise' ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md dark:bg-[#061513] dark:text-[#C9A050]' : 'bg-amber-100 text-amber-900 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050] group-hover:shadow-md dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#C9A050] dark:group-hover:bg-[#061513]'"
                              class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
@@ -670,22 +670,22 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center space-x-2">
-                                <h3 :class="viewMode === 'meal_wise' ? 'text-[#0A2E2A] group-hover:text-black' : 'text-gray-900 group-hover:text-black'"
-                                    class="text-base font-black tracking-tight leading-snug group-hover:text-black truncate">
+                                <h3 :class="viewMode === 'meal_wise' ? 'text-[#061513] dark:text-[#061513]' : 'text-gray-900 group-hover:text-black dark:text-[#F5F3EF] dark:group-hover:text-white'"
+                                    class="text-base font-black tracking-tight leading-snug truncate">
                                     Meal-wise View
                                 </h3>
-                                <span :class="viewMode === 'meal_wise' ? 'bg-[#0A2E2A] text-[#C9A050]' : 'bg-amber-100 text-amber-900 border border-amber-300 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050]'"
+                                <span :class="viewMode === 'meal_wise' ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#061513] dark:text-[#C9A050]' : 'bg-amber-100 text-amber-900 border border-amber-300 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050] dark:bg-[#123831] dark:text-[#C9A050] dark:border-[#1E4940] dark:group-hover:bg-[#061513]'"
                                       class="text-[10px] font-black px-2.5 py-0.5 rounded-full whitespace-nowrap transition-colors">
                                     {{ $mealCounts['total'] }} Dispatches
                                 </span>
                             </div>
-                            <p :class="viewMode === 'meal_wise' ? 'text-[#0A2E2A]/90 group-hover:text-black' : 'text-gray-500 group-hover:text-gray-900'"
-                               class="text-xs mt-0.5 font-medium leading-normal group-hover:text-gray-900 truncate">
+                            <p :class="viewMode === 'meal_wise' ? 'text-[#061513]/90 dark:text-[#061513]/90' : 'text-gray-500 group-hover:text-gray-900 dark:text-[#8FA8A3] dark:group-hover:text-[#F5F3EF]'"
+                               class="text-xs mt-0.5 font-medium leading-normal truncate">
                                 Segregated meals for driver dispatch
                             </p>
                         </div>
                     </div>
-                    <div :class="viewMode === 'meal_wise' ? 'opacity-100 text-[#0A2E2A]' : 'opacity-40 text-gray-700 group-hover:opacity-100 group-hover:text-[#0A2E2A]'"
+                    <div :class="viewMode === 'meal_wise' ? 'opacity-100 text-[#061513] dark:text-[#061513]' : 'opacity-40 text-gray-700 group-hover:opacity-100 group-hover:text-[#0A2E2A] dark:text-[#8FA8A3] dark:group-hover:text-[#C9A050]'"
                          class="hidden xl:flex items-center transition-all group-hover:translate-x-1 shrink-0 ml-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </div>
@@ -696,11 +696,11 @@
                         id="toggle-view-history"
                         @click="switchView('history')" 
                         :class="viewMode === 'history' 
-                            ? 'bg-gradient-to-r from-[#C9A050] to-[#d8b05f] text-[#0A2E2A] shadow-xl shadow-[#C9A050]/25 font-black ring-2 ring-[#C9A050]/60 border-transparent' 
-                            : 'bg-gray-50/80 hover:bg-white text-gray-900 font-bold border border-gray-100 hover:border-[#C9A050]/40 hover:shadow-md'"
+                            ? 'bg-gradient-to-r from-[#C9A050] to-[#d8b05f] text-[#061513] shadow-xl shadow-[#C9A050]/25 font-black ring-2 ring-[#C9A050]/60 border-transparent dark:from-[#C9A050] dark:to-[#d8b05f] dark:text-[#061513]' 
+                            : 'bg-gray-50/80 hover:bg-white text-gray-900 font-bold border border-gray-100 hover:border-[#C9A050]/40 hover:shadow-md dark:bg-[#081A17] dark:hover:bg-[#0D2824] dark:text-[#F5F3EF] dark:border-[#163832] dark:hover:border-[#C9A050]/40'"
                         class="group flex items-center justify-between px-5 py-4.5 rounded-2xl transition-all duration-300 text-left cursor-pointer">
                     <div class="flex items-center space-x-3.5 flex-1">
-                        <div :class="viewMode === 'history' ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md' : 'bg-emerald-100 text-emerald-900 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050] group-hover:shadow-md'"
+                        <div :class="viewMode === 'history' ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md dark:bg-[#061513] dark:text-[#C9A050]' : 'bg-emerald-100 text-emerald-900 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050] group-hover:shadow-md dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#C9A050] dark:group-hover:bg-[#061513]'"
                              class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -708,22 +708,22 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center space-x-2">
-                                <h3 :class="viewMode === 'history' ? 'text-[#0A2E2A] group-hover:text-black' : 'text-gray-900 group-hover:text-black'"
-                                    class="text-base font-black tracking-tight leading-snug group-hover:text-black truncate">
+                                <h3 :class="viewMode === 'history' ? 'text-[#061513] dark:text-[#061513]' : 'text-gray-900 group-hover:text-black dark:text-[#F5F3EF] dark:group-hover:text-white'"
+                                    class="text-base font-black tracking-tight leading-snug truncate">
                                     Completed & History
                                 </h3>
-                                <span :class="viewMode === 'history' ? 'bg-[#0A2E2A] text-[#C9A050]' : 'bg-emerald-100 text-emerald-900 border border-emerald-300 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050]'"
+                                <span :class="viewMode === 'history' ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#061513] dark:text-[#C9A050]' : 'bg-emerald-100 text-emerald-900 border border-emerald-300 group-hover:bg-[#0A2E2A] group-hover:text-[#C9A050] dark:bg-[#123831] dark:text-[#C9A050] dark:border-[#1E4940] dark:group-hover:bg-[#061513]'"
                                       class="text-[10px] font-black px-2.5 py-0.5 rounded-full whitespace-nowrap transition-colors">
                                     {{ $historyCount }} Finished
                                 </span>
                             </div>
-                            <p :class="viewMode === 'history' ? 'text-[#0A2E2A]/90 group-hover:text-black' : 'text-gray-500 group-hover:text-gray-900'"
-                               class="text-xs mt-0.5 font-medium leading-normal group-hover:text-gray-900 truncate">
+                            <p :class="viewMode === 'history' ? 'text-[#061513]/90 dark:text-[#061513]/90' : 'text-gray-500 group-hover:text-gray-900 dark:text-[#8FA8A3] dark:group-hover:text-[#F5F3EF]'"
+                               class="text-xs mt-0.5 font-medium leading-normal truncate">
                                 Delivered orders & past delivery history
                             </p>
                         </div>
                     </div>
-                    <div :class="viewMode === 'history' ? 'opacity-100 text-[#0A2E2A]' : 'opacity-40 text-gray-700 group-hover:opacity-100 group-hover:text-[#0A2E2A]'"
+                    <div :class="viewMode === 'history' ? 'opacity-100 text-[#061513] dark:text-[#061513]' : 'opacity-40 text-gray-700 group-hover:opacity-100 group-hover:text-[#0A2E2A] dark:text-[#8FA8A3] dark:group-hover:text-[#C9A050]'"
                          class="hidden xl:flex items-center transition-all group-hover:translate-x-1 shrink-0 ml-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </div>
@@ -982,17 +982,17 @@
         </div>
 
         <!-- Orders Table & Filter Card -->
-        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-100 overflow-hidden">
-            <div class="p-6 sm:p-8 border-b border-gray-100 flex flex-col space-y-5">
+        <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-100 dark:border-[#163832] overflow-hidden">
+            <div class="p-6 sm:p-8 border-b border-gray-100 dark:border-[#163832] flex flex-col space-y-5">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                         <div class="flex items-center space-x-2.5">
-                            <h2 class="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Active Orders Directory</h2>
-                            <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#0A2E2A]/5 text-[#0A2E2A] border border-[#0A2E2A]/10">
+                            <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Active Orders Directory</h2>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#0A2E2A]/5 text-[#0A2E2A] border border-[#0A2E2A]/10 dark:bg-[#123831] dark:text-[#C9A050] dark:border-[#1E4940]">
                                 Live Pipeline
                             </span>
                         </div>
-                        <p class="text-xs sm:text-sm text-gray-500 mt-1 font-medium">Customer identities, delivery schedules, payment verification and status updates</p>
+                        <p class="text-xs sm:text-sm text-gray-500 dark:text-[#8FA8A3] mt-1 font-medium">Customer identities, delivery schedules, payment verification and status updates</p>
                     </div>
                     <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
                         @if(auth()->user()?->role !== 'Chef')
@@ -1013,7 +1013,7 @@
                                 value="{{ $search }}"
                                 placeholder="Search customer, ID, phone, dish..."
                                 @input.debounce.1500ms="$el.form.submit()"
-                                class="w-full pl-11 pr-4 py-3 text-xs sm:text-sm font-bold border border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#C9A050] focus:border-[#C9A050] bg-gray-50/50 focus:bg-white text-gray-900 transition-all duration-200 shadow-inner"
+                                class="w-full pl-11 pr-4 py-3 text-xs sm:text-sm font-bold border border-gray-200 dark:border-[#163832] rounded-2xl focus:ring-2 focus:ring-[#C9A050] focus:border-[#C9A050] bg-gray-50/50 dark:bg-[#061513] focus:bg-white dark:focus:bg-[#081A17] text-gray-900 dark:text-[#F5F3EF] dark:placeholder-[#5E7A75] transition-all duration-200 shadow-inner"
                             >
                             <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </form>
@@ -1021,10 +1021,10 @@
                 </div>
 
                 <!-- Dual Filter Bar: Status & Schedule -->
-                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-3 border-t border-gray-100">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-3 border-t border-gray-100 dark:border-[#163832]">
                     <!-- Schedule Filter Pills -->
                     <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1">
-                        <span class="text-[11px] font-black text-gray-400 uppercase tracking-widest mr-2 shrink-0">Schedule:</span>
+                        <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-2 shrink-0">Schedule:</span>
                         @foreach ([
                             'all'       => 'All Dates',
                             'today'     => '🔴 Today (' . $todayScheduledCount . ')',
@@ -1033,7 +1033,7 @@
                             'immediate' => '⚡ Immediate Orders'
                         ] as $sKey => $sLabel)
                             <a href="{{ request()->fullUrlWithQuery(['schedule' => $sKey, 'page' => null]) }}"
-                                class="px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $scheduleFilter === $sKey ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md shadow-[#0A2E2A]/15 border border-[#0A2E2A]' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 hover:text-gray-900' }}">
+                                class="px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $scheduleFilter === $sKey ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md shadow-[#0A2E2A]/15 border border-[#0A2E2A] dark:bg-[#143D35] dark:border-[#C9A050]' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:bg-[#123831] dark:text-[#A3B8B3] dark:hover:bg-[#16433B] dark:hover:text-[#F5F3EF]' }}">
                                 {{ $sLabel }}
                             </a>
                         @endforeach
@@ -1041,10 +1041,10 @@
 
                     <!-- Status Filter Pills (Active Orders Only) -->
                     <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1">
-                        <span class="text-[11px] font-black text-gray-400 uppercase tracking-widest mr-2 shrink-0">Status:</span>
+                        <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-2 shrink-0">Status:</span>
                         @foreach (['all' => 'All Active', 'pending' => 'Pending', 'processing' => 'Processing', 'assigned' => 'Assigned'] as $key => $label)
                             <a href="{{ request()->fullUrlWithQuery(['status' => $key, 'page' => null]) }}"
-                                class="px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $statusFilter === $key ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] font-black shadow-md shadow-[#C9A050]/20' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 hover:text-gray-900' }}">
+                                class="px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $statusFilter === $key ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] dark:text-[#061513] font-black shadow-md shadow-[#C9A050]/20' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:bg-[#123831] dark:text-[#A3B8B3] dark:hover:bg-[#16433B] dark:hover:text-[#F5F3EF]' }}">
                                 {{ $label }}
                             </a>
                         @endforeach
@@ -1724,66 +1724,66 @@
             <!-- Meal Logistics Route Overview Grid -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
                 <!-- All Routes Card -->
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-100/80 shadow-xl shadow-[#0A2E2A]/5 hover:shadow-2xl hover:shadow-[#0A2E2A]/10 transition-all duration-300 relative overflow-hidden group">
+                <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 sm:p-7 border border-gray-100/80 dark:border-[#163832] shadow-xl shadow-[#0A2E2A]/5 hover:shadow-2xl hover:shadow-[#0A2E2A]/10 transition-all duration-300 relative overflow-hidden group">
                     <div class="flex items-center justify-between mb-4">
                         <div class="p-3 bg-gradient-to-br from-[#0A2E2A] to-[#0D3833] text-[#C9A050] rounded-2xl shadow-md border border-[#C9A050]/20">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                         </div>
-                        <span class="text-[10px] font-black text-[#0A2E2A] bg-[#0A2E2A]/5 border border-[#0A2E2A]/10 px-3 py-1 rounded-full uppercase tracking-wider">All Routes</span>
+                        <span class="text-[10px] font-black text-[#0A2E2A] dark:text-[#C9A050] bg-[#0A2E2A]/5 dark:bg-[#C9A050]/10 border border-[#0A2E2A]/10 dark:border-[#C9A050]/20 px-3 py-1 rounded-full uppercase tracking-wider">All Routes</span>
                     </div>
-                    <h3 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">{{ $mealCounts['total'] }}</h3>
-                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-1">Total Meal Dispatches</p>
+                    <h3 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $mealCounts['total'] }}</h3>
+                    <p class="text-xs font-semibold text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider mt-1">Total Meal Dispatches</p>
                 </div>
 
                 <!-- Breakfast Deliveries Card -->
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-amber-200/60 shadow-xl shadow-amber-500/5 hover:shadow-2xl hover:shadow-amber-500/10 transition-all duration-300 relative overflow-hidden group">
+                <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 sm:p-7 border border-amber-200/60 dark:border-amber-700/30 shadow-xl shadow-amber-500/5 hover:shadow-2xl hover:shadow-amber-500/10 transition-all duration-300 relative overflow-hidden group">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="p-3 bg-amber-500/10 text-amber-600 rounded-2xl text-xl font-black border border-amber-500/20 shadow-xs">
+                        <div class="p-3 bg-amber-500/10 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 rounded-2xl text-xl font-black border border-amber-500/20 dark:border-amber-700/40 shadow-xs">
                             ☀️
                         </div>
-                        <span class="text-[10px] font-black text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full uppercase tracking-wider">07:00 - 09:00 AM</span>
+                        <span class="text-[10px] font-black text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-700/40 px-3 py-1 rounded-full uppercase tracking-wider">07:00 - 09:00 AM</span>
                     </div>
-                    <h3 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">{{ $mealCounts['breakfast'] }}</h3>
-                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-1">Breakfast Deliveries</p>
+                    <h3 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $mealCounts['breakfast'] }}</h3>
+                    <p class="text-xs font-semibold text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider mt-1">Breakfast Deliveries</p>
                 </div>
 
                 <!-- Lunch Deliveries Card -->
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-sky-200/60 shadow-xl shadow-sky-500/5 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300 relative overflow-hidden group">
+                <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 sm:p-7 border border-sky-200/60 dark:border-sky-700/30 shadow-xl shadow-sky-500/5 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300 relative overflow-hidden group">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="p-3 bg-sky-500/10 text-sky-600 rounded-2xl text-xl font-black border border-sky-500/20 shadow-xs">
+                        <div class="p-3 bg-sky-500/10 text-sky-600 dark:bg-sky-950/40 dark:text-sky-400 rounded-2xl text-xl font-black border border-sky-500/20 dark:border-sky-700/40 shadow-xs">
                             🌤️
                         </div>
-                        <span class="text-[10px] font-black text-sky-800 bg-sky-50 border border-sky-200 px-3 py-1 rounded-full uppercase tracking-wider">11:30 AM - 01:30 PM</span>
+                        <span class="text-[10px] font-black text-sky-800 dark:text-sky-300 bg-sky-50 dark:bg-sky-950/50 border border-sky-200 dark:border-sky-700/40 px-3 py-1 rounded-full uppercase tracking-wider">11:30 AM - 01:30 PM</span>
                     </div>
-                    <h3 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">{{ $mealCounts['lunch'] }}</h3>
-                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-1">Lunch Deliveries</p>
+                    <h3 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $mealCounts['lunch'] }}</h3>
+                    <p class="text-xs font-semibold text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider mt-1">Lunch Deliveries</p>
                 </div>
 
                 <!-- Dinner Deliveries Card -->
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-purple-200/60 shadow-xl shadow-purple-500/5 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 relative overflow-hidden group">
+                <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 sm:p-7 border border-purple-200/60 dark:border-purple-700/30 shadow-xl shadow-purple-500/5 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 relative overflow-hidden group">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="p-3 bg-purple-500/10 text-purple-600 rounded-2xl text-xl font-black border border-purple-500/20 shadow-xs">
+                        <div class="p-3 bg-purple-500/10 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400 rounded-2xl text-xl font-black border border-purple-500/20 dark:border-purple-700/40 shadow-xs">
                             🌙
                         </div>
-                        <span class="text-[10px] font-black text-purple-800 bg-purple-50 border border-purple-200 px-3 py-1 rounded-full uppercase tracking-wider">06:30 - 08:30 PM</span>
+                        <span class="text-[10px] font-black text-purple-800 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-700/40 px-3 py-1 rounded-full uppercase tracking-wider">06:30 - 08:30 PM</span>
                     </div>
-                    <h3 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">{{ $mealCounts['dinner'] }}</h3>
-                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-1">Dinner Deliveries</p>
+                    <h3 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $mealCounts['dinner'] }}</h3>
+                    <p class="text-xs font-semibold text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider mt-1">Dinner Deliveries</p>
                 </div>
             </div>
 
             <!-- Meal-wise Table & Filter Card -->
-            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-100 overflow-hidden">
-                <div class="p-6 sm:p-8 border-b border-gray-100 flex flex-col space-y-6">
+            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-100 dark:border-[#163832] overflow-hidden">
+                <div class="p-6 sm:p-8 border-b border-gray-100 dark:border-[#163832] flex flex-col space-y-6">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <div class="flex items-center space-x-3">
-                                <h2 class="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Meal-wise Deliveries</h2>
-                                <span class="px-3 py-1 bg-gradient-to-r from-[#C9A050]/20 to-[#C9A050]/10 text-[#0A2E2A] text-[10px] font-black rounded-full uppercase tracking-widest border border-[#C9A050]/30 shadow-xs">
+                                <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Meal-wise Deliveries</h2>
+                                <span class="px-3 py-1 bg-gradient-to-r from-[#C9A050]/20 to-[#C9A050]/10 text-[#0A2E2A] dark:text-[#C9A050] text-[10px] font-black rounded-full uppercase tracking-widest border border-[#C9A050]/30 shadow-xs">
                                     Driver Routing Mode
                                 </span>
                             </div>
-                            <p class="text-xs font-medium text-gray-400 mt-1">Dispatches segregated by Breakfast, Lunch & Dinner for dedicated driver allocation</p>
+                            <p class="text-xs font-medium text-gray-400 dark:text-[#8FA8A3] mt-1">Dispatches segregated by Breakfast, Lunch & Dinner for dedicated driver allocation</p>
                         </div>
                         
                         <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
@@ -1809,18 +1809,18 @@
                                     value="{{ $search }}"
                                     placeholder="Search customer, ID, phone, dish..."
                                     @input.debounce.1500ms="$el.form.submit()"
-                                    class="w-full pl-11 pr-4 py-2.5 bg-gray-50/80 border border-gray-200 rounded-2xl text-xs sm:text-sm focus:outline-none focus:bg-white focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 transition-all duration-300 shadow-inner"
+                                    class="w-full pl-11 pr-4 py-2.5 bg-gray-50/80 dark:bg-[#061513] border border-gray-200 dark:border-[#163832] dark:text-[#F5F3EF] dark:placeholder-[#8FA8A3] rounded-2xl text-xs sm:text-sm focus:outline-none focus:bg-white dark:focus:bg-[#061513] focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 transition-all duration-300 shadow-inner"
                                 >
-                                <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                <svg class="w-4 h-4 text-gray-400 dark:text-[#8FA8A3] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </form>
                         </div>
                     </div>
 
                     <!-- Dual Filter Bar: Meal Category & Schedule -->
-                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 border-t border-gray-100">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 border-t border-gray-100 dark:border-[#163832]">
                         <!-- Meal Category Filter Pills -->
                         <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-1">
-                            <span class="text-[11px] font-black text-gray-400 uppercase tracking-widest mr-2 shrink-0">Meal Type:</span>
+                            <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-2 shrink-0">Meal Type:</span>
                             @foreach ([
                                 'all'       => '🌟 All Meals (' . $mealCounts['total'] . ')',
                                 'breakfast' => '☀️ Breakfast (' . $mealCounts['breakfast'] . ')',
@@ -1828,7 +1828,7 @@
                                 'dinner'    => '🌙 Dinner (' . $mealCounts['dinner'] . ')'
                             ] as $mKey => $mLabel)
                                 <a href="{{ request()->fullUrlWithQuery(['meal' => $mKey, 'view' => 'meal_wise', 'meal_page' => null]) }}"
-                                    class="px-4 py-2 text-xs font-black rounded-2xl transition-all duration-300 whitespace-nowrap {{ $mealFilter === $mKey ? 'bg-gradient-to-r from-[#0A2E2A] to-[#0D3833] text-[#C9A050] border border-[#C9A050]/30 shadow-md shadow-[#0A2E2A]/15' : 'bg-gray-100/80 text-gray-600 hover:bg-gray-200 hover:text-gray-900' }}">
+                                    class="px-4 py-2 text-xs font-black rounded-2xl transition-all duration-300 whitespace-nowrap {{ $mealFilter === $mKey ? 'bg-gradient-to-r from-[#0A2E2A] to-[#0D3833] text-[#C9A050] border border-[#C9A050]/30 shadow-md shadow-[#0A2E2A]/15' : 'bg-gray-100/80 text-gray-600 hover:bg-gray-200 hover:text-gray-900 dark:bg-[#123831]/60 dark:text-[#A3B8B3] dark:border dark:border-[#1E4940] dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF]' }}">
                                     {{ $mLabel }}
                                 </a>
                             @endforeach
@@ -1836,7 +1836,7 @@
 
                         <!-- Schedule Filter Pills for Meal View -->
                         <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1">
-                            <span class="text-[11px] font-black text-gray-400 uppercase tracking-widest mr-2 shrink-0">Schedule:</span>
+                            <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-2 shrink-0">Schedule:</span>
                             @foreach ([
                                 'all'       => 'All Dates',
                                 'today'     => '🔴 Today (' . $todayScheduledCount . ')',
@@ -1845,7 +1845,7 @@
                                 'immediate' => '⚡ Immediate'
                             ] as $sKey => $sLabel)
                                 <a href="{{ request()->fullUrlWithQuery(['schedule' => $sKey, 'view' => 'meal_wise', 'meal_page' => null]) }}"
-                                    class="px-3.5 py-2 text-xs font-bold rounded-2xl transition-all duration-300 whitespace-nowrap {{ $scheduleFilter === $sKey ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] shadow-md shadow-[#C9A050]/20 font-black' : 'bg-gray-100/80 text-gray-600 hover:bg-gray-200 hover:text-gray-900' }}">
+                                    class="px-3.5 py-2 text-xs font-bold rounded-2xl transition-all duration-300 whitespace-nowrap {{ $scheduleFilter === $sKey ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] shadow-md shadow-[#C9A050]/20 font-black' : 'bg-gray-100/80 text-gray-600 hover:bg-gray-200 hover:text-gray-900 dark:bg-[#123831]/60 dark:text-[#A3B8B3] dark:border dark:border-[#1E4940] dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF]' }}">
                                     {{ $sLabel }}
                                 </a>
                             @endforeach
@@ -1853,10 +1853,10 @@
                     </div>
 
                     <!-- Dispatch Routing & Allocation Filters: Delivery Area / Direction & Driver Status -->
-                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 border-t border-gray-100">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 border-t border-gray-100 dark:border-[#163832]">
                         <!-- Route / Delivery Area Filter -->
                         <div class="flex items-center space-x-2 flex-wrap gap-y-2">
-                            <span class="text-[11px] font-black text-gray-400 uppercase tracking-widest shrink-0 flex items-center gap-1.5">
+                            <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest shrink-0 flex items-center gap-1.5">
                                 <svg class="w-3.5 h-3.5 text-[#C9A050]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 Route / Area:
                             </span>
@@ -1869,11 +1869,11 @@
                                 <input type="hidden" name="driver_status" value="{{ $driverStatusFilter }}">
                                 <input type="hidden" name="search" value="{{ $search }}">
                                 <select name="area" onchange="this.form.submit()"
-                                    class="text-xs font-bold border border-gray-200 rounded-2xl px-4 py-2 bg-gray-50/70 text-gray-800 hover:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 focus:bg-white transition-all cursor-pointer shadow-xs">
+                                    class="text-xs font-bold border border-gray-200 dark:border-[#163832] rounded-2xl px-4 py-2 bg-gray-50/70 dark:bg-[#061513] text-gray-800 dark:text-[#F5F3EF] hover:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 focus:bg-white dark:focus:bg-[#061513] transition-all cursor-pointer shadow-xs">
                                     <option value="all" {{ ($areaFilter === 'all' || empty($areaFilter)) ? 'selected' : '' }}>🗺️ All Delivery Routes ({{ count($mealGroups ?? []) }})</option>
                                     @foreach($availableAreas as $areaName)
                                         <option value="{{ $areaName }}" {{ $areaFilter === $areaName ? 'selected' : '' }}>
-                                            📍 {{ $areaName }} ({{ $areaCounts[$areaName] ?? 0 }})
+                                             📍 {{ $areaName }} ({{ $areaCounts[$areaName] ?? 0 }})
                                         </option>
                                     @endforeach
                                 </select>
@@ -1883,7 +1883,7 @@
                             <div class="hidden sm:flex items-center space-x-1.5">
                                 @foreach(array_slice($availableAreas, 0, 4) as $topArea)
                                     <a href="{{ request()->fullUrlWithQuery(['area' => $topArea, 'view' => 'meal_wise', 'meal_page' => null]) }}"
-                                       class="px-3 py-1.5 text-[11px] font-bold rounded-xl transition-all duration-300 {{ $areaFilter === $topArea ? 'bg-[#0A2E2A] text-[#C9A050] shadow-xs' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                                       class="px-3 py-1.5 text-[11px] font-bold rounded-xl transition-all duration-300 {{ $areaFilter === $topArea ? 'bg-[#0A2E2A] text-[#C9A050] shadow-xs' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-[#123831]/60 dark:text-[#A3B8B3] dark:border dark:border-[#1E4940] dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF]' }}">
                                         {{ $topArea }} ({{ $areaCounts[$topArea] ?? 0 }})
                                     </a>
                                 @endforeach
@@ -1930,14 +1930,14 @@
                         <!-- Driver Allocation Filter Pills & WhatsApp Route Export -->
                         <div class="flex items-center space-x-3 overflow-x-auto no-scrollbar pb-1">
                             <div class="flex items-center space-x-1.5 shrink-0">
-                                <span class="text-[11px] font-black text-gray-400 uppercase tracking-widest mr-1 shrink-0">Driver:</span>
+                                <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-1 shrink-0">Driver:</span>
                                 @foreach ([
                                     'all'          => 'All (' . count($mealGroups ?? []) . ')',
                                     'assigned'     => '✅ Assigned',
                                     'not_assigned' => '⚠️ Not Assigned'
                                 ] as $dKey => $dLabel)
                                     <a href="{{ request()->fullUrlWithQuery(['driver_status' => $dKey, 'view' => 'meal_wise', 'meal_page' => null]) }}"
-                                        class="px-3 py-1.5 text-xs font-bold rounded-2xl transition-all duration-300 whitespace-nowrap {{ $driverStatusFilter === $dKey ? 'bg-[#0A2E2A] text-[#C9A050] border border-[#0A2E2A] shadow-xs' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                                        class="px-3 py-1.5 text-xs font-bold rounded-2xl transition-all duration-300 whitespace-nowrap {{ $driverStatusFilter === $dKey ? 'bg-[#0A2E2A] text-[#C9A050] border border-[#0A2E2A] shadow-xs' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-[#123831]/60 dark:text-[#A3B8B3] dark:border dark:border-[#1E4940] dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF]' }}">
                                         {{ $dLabel }}
                                     </a>
                                 @endforeach
@@ -1959,10 +1959,10 @@
 
                 @if(auth()->user()?->role !== 'Chef')
                     <!-- Bulk Assign Actions for Meals -->
-                    <div x-show="selectedOrders.length > 0" style="display: none;" class="px-6 sm:px-8 py-3.5 bg-gradient-to-r from-amber-50 via-amber-50/60 to-white border-b border-amber-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 transition-all">
+                    <div x-show="selectedOrders.length > 0" style="display: none;" class="px-6 sm:px-8 py-3.5 bg-gradient-to-r from-amber-50 via-amber-50/60 to-white dark:from-[#123831] dark:via-[#0E2C27] dark:to-[#081A17] border-b border-amber-200/80 dark:border-[#1E4940] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 transition-all">
                         <div class="flex items-center space-x-2">
-                            <span class="text-sm font-black text-amber-950">
-                                <span class="bg-amber-200 text-amber-950 px-2.5 py-0.5 rounded-full text-xs font-black" x-text="selectedOrders.length"></span> meal(s) selected
+                            <span class="text-sm font-black text-amber-950 dark:text-amber-300">
+                                <span class="bg-amber-200 dark:bg-amber-900/60 text-amber-950 dark:text-amber-200 px-2.5 py-0.5 rounded-full text-xs font-black" x-text="selectedOrders.length"></span> meal(s) selected
                             </span>
                             @if(!empty($areaFilter) && $areaFilter !== 'all')
                                 <span class="text-xs font-bold px-2.5 py-0.5 rounded-xl bg-amber-100 text-amber-900 border border-amber-300">
@@ -1971,7 +1971,7 @@
                             @endif
                         </div>
                         <div class="flex items-center space-x-2 w-full sm:w-auto">
-                            <select id="bulkDriverSelectMeal" name="bulk_driver_id" class="text-xs font-bold border border-amber-300 rounded-xl px-3.5 py-2 bg-white text-gray-700 hover:border-[#C9A050] focus:outline-none focus:ring-2 focus:ring-[#C9A050]/20 w-full sm:w-auto shadow-xs" required>
+                            <select id="bulkDriverSelectMeal" name="bulk_driver_id" class="text-xs font-bold border border-amber-300 dark:border-[#1E4940] rounded-xl px-3.5 py-2 bg-white dark:bg-[#061513] text-gray-700 dark:text-[#F5F3EF] hover:border-[#C9A050] focus:outline-none focus:ring-2 focus:ring-[#C9A050]/20 w-full sm:w-auto shadow-xs" required>
                                 <option value="" disabled selected>Select Driver to Assign...</option>
                                 @foreach ($drivers as $driver)
                                     @php
@@ -2013,10 +2013,10 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100/70">
                             @forelse ($paginatedMealDeliveries as $meal)
-                                <tr class="hover:bg-[#C9A050]/[0.03] transition-colors duration-200 border-b border-gray-100/70 {{ $meal['is_today'] ? 'bg-amber-50/25' : '' }}">
+                                <tr class="hover:bg-[#C9A050]/[0.03] transition-colors duration-200 border-b border-gray-100/70 dark:border-[#163832] {{ $meal['is_today'] ? 'bg-amber-50/25 dark:bg-amber-950/20' : '' }}">
                                     @if(auth()->user()?->role !== 'Chef')
                                         <td class="px-5 py-5 w-12 text-center align-middle">
-                                            <input type="checkbox" name="order_ids[]" value="{{ $meal['order_id'] }}" x-model="selectedOrders" class="order-checkbox w-4 h-4 text-[#C9A050] border-gray-300 rounded-lg focus:ring-[#C9A050] transition-colors cursor-pointer">
+                                            <input type="checkbox" name="order_ids[]" value="{{ $meal['order_id'] }}" x-model="selectedOrders" class="order-checkbox w-4 h-4 text-[#C9A050] border-gray-300 dark:border-[#1E4940] rounded-lg focus:ring-[#C9A050] transition-colors cursor-pointer">
                                         </td>
                                     @endif
 
@@ -2025,13 +2025,13 @@
                                         <div class="flex flex-col gap-2">
                                             <div class="flex items-center space-x-2">
                                                 @if(strtolower($meal['meal_type']) === 'breakfast')
-                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-black bg-amber-50 text-amber-900 border border-amber-200/80 shadow-xs">
+                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-black bg-amber-50 dark:bg-amber-950/50 text-amber-900 dark:text-amber-300 border border-amber-200/80 dark:border-amber-700/40 shadow-xs">
                                                         <span>☀️</span>
                                                         <span>Breakfast</span>
                                                     </span>
                                                 @elseif(strtolower($meal['meal_type']) === 'lunch')
                                                     <div class="flex flex-col gap-1.5">
-                                                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-black bg-sky-50 text-sky-900 border border-sky-200/80 shadow-xs">
+                                                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-black bg-sky-50 dark:bg-sky-950/50 text-sky-900 dark:text-sky-300 border border-sky-200/80 dark:border-sky-700/40 shadow-xs">
                                                             <span>🌤️</span>
                                                             <span>Lunch</span>
                                                         </span>
@@ -2045,7 +2045,7 @@
                                                         --}}
                                                     </div>
                                                 @else
-                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-black bg-purple-50 text-purple-900 border border-purple-200/80 shadow-xs">
+                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-black bg-purple-50 dark:bg-purple-950/50 text-purple-900 dark:text-purple-300 border border-purple-200/80 dark:border-purple-700/40 shadow-xs">
                                                         <span>🌙</span>
                                                         <span>Dinner</span>
                                                     </span>
@@ -2054,23 +2054,23 @@
 
                                             <div class="flex flex-col gap-1">
                                                 @if($meal['is_today'])
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs animate-pulse w-fit">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-700/40 shadow-2xs animate-pulse w-fit">
                                                         🔴 TODAY ({{ now()->format('M d') }})
                                                     </span>
                                                 @elseif($meal['is_tomorrow'])
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs w-fit">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700/40 shadow-2xs w-fit">
                                                         🟠 TOMORROW ({{ now()->addDay()->format('M d') }})
                                                     </span>
                                                 @elseif($meal['scheduled_date'])
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-700 border border-gray-200 w-fit">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 dark:bg-[#123831] text-gray-700 dark:text-[#A3B8B3] border border-gray-200 dark:border-[#1E4940] w-fit">
                                                         📅 {{ $meal['scheduled_date']->format('M d, Y') }}
                                                     </span>
                                                 @else
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-50 text-amber-800 border border-amber-200 w-fit">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-700/40 w-fit">
                                                         ⚡ Immediate Dispatch
                                                     </span>
                                                 @endif
-                                                <p class="text-[10px] text-gray-400 font-semibold tracking-wide">
+                                                <p class="text-[10px] text-gray-400 dark:text-[#8FA8A3] font-semibold tracking-wide">
                                                     @if(strtolower($meal['meal_type']) === 'breakfast') Window: 07:00 – 09:00 AM
                                                     @elseif(strtolower($meal['meal_type']) === 'lunch') Window: 11:30 AM – 01:30 PM
                                                     @else Window: 06:30 – 08:30 PM @endif
@@ -2083,25 +2083,25 @@
                                     <td class="px-6 py-5 align-middle">
                                         <div class="flex flex-col gap-2">
                                             <div class="flex items-center space-x-2">
-                                                <button type="button" id="meal-order-code-btn-{{ $meal['key'] }}" @click="selected = 'meal-{{ $meal['key'] }}'" class="text-sm font-black text-gray-900 hover:text-[#C9A050] transition-colors duration-200 text-left cursor-pointer tracking-tight" title="Click to view full order details">
+                                                <button type="button" id="meal-order-code-btn-{{ $meal['key'] }}" @click="selected = 'meal-{{ $meal['key'] }}'" class="text-sm font-black text-gray-900 dark:text-[#F5F3EF] hover:text-[#C9A050] transition-colors duration-200 text-left cursor-pointer tracking-tight" title="Click to view full order details">
                                                     {{ $meal['order_code'] }}
                                                 </button>
                                                 @if($meal['order']->is_subscription)
-                                                    <span class="px-2 py-0.5 bg-purple-50 text-purple-700 text-[9px] font-black rounded-md border border-purple-200 uppercase tracking-wider">
+                                                    <span class="px-2 py-0.5 bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[9px] font-black rounded-md border border-purple-200 dark:border-purple-700/40 uppercase tracking-wider">
                                                         Plan
                                                     </span>
                                                 @endif
                                             </div>
                                             <div class="flex items-center space-x-3">
-                                                <img src="https://ui-avatars.com/api/?name={{ urlencode($meal['customer_name']) }}&background=0A2E2A&color=C9A050&bold=true" class="w-9 h-9 rounded-2xl shrink-0 shadow-xs border border-gray-100" alt="">
+                                                <img src="https://ui-avatars.com/api/?name={{ urlencode($meal['customer_name']) }}&background=0A2E2A&color=C9A050&bold=true" class="w-9 h-9 rounded-2xl shrink-0 shadow-xs border border-gray-100 dark:border-[#163832]" alt="">
                                                 <div class="min-w-0">
-                                                    <p class="text-xs font-black text-gray-900 truncate">{{ $meal['customer_name'] }}</p>
+                                                    <p class="text-xs font-black text-gray-900 dark:text-[#F5F3EF] truncate">{{ $meal['customer_name'] }}</p>
                                                     @if($meal['customer_phone'])
                                                         <a href="tel:{{ $meal['customer_phone'] }}" class="text-[11px] text-[#C9A050] hover:underline font-bold flex items-center mt-0.5">
                                                             📞 {{ $meal['customer_phone'] }}
                                                         </a>
                                                     @else
-                                                        <span class="text-[10px] text-gray-400 italic">No phone</span>
+                                                        <span class="text-[10px] text-gray-400 dark:text-[#8FA8A3] italic">No phone</span>
                                                     @endif
                                                 </div>
                                             </div>
@@ -2112,18 +2112,18 @@
                                     <td class="px-6 py-5 align-middle">
                                         <div class="flex flex-col gap-2 max-w-[280px]">
                                             @foreach($meal['items'] as $mItem)
-                                                <div class="flex items-center space-x-3 bg-gray-50/70 p-2 rounded-xl border border-gray-100">
+                                                <div class="flex items-center space-x-3 bg-gray-50/70 dark:bg-[#061513] p-2 rounded-xl border border-gray-100 dark:border-[#163832]">
                                                     @if($mItem->food && $mItem->food->image_url)
-                                                        <img src="{{ $mItem->food->image_url }}" class="w-9 h-9 rounded-xl object-cover border border-gray-100 shadow-xs shrink-0" alt="">
+                                                        <img src="{{ $mItem->food->image_url }}" class="w-9 h-9 rounded-xl object-cover border border-gray-100 dark:border-[#163832] shadow-xs shrink-0" alt="">
                                                     @else
-                                                        <div class="w-9 h-9 rounded-xl bg-gray-100 text-gray-400 flex items-center justify-center text-xs font-bold shrink-0">🍽️</div>
+                                                        <div class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-[#123831] text-gray-400 dark:text-[#8FA8A3] flex items-center justify-center text-xs font-bold shrink-0">🍽️</div>
                                                     @endif
                                                     <div class="min-w-0 flex-1">
-                                                        <p class="text-xs font-bold text-gray-900 truncate">{{ $mItem->food->name ?? 'Dish' }}</p>
-                                                        <p class="text-[10px] text-gray-500 font-medium">
-                                                            <span class="font-black text-gray-800">Qty: {{ $mItem->quantity }}</span>
+                                                        <p class="text-xs font-bold text-gray-900 dark:text-[#F5F3EF] truncate">{{ $mItem->food->name ?? 'Dish' }}</p>
+                                                        <p class="text-[10px] text-gray-500 dark:text-[#8FA8A3] font-medium">
+                                                            <span class="font-black text-gray-800 dark:text-[#D1E0DD]">Qty: {{ $mItem->quantity }}</span>
                                                             @if(auth()->user()?->role !== 'Chef')
-                                                                · <span class="text-gray-400">Rs. {{ number_format($mItem->price * $mItem->quantity, 2) }}</span>
+                                                                · <span class="text-gray-400 dark:text-[#8FA8A3]">Rs. {{ number_format($mItem->price * $mItem->quantity, 2) }}</span>
                                                             @endif
                                                         </p>
                                                     </div>
@@ -2143,9 +2143,9 @@
                                             @endif
                                             --}}
 
-                                            <div class="pt-1.5 text-[11px] text-gray-400 font-semibold border-t border-gray-100 flex items-center justify-between">
+                                            <div class="pt-1.5 text-[11px] text-gray-400 dark:text-[#8FA8A3] font-semibold border-t border-gray-100 dark:border-[#163832] flex items-center justify-between">
                                                 <span>Total items:</span>
-                                                <span class="font-black text-gray-900">{{ $meal['total_quantity'] }} {{ \Illuminate\Support\Str::plural('dish', $meal['total_quantity']) }}</span>
+                                                <span class="font-black text-gray-900 dark:text-[#F5F3EF]">{{ $meal['total_quantity'] }} {{ \Illuminate\Support\Str::plural('dish', $meal['total_quantity']) }}</span>
                                             </div>
                                         </div>
                                     </td>
@@ -2154,21 +2154,21 @@
                                     <td class="px-6 py-5 align-middle">
                                         <div class="flex flex-col gap-2">
                                             <div class="flex items-center space-x-1.5">
-                                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-[10px] font-black bg-[#0A2E2A]/5 text-[#0A2E2A] border border-[#0A2E2A]/15">
+                                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-[10px] font-black bg-[#0A2E2A]/5 dark:bg-[#C9A050]/10 text-[#0A2E2A] dark:text-[#C9A050] border border-[#0A2E2A]/15 dark:border-[#C9A050]/20">
                                                     📍 {{ $meal['area'] ?? 'Colombo' }}
                                                 </span>
                                             </div>
                                             @if($meal['has_special_dinner_address'])
-                                                <div class="p-3 rounded-2xl bg-purple-50/80 border border-purple-200/80">
-                                                    <span class="text-[10px] font-black text-purple-800 uppercase tracking-wider block">🌙 Dinner Location:</span>
-                                                    <p class="text-xs font-bold text-purple-950 mt-1 leading-snug">{{ $meal['delivery_address'] }}</p>
+                                                <div class="p-3 rounded-2xl bg-purple-50/80 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-700/40">
+                                                    <span class="text-[10px] font-black text-purple-800 dark:text-purple-300 uppercase tracking-wider block">🌙 Dinner Location:</span>
+                                                    <p class="text-xs font-bold text-purple-950 dark:text-purple-200 mt-1 leading-snug">{{ $meal['delivery_address'] }}</p>
                                                 </div>
                                             @else
                                                 <div class="flex items-center space-x-1.5">
-                                                    <span class="text-xs font-medium text-gray-700 leading-snug" title="{{ $meal['delivery_address'] }}">
+                                                    <span class="text-xs font-medium text-gray-700 dark:text-[#D1E0DD] leading-snug" title="{{ $meal['delivery_address'] }}">
                                                         {{ \Illuminate\Support\Str::limit($meal['delivery_address'], 35) }}
                                                     </span>
-                                                    <button @click="editAddressOrderId = {{ $meal['order_id'] }}; editAddressValue = '{{ addslashes($meal['delivery_address']) }}'; showEditAddressModal = true;" class="text-gray-400 hover:text-[#C9A050] transition-colors p-1 rounded-lg hover:bg-gray-100 cursor-pointer" title="Edit Address">
+                                                    <button @click="editAddressOrderId = {{ $meal['order_id'] }}; editAddressValue = '{{ addslashes($meal['delivery_address']) }}'; showEditAddressModal = true;" class="text-gray-400 dark:text-[#8FA8A3] hover:text-[#C9A050] transition-colors p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-[#123831] cursor-pointer" title="Edit Address">
                                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                                     </button>
                                                 </div>
@@ -2182,7 +2182,7 @@
                                             @if ($meal['driver'])
                                                 <!-- Strictly Assigned Badge -->
                                                 <div>
-                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-2xs">
+                                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-700/40 shadow-2xs">
                                                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                                                         Assigned
                                                     </span>
@@ -2192,9 +2192,9 @@
                                                 <div class="flex items-center space-x-2.5">
                                                     <img src="https://ui-avatars.com/api/?name={{ urlencode($meal['driver']->name) }}&background=0A2E2A&color=C9A050" class="w-8 h-8 rounded-xl shrink-0 shadow-2xs" alt="">
                                                     <div class="min-w-0">
-                                                        <span class="text-xs font-black text-gray-900 block leading-tight truncate">{{ $meal['driver']->name }}</span>
+                                                        <span class="text-xs font-black text-gray-900 dark:text-[#F5F3EF] block leading-tight truncate">{{ $meal['driver']->name }}</span>
                                                         @if($meal['driver']->phone)
-                                                            <a href="tel:{{ $meal['driver']->phone }}" class="text-[10px] text-gray-500 hover:text-[#C9A050] font-medium block mt-0.5">
+                                                            <a href="tel:{{ $meal['driver']->phone }}" class="text-[10px] text-gray-500 dark:text-[#8FA8A3] hover:text-[#C9A050] font-medium block mt-0.5">
                                                                 📞 {{ $meal['driver']->phone }}
                                                             </a>
                                                         @endif
@@ -2283,14 +2283,14 @@
                                                 </form>
                                                 <a href="{{ route('orders.invoice', $meal['order_id']) }}" target="_blank" 
                                                    id="meal-invoice-btn-{{ $meal['key'] }}"
-                                                   class="p-2.5 text-gray-500 hover:text-[#0A2E2A] hover:bg-gray-100 rounded-2xl transition-all duration-300 border border-gray-200/80 shadow-xs hover:scale-105" 
+                                                   class="p-2.5 text-gray-500 dark:text-[#8FA8A3] hover:text-[#0A2E2A] dark:hover:text-[#F5F3EF] hover:bg-gray-100 dark:hover:bg-[#123831] rounded-2xl transition-all duration-300 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:scale-105" 
                                                    title="Print Tax Invoice">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                                                 </a>
                                                 <button type="button"
                                                         id="meal-view-details-btn-{{ $meal['key'] }}"
                                                         @click="selected = 'meal-{{ $meal['key'] }}'" 
-                                                        class="p-2.5 text-gray-500 hover:text-[#C9A050] hover:bg-[#C9A050]/10 rounded-2xl transition-all duration-300 border border-gray-200/80 shadow-xs hover:scale-105 cursor-pointer" 
+                                                        class="p-2.5 text-gray-500 dark:text-[#8FA8A3] hover:text-[#C9A050] hover:bg-[#C9A050]/10 rounded-2xl transition-all duration-300 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:scale-105 cursor-pointer" 
                                                         title="View full order details">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                                 </button>
@@ -2698,64 +2698,64 @@
             <!-- History Metrics Overview -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 <!-- Total Finished Card -->
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-100/80 shadow-xl shadow-[#0A2E2A]/5 hover:shadow-2xl hover:shadow-[#0A2E2A]/10 transition-all duration-300 relative overflow-hidden group min-h-[155px] flex flex-col justify-between">
+                <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 sm:p-7 border border-gray-100/80 dark:border-[#163832] shadow-xl shadow-[#0A2E2A]/5 hover:shadow-2xl hover:shadow-[#0A2E2A]/10 transition-all duration-300 relative overflow-hidden group min-h-[155px] flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="p-3 bg-emerald-500/10 text-emerald-600 rounded-2xl border border-emerald-500/20 shadow-xs">
-                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="p-3 bg-emerald-500/10 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-2xl border border-emerald-500/20 dark:border-emerald-700/40 shadow-xs">
+                            <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
-                        <span class="text-[10px] font-black text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full uppercase tracking-wider">Archive</span>
+                        <span class="text-[10px] font-black text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-700/40 px-3 py-1 rounded-full uppercase tracking-wider">Archive</span>
                     </div>
                     <div>
-                        <h3 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight leading-tight">{{ $historyStats['total'] }}</h3>
-                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-1">Total Finished Orders</p>
+                        <h3 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight leading-tight">{{ $historyStats['total'] }}</h3>
+                        <p class="text-xs font-semibold text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider mt-1">Total Finished Orders</p>
                     </div>
                 </div>
 
                 <!-- Delivered Card -->
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-emerald-200/60 shadow-xl shadow-emerald-500/5 hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 relative overflow-hidden group min-h-[155px] flex flex-col justify-between">
+                <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 sm:p-7 border border-emerald-200/60 dark:border-emerald-700/30 shadow-xl shadow-emerald-500/5 hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-300 relative overflow-hidden group min-h-[155px] flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="p-3 bg-emerald-500/10 text-emerald-600 rounded-2xl border border-emerald-500/20 shadow-xs">
-                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <div class="p-3 bg-emerald-500/10 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 rounded-2xl border border-emerald-500/20 dark:border-emerald-700/40 shadow-xs">
+                            <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         </div>
-                        <span class="text-[10px] font-black text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full uppercase tracking-wider">Delivered</span>
+                        <span class="text-[10px] font-black text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-700/40 px-3 py-1 rounded-full uppercase tracking-wider">Delivered</span>
                     </div>
                     <div>
-                        <h3 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight leading-tight">{{ $historyStats['delivered'] }}</h3>
-                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-1">Successfully Delivered</p>
+                        <h3 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight leading-tight">{{ $historyStats['delivered'] }}</h3>
+                        <p class="text-xs font-semibold text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider mt-1">Successfully Delivered</p>
                     </div>
                 </div>
 
                 <!-- Completed Card -->
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-blue-200/60 shadow-xl shadow-blue-500/5 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 relative overflow-hidden group min-h-[155px] flex flex-col justify-between">
+                <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 sm:p-7 border border-blue-200/60 dark:border-blue-700/30 shadow-xl shadow-blue-500/5 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 relative overflow-hidden group min-h-[155px] flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="p-3 bg-blue-500/10 text-blue-600 rounded-2xl border border-blue-500/20 shadow-xs">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                        <div class="p-3 bg-blue-500/10 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 rounded-2xl border border-blue-500/20 dark:border-blue-700/40 shadow-xs">
+                            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                         </div>
-                        <span class="text-[10px] font-black text-blue-800 bg-blue-50 border border-blue-200 px-3 py-1 rounded-full uppercase tracking-wider">Completed</span>
+                        <span class="text-[10px] font-black text-blue-800 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-700/40 px-3 py-1 rounded-full uppercase tracking-wider">Completed</span>
                     </div>
                     <div>
-                        <h3 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight leading-tight">{{ $historyStats['completed'] }}</h3>
-                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-1">Completed Subscriptions</p>
+                        <h3 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight leading-tight">{{ $historyStats['completed'] }}</h3>
+                        <p class="text-xs font-semibold text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider mt-1">Completed Subscriptions</p>
                     </div>
                 </div>
 
                 <!-- Revenue Card -->
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-[#C9A050]/30 shadow-xl shadow-[#C9A050]/5 hover:shadow-2xl hover:shadow-[#C9A050]/10 transition-all duration-300 relative overflow-hidden group min-h-[155px] flex flex-col justify-between">
+                <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 sm:p-7 border border-[#C9A050]/30 shadow-xl shadow-[#C9A050]/5 hover:shadow-2xl hover:shadow-[#C9A050]/10 transition-all duration-300 relative overflow-hidden group min-h-[155px] flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-4">
                         <div class="p-3 bg-gradient-to-br from-[#0A2E2A] to-[#0D3833] text-[#C9A050] rounded-2xl border border-[#C9A050]/30 shadow-md">
                             <svg class="w-5 h-5 text-[#C9A050]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
-                        <span class="text-[10px] font-black text-[#0A2E2A] bg-gradient-to-r from-[#C9A050]/20 to-[#C9A050]/10 border border-[#C9A050]/30 px-3 py-1 rounded-full uppercase tracking-wider">Revenue</span>
+                        <span class="text-[10px] font-black text-[#0A2E2A] dark:text-[#C9A050] bg-gradient-to-r from-[#C9A050]/20 to-[#C9A050]/10 border border-[#C9A050]/30 px-3 py-1 rounded-full uppercase tracking-wider">Revenue</span>
                     </div>
                     <div>
-                        <h3 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight leading-tight">Rs. {{ number_format($historyStats['revenue'], 2) }}</h3>
-                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-1">Delivered Revenue</p>
+                        <h3 class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight leading-tight">Rs. {{ number_format($historyStats['revenue'], 2) }}</h3>
+                        <p class="text-xs font-semibold text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider mt-1">Delivered Revenue</p>
                     </div>
                 </div>
             </div>
 
             <!-- History Search & Status Filters -->
-            <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-100 shadow-xl shadow-[#0A2E2A]/5">
+            <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 sm:p-7 border border-gray-100 dark:border-[#163832] shadow-xl shadow-[#0A2E2A]/5">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <!-- Search Input -->
                     <form method="GET" action="{{ url()->current() }}" class="relative flex-1 max-w-md">
@@ -2768,13 +2768,13 @@
                                value="{{ $search }}" 
                                placeholder="Search history by order #, customer, address..." 
                                @input.debounce.1500ms="$el.form.submit()"
-                               class="w-full pl-11 pr-4 py-2.5 bg-gray-50/80 border border-gray-200 rounded-2xl text-xs sm:text-sm focus:outline-none focus:bg-white focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 transition-all duration-300 shadow-inner">
-                        <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                               class="w-full pl-11 pr-4 py-2.5 bg-gray-50/80 dark:bg-[#061513] border border-gray-200 dark:border-[#163832] dark:text-[#F5F3EF] dark:placeholder-[#8FA8A3] rounded-2xl text-xs sm:text-sm focus:outline-none focus:bg-white dark:focus:bg-[#061513] focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 transition-all duration-300 shadow-inner">
+                        <svg class="w-4 h-4 text-gray-400 dark:text-[#8FA8A3] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </form>
 
                     <!-- History Status Sub-Filters -->
                     <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-1">
-                        <span class="text-[11px] font-black text-gray-400 uppercase tracking-widest mr-2 shrink-0">Filter:</span>
+                        <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-2 shrink-0">Filter:</span>
                         @foreach ([
                             'all'       => 'All History (' . $historyStats['total'] . ')',
                             'delivered' => 'Delivered (' . $historyStats['delivered'] . ')',
@@ -2782,7 +2782,7 @@
                             'cancelled' => 'Cancelled (' . $historyStats['cancelled'] . ')'
                         ] as $hKey => $hLabel)
                             <a href="{{ request()->fullUrlWithQuery(['view' => 'history', 'history_status' => $hKey, 'history_page' => null]) }}"
-                               class="px-4 py-2 text-xs font-black rounded-2xl transition-all duration-300 whitespace-nowrap {{ $historyStatusFilter === $hKey ? 'bg-gradient-to-r from-[#0A2E2A] to-[#0D3833] text-[#C9A050] border border-[#C9A050]/30 shadow-md shadow-[#0A2E2A]/15' : 'bg-gray-100/80 text-gray-600 hover:bg-gray-200 hover:text-gray-900' }}">
+                               class="px-4 py-2 text-xs font-black rounded-2xl transition-all duration-300 whitespace-nowrap {{ $historyStatusFilter === $hKey ? 'bg-gradient-to-r from-[#0A2E2A] to-[#0D3833] text-[#C9A050] border border-[#C9A050]/30 shadow-md shadow-[#0A2E2A]/15' : 'bg-gray-100/80 text-gray-600 hover:bg-gray-200 hover:text-gray-900 dark:bg-[#123831]/60 dark:text-[#A3B8B3] dark:border dark:border-[#1E4940] dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF]' }}">
                                 {{ $hLabel }}
                             </a>
                         @endforeach
@@ -2791,7 +2791,7 @@
             </div>
 
             <!-- History Orders Table -->
-            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-100 overflow-hidden">
+            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-100 dark:border-[#163832] overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse min-w-[1240px]">
                         <thead>
@@ -2814,19 +2814,19 @@
                                     $hCustAddress = $hOrder->address ?: ($hOrder->delivery_address ?: 'Colombo');
                                     $hItemsCount = $hOrder->items ? $hOrder->items->sum('quantity') : 0;
                                 @endphp
-                                <tr class="hover:bg-[#C9A050]/[0.03] transition-colors duration-200 border-b border-gray-100/70">
+                                <tr class="hover:bg-[#C9A050]/[0.03] transition-colors duration-200 border-b border-gray-100/70 dark:border-[#163832]">
                                     <!-- Order ID & Timestamp -->
                                     <td class="px-6 py-5 align-middle whitespace-nowrap">
                                         <div class="flex flex-col gap-2">
-                                            <span class="text-sm font-black text-gray-900 tracking-tight block">
+                                            <span class="text-sm font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight block">
                                                 {{ $hCode }}
                                             </span>
-                                            <div class="flex items-center space-x-1.5 text-xs text-gray-400">
-                                                <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            <div class="flex items-center space-x-1.5 text-xs text-gray-400 dark:text-[#8FA8A3]">
+                                                <svg class="w-3.5 h-3.5 text-gray-400 dark:text-[#8FA8A3] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                                 <span>{{ $hOrder->created_at->format('M d, Y · h:i A') }}</span>
                                             </div>
                                             <div>
-                                                <span class="inline-block text-[10px] font-black text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md uppercase tracking-wider">
+                                                <span class="inline-block text-[10px] font-black text-gray-600 dark:text-[#A3B8B3] bg-gray-100 dark:bg-[#123831] border dark:border-[#1E4940] px-2.5 py-1 rounded-md uppercase tracking-wider">
                                                     {{ $hItemsCount }} {{ \Illuminate\Support\Str::plural('dish', $hItemsCount) }}
                                                 </span>
                                             </div>
@@ -2836,12 +2836,12 @@
                                     <!-- Customer & Delivery -->
                                     <td class="px-6 py-5 align-middle">
                                         <div class="flex flex-col gap-2 max-w-[260px]">
-                                            <p class="text-sm font-black text-gray-900 truncate">{{ $hCustName }}</p>
-                                            <p class="text-xs text-gray-500 font-medium flex items-center space-x-1">
+                                            <p class="text-sm font-black text-gray-900 dark:text-[#F5F3EF] truncate">{{ $hCustName }}</p>
+                                            <p class="text-xs text-gray-500 dark:text-[#8FA8A3] font-medium flex items-center space-x-1">
                                                 <span>📞</span>
                                                 <a href="tel:{{ $hCustPhone }}" class="hover:text-[#C9A050] font-bold transition-colors">{{ $hCustPhone }}</a>
                                             </p>
-                                            <p class="text-xs text-gray-600 line-clamp-2 leading-relaxed font-medium" title="{{ $hCustAddress }}">
+                                            <p class="text-xs text-gray-600 dark:text-[#D1E0DD] line-clamp-2 leading-relaxed font-medium" title="{{ $hCustAddress }}">
                                                 📍 {{ $hCustAddress }}
                                             </p>
                                         </div>
@@ -2852,19 +2852,19 @@
                                         <div class="flex flex-col gap-2 max-w-[280px]">
                                             @if($hOrder->items && $hOrder->items->isNotEmpty())
                                                 @foreach ($hOrder->items->take(2) as $hItem)
-                                                    <div class="flex items-center space-x-2 text-xs text-gray-800 bg-gray-50/70 p-2 rounded-xl border border-gray-100">
+                                                    <div class="flex items-center space-x-2 text-xs text-gray-800 dark:text-[#D1E0DD] bg-gray-50/70 dark:bg-[#061513] p-2 rounded-xl border border-gray-100 dark:border-[#163832]">
                                                         <span class="w-1.5 h-1.5 rounded-full bg-[#C9A050] shrink-0"></span>
-                                                        <span class="font-black text-gray-900">{{ $hItem->quantity }}x</span>
+                                                        <span class="font-black text-gray-900 dark:text-[#F5F3EF]">{{ $hItem->quantity }}x</span>
                                                         <span class="truncate font-medium">{{ $hItem->food->name ?? 'Dish' }}</span>
                                                     </div>
                                                 @endforeach
                                                 @if($hOrder->items->count() > 2)
-                                                    <span class="text-[11px] text-gray-400 font-semibold block pt-0.5">
+                                                    <span class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-semibold block pt-0.5">
                                                         +{{ $hOrder->items->count() - 2 }} more dishes
                                                     </span>
                                                 @endif
                                             @else
-                                                <span class="text-xs text-gray-400 italic">No items registered</span>
+                                                <span class="text-xs text-gray-400 dark:text-[#8FA8A3] italic">No items registered</span>
                                             @endif
                                         </div>
                                     </td>
@@ -2875,23 +2875,23 @@
                                             <div class="flex items-center space-x-2.5">
                                                 <img src="https://ui-avatars.com/api/?name={{ urlencode($hOrder->driver->name) }}&background=0A2E2A&color=C9A050" class="w-8 h-8 rounded-xl shrink-0 shadow-2xs" alt="">
                                                 <div class="min-w-0">
-                                                    <span class="text-xs font-black text-gray-900 block truncate">{{ $hOrder->driver->name }}</span>
-                                                    <span class="text-[10px] text-gray-400 font-medium block">{{ $hOrder->driver->vehicle_type ?? 'Rider' }}</span>
+                                                    <span class="text-xs font-black text-gray-900 dark:text-[#F5F3EF] block truncate">{{ $hOrder->driver->name }}</span>
+                                                    <span class="text-[10px] text-gray-400 dark:text-[#8FA8A3] font-medium block">{{ $hOrder->driver->vehicle_type ?? 'Rider' }}</span>
                                                 </div>
                                             </div>
                                         @else
-                                            <span class="text-xs text-gray-400 italic">Unassigned</span>
+                                            <span class="text-xs text-gray-400 dark:text-[#8FA8A3] italic">Unassigned</span>
                                         @endif
                                     </td>
 
                                     <!-- Total & Payment -->
                                     <td class="px-6 py-5 align-middle whitespace-nowrap">
                                         <div class="flex flex-col gap-2">
-                                            <span class="text-sm font-black text-gray-900 block">
+                                            <span class="text-sm font-black text-gray-900 dark:text-[#F5F3EF] block">
                                                 Rs. {{ number_format($hOrder->total_price ?? $hOrder->total_amount, 2) }}
                                             </span>
                                             <div>
-                                                <span class="inline-block text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider {{ in_array($hOrder->payment_status, ['paid', 'verified']) ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-gray-100 text-gray-600' }}">
+                                                <span class="inline-block text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider {{ in_array($hOrder->payment_status, ['paid', 'verified']) ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-700/40' : 'bg-gray-100 dark:bg-[#123831] text-gray-600 dark:text-[#A3B8B3] border dark:border-[#1E4940]' }}">
                                                     {{ ucfirst($hOrder->payment_status ?? 'paid') }}
                                                 </span>
                                             </div>
@@ -2901,22 +2901,22 @@
                                     <!-- Final Status -->
                                     <td class="px-6 py-5 align-middle min-w-[140px]">
                                         @if($hOrder->status === 'delivered')
-                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-2xs">
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-700/40 shadow-2xs">
                                                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                                                 Delivered
                                             </span>
                                         @elseif($hOrder->status === 'completed')
-                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black bg-blue-50 text-blue-800 border border-blue-200/80 shadow-2xs">
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black bg-blue-50 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300 border border-blue-200/80 dark:border-blue-700/40 shadow-2xs">
                                                 <span class="w-2 h-2 rounded-full bg-blue-500"></span>
                                                 Completed
                                             </span>
                                         @elseif($hOrder->status === 'cancelled')
-                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black bg-rose-50 text-rose-800 border border-rose-200/80 shadow-2xs">
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black bg-rose-50 dark:bg-rose-950/50 text-rose-800 dark:text-rose-300 border border-rose-200/80 dark:border-rose-700/40 shadow-2xs">
                                                 <span class="w-2 h-2 rounded-full bg-rose-500"></span>
                                                 Cancelled
                                             </span>
                                         @else
-                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700">
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-[#123831] text-gray-700 dark:text-[#A3B8B3]">
                                                 {{ ucfirst($hOrder->status) }}
                                             </span>
                                         @endif
@@ -2961,14 +2961,14 @@
                                             </button>
                                             <a href="{{ route('orders.invoice', $hOrder) }}" target="_blank" 
                                                id="history-invoice-btn-{{ $hOrder->id }}"
-                                               class="p-2.5 text-gray-500 hover:text-[#0A2E2A] hover:bg-gray-100 rounded-2xl transition-all duration-300 border border-gray-200/80 shadow-xs hover:scale-105" 
+                                               class="p-2.5 text-gray-500 dark:text-[#8FA8A3] hover:text-[#0A2E2A] dark:hover:text-[#F5F3EF] hover:bg-gray-100 dark:hover:bg-[#123831] rounded-2xl transition-all duration-300 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:scale-105" 
                                                title="Print / View Tax Invoice">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                                             </a>
                                             <button type="button"
                                                     id="history-view-details-btn-{{ $hOrder->id }}"
                                                     @click="selected = 'history-{{ $hOrder->id }}'" 
-                                                    class="p-2.5 text-gray-500 hover:text-[#C9A050] hover:bg-[#C9A050]/10 rounded-2xl transition-all duration-300 border border-gray-200/80 shadow-xs hover:scale-105 cursor-pointer" 
+                                                    class="p-2.5 text-gray-500 dark:text-[#8FA8A3] hover:text-[#C9A050] hover:bg-[#C9A050]/10 rounded-2xl transition-all duration-300 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:scale-105 cursor-pointer" 
                                                     title="View Historical Order Details">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                             </button>

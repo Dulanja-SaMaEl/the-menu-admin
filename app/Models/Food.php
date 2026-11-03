@@ -48,6 +48,23 @@ class Food extends Model
         return $this->hasMany(Offer::class);
     }
 
+    public function getImageUrlAttribute($value): string
+    {
+        if (!$value) {
+            return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80';
+        }
+        if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
+            return $value;
+        }
+        if (str_starts_with($value, 'storage/')) {
+            return asset($value);
+        }
+        if (str_starts_with($value, '/storage/')) {
+            return asset(ltrim($value, '/'));
+        }
+        return asset('storage/' . $value);
+    }
+
     public function recalculateRating(): float
     {
         $avg = (float) $this->ratings()->avg('rating');

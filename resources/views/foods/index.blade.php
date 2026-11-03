@@ -7,7 +7,7 @@
         currentFood: {
             id: '',
             name: '',
-            type: 'Breakfast',
+            type: 'Sri Lankan Style Breakfast Menu',
             price: '',
             description: '',
             prep_time: '15 min',
@@ -21,10 +21,10 @@
         deleteId: null,
         deleteName: '',
         deleteType: 'meal',
-        imageMode: 'url',
+        imageMode: 'file',
         previewImage: null,
 
-        openAddFood(defaultType = 'Breakfast') {
+        openAddFood(defaultType = 'Sri Lankan Style Breakfast Menu') {
             this.currentFood = {
                 id: '',
                 name: '',
@@ -40,7 +40,7 @@
                 available_days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             };
             this.previewImage = null;
-            this.imageMode = 'url';
+            this.imageMode = 'file';
             this.openCreateModal = true;
         },
 
@@ -177,7 +177,7 @@
                 --}}
 
                 <!-- Add Dish Button -->
-                <button type="button" @click="openAddFood('Breakfast')" 
+                <button type="button" @click="openAddFood('Sri Lankan Style Breakfast Menu')" 
                         class="px-6 py-3.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black text-xs sm:text-sm rounded-2xl shadow-lg shadow-[#C9A050]/25 transition-all duration-300 flex items-center space-x-2.5 active:scale-95 cursor-pointer">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5 text-[#0A2E2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
@@ -187,67 +187,75 @@
             </div>
         </div>
 
-        <!-- Metric KPI Cards (Balanced 4-Column Grid) -->
-        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 mb-8">
-            <div class="bg-white rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu">
-                <div class="flex items-center justify-between mb-2 sm:mb-3">
-                    <span class="text-xs font-bold text-amber-700">Breakfast</span>
-                    <span class="w-9 h-9 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm font-bold shadow-xs border border-amber-100">🍳</span>
+        <!-- Metric KPI Cards (Balanced 5-Column Grid) -->
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-8">
+            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-xs font-bold text-amber-700 dark:text-amber-400 truncate" title="Sri Lankan Style Breakfast Menu">SL Breakfast</span>
+                        <span class="w-9 h-9 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-sm font-bold shadow-xs border border-amber-100 dark:border-amber-800/40 shrink-0 ml-1">🍳</span>
+                    </div>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $breakfastCount }}</p>
                 </div>
-                <p class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">{{ $breakfastCount }}</p>
-                <p class="text-[11px] text-gray-400 font-medium mt-1">Morning menus</p>
+                <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Morning menus</p>
             </div>
 
-            <div class="bg-white rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu">
-                <div class="flex items-center justify-between mb-2 sm:mb-3">
-                    <span class="text-xs font-bold text-orange-700">Lunch</span>
-                    <span class="w-9 h-9 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center text-sm font-bold shadow-xs border border-orange-100">☀️</span>
+            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-xs font-bold text-orange-700 dark:text-orange-400 truncate" title="Sri Lankan Style Lunch Menu">SL Lunch</span>
+                        <span class="w-9 h-9 rounded-2xl bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 flex items-center justify-center text-sm font-bold shadow-xs border border-orange-100 dark:border-orange-800/40 shrink-0 ml-1">☀️</span>
+                    </div>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $lunchCount }}</p>
                 </div>
-                <p class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">{{ $lunchCount }}</p>
-                <p class="text-[11px] text-gray-400 font-medium mt-1">Mid-day specials</p>
+                <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Mid-day specials</p>
             </div>
 
-            <div class="bg-white rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu">
-                <div class="flex items-center justify-between mb-2 sm:mb-3">
-                    <span class="text-xs font-bold text-indigo-700">Dinner</span>
-                    <span class="w-9 h-9 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold shadow-xs border border-indigo-100">🌙</span>
+            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-xs font-bold text-indigo-700 dark:text-indigo-400 truncate" title="Sri Lankan Style Dinner Menu">SL Dinner</span>
+                        <span class="w-9 h-9 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-sm font-bold shadow-xs border border-indigo-100 dark:border-indigo-800/40 shrink-0 ml-1">🌙</span>
+                    </div>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $dinnerCount }}</p>
                 </div>
-                <p class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">{{ $dinnerCount }}</p>
-                <p class="text-[11px] text-gray-400 font-medium mt-1">Evening courses</p>
+                <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Evening courses</p>
             </div>
 
-            {{-- BEVERAGE FEATURE (DISABLED FOR LATER USE)
-            <div class="bg-white rounded-[2.5rem] p-5 sm:p-6 border border-[#C9A050]/40 shadow-xs hover:border-[#C9A050] transition-all duration-300 relative overflow-hidden transform-gpu">
-                <div class="absolute -right-2 -bottom-2 text-4xl opacity-10 pointer-events-none select-none">🍹</div>
-                <div class="flex items-center justify-between mb-2 sm:mb-3">
-                    <span class="text-xs font-black text-[#0A2E2A]">Beverages</span>
-                    <span class="w-9 h-9 rounded-2xl bg-[#0A2E2A] text-[#C9A050] flex items-center justify-center text-sm font-bold shadow-xs border border-[#C9A050]/30">🍹</span>
+            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 truncate" title="English breakfast Menu">English Breakfast</span>
+                        <span class="w-9 h-9 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm font-bold shadow-xs border border-emerald-100 dark:border-emerald-800/40 shrink-0 ml-1">🥪</span>
+                    </div>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $englishBreakfastCount }}</p>
                 </div>
-                <p class="beverage-kpi-count text-2xl sm:text-3xl font-black text-[#0A2E2A] tracking-tight">{{ $beverageCount }}</p>
-                <p class="text-[11px] text-gray-500 font-medium mt-1">Master drink list</p>
+                <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Continental menus</p>
             </div>
-            --}}
 
-            <div class="bg-white rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu">
-                <div class="flex items-center justify-between mb-2 sm:mb-3">
-                    <span class="text-xs font-bold text-[#C9A050]">Avg. Price</span>
-                    <span class="w-9 h-9 rounded-2xl bg-[#C9A050]/15 text-[#0A2E2A] flex items-center justify-center text-xs font-black shadow-xs border border-[#C9A050]/30">Rs</span>
+            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-xs font-bold text-[#C9A050] dark:text-[#D8B060]">Avg. Price</span>
+                        <span class="w-9 h-9 rounded-2xl bg-[#C9A050]/15 text-[#0A2E2A] dark:text-[#D8B060] flex items-center justify-center text-xs font-black shadow-xs border border-[#C9A050]/30 shrink-0 ml-1">Rs</span>
+                    </div>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Rs. {{ number_format($avgPrice, 0) }}</p>
                 </div>
-                <p class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">Rs. {{ number_format($avgPrice, 0) }}</p>
-                <p class="text-[11px] text-gray-400 font-medium mt-1">Across all items</p>
+                <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Across all items</p>
             </div>
         </div>
 
         <!-- Filter & Search Toolbar -->
-        <div class="bg-white rounded-[2.5rem] p-4 sm:p-5 border border-gray-200/80 shadow-xs mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transform-gpu">
+        <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-4 sm:p-5 border border-gray-200/80 dark:border-[#163832] shadow-xs mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transform-gpu">
             <!-- Meal & Beverage Type Tabs -->
             <div class="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0 custom-scrollbar">
                 @php
                     $tabs = [
                         ['id' => 'all', 'label' => 'All Items', 'count' => $totalCount, 'icon' => '🍽️'],
-                        ['id' => 'Breakfast', 'label' => 'Breakfast', 'count' => $breakfastCount, 'icon' => '🍳'],
-                        ['id' => 'Lunch', 'label' => 'Lunch', 'count' => $lunchCount, 'icon' => '☀️'],
-                        ['id' => 'Dinner', 'label' => 'Dinner', 'count' => $dinnerCount, 'icon' => '🌙'],
+                        ['id' => 'Sri Lankan Style Breakfast Menu', 'label' => 'Sri Lankan Style Breakfast Menu', 'count' => $breakfastCount, 'icon' => '🍳'],
+                        ['id' => 'Sri Lankan Style Lunch Menu', 'label' => 'Sri Lankan Style Lunch Menu', 'count' => $lunchCount, 'icon' => '☀️'],
+                        ['id' => 'Sri Lankan Style Dinner Menu', 'label' => 'Sri Lankan Style Dinner Menu', 'count' => $dinnerCount, 'icon' => '🌙'],
+                        ['id' => 'English breakfast Menu', 'label' => 'English breakfast Menu', 'count' => $englishBreakfastCount, 'icon' => '🥪'],
                         /* BEVERAGE FEATURE (DISABLED FOR LATER USE)
                         ['id' => 'Beverage', 'label' => 'Beverages', 'count' => $beverageCount, 'icon' => '🍹'],
                         */
@@ -260,10 +268,10 @@
                         $isBeverageTab = strtolower($tab['id']) === 'beverage';
                     @endphp
                     <a href="{{ route('foods.index', array_merge(request()->query(), ['type' => $tab['id'], 'page' => 1])) }}"
-                       class="px-4.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center space-x-2 whitespace-nowrap {{ $isActive ? ($isBeverageTab ? 'bg-[#0A2E2A] text-white shadow-lg border border-[#C9A050]/50' : 'bg-[#0A2E2A] text-white shadow-md border border-[#C9A050]/30') : ($isBeverageTab ? 'text-[#0A2E2A] hover:bg-[#C9A050]/15 bg-[#C9A050]/10 border border-[#C9A050]/30 font-black' : 'text-gray-600 hover:bg-gray-100/80 bg-gray-50/80 border border-transparent') }}">
+                       class="px-4.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center space-x-2 whitespace-nowrap {{ $isActive ? ($isBeverageTab ? 'bg-[#0A2E2A] text-white shadow-lg border border-[#C9A050]/50 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]' : 'bg-[#0A2E2A] text-white shadow-md border border-[#C9A050]/30 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]') : ($isBeverageTab ? 'text-[#0A2E2A] dark:text-[#C9A050] hover:bg-[#C9A050]/15 bg-[#C9A050]/10 border border-[#C9A050]/30 font-black' : 'text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100/80 dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF] bg-gray-50/80 dark:bg-[#081A17] border border-transparent dark:border-[#163832]') }}">
                         <span>{{ $tab['icon'] }}</span>
                         <span>{{ $tab['label'] }}</span>
-                        <span class="px-2 py-0.5 text-[10px] rounded-lg font-black {{ $isActive ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A]' : ($isBeverageTab ? 'bg-[#0A2E2A] text-[#C9A050]' : 'bg-gray-200 text-gray-700') }}">
+                        <span class="px-2 py-0.5 text-[10px] rounded-lg font-black {{ $isActive ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] dark:bg-[#C9A050] dark:text-[#061513]' : ($isBeverageTab ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#123831]' : 'bg-gray-200 text-gray-700 dark:bg-[#123831] dark:text-[#A3B8B3] dark:border dark:border-[#1E4940]') }}">
                             {{ $tab['count'] }}
                         </span>
                     </a>
@@ -280,8 +288,8 @@
                            value="{{ $search }}" 
                            placeholder="{{ strtolower($activeType) === 'beverage' ? 'Search beverages...' : 'Search items...' }}" 
                            @input.debounce.1500ms="$el.form.submit()"
-                           class="w-full pl-9 pr-8 py-2.5 bg-gray-50/80 hover:bg-white focus:bg-white rounded-2xl border border-gray-200 focus:border-[#C9A050] text-xs sm:text-sm font-semibold transition-all focus:ring-2 focus:ring-[#C9A050]/20">
-                    <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           class="w-full pl-9 pr-8 py-2.5 bg-gray-50/80 dark:bg-[#061513] hover:bg-white dark:hover:bg-[#061513] focus:bg-white dark:focus:bg-[#061513] rounded-2xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs sm:text-sm font-semibold dark:text-[#F5F3EF] dark:placeholder-[#8FA8A3] transition-all focus:ring-2 focus:ring-[#C9A050]/20">
+                    <svg class="w-4 h-4 text-gray-400 dark:text-[#8FA8A3] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                     @if($search)
@@ -289,7 +297,7 @@
                     @endif
                 </div>
 
-                <select name="sort" onchange="this.form.submit()" class="py-2.5 px-3.5 bg-gray-50/80 rounded-2xl border border-gray-200 text-xs sm:text-sm font-semibold text-gray-700 focus:border-[#C9A050] transition-all cursor-pointer">
+                <select name="sort" onchange="this.form.submit()" class="py-2.5 px-3.5 bg-gray-50/80 dark:bg-[#061513] rounded-2xl border border-gray-200 dark:border-[#163832] text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#F5F3EF] focus:border-[#C9A050] transition-all cursor-pointer">
                     <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
                     <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name (A-Z)</option>
                     <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
@@ -586,10 +594,10 @@
             <!-- ============================================================= -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
                 @forelse($foods as $food)
-                    <div class="bg-white rounded-[2.5rem] p-6 border border-gray-200/80 shadow-xs hover:shadow-md hover:border-[#C9A050]/40 transition-all duration-300 flex flex-col group justify-between transform-gpu will-change-transform">
+                    <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:shadow-md hover:border-[#C9A050]/40 transition-all duration-300 flex flex-col group justify-between transform-gpu will-change-transform">
                         <div>
                             <!-- Dish Image with Overlay Badges -->
-                            <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100 shadow-xs">
+                            <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100 dark:bg-[#123831] shadow-xs">
                                 <img src="{{ $food->image_url }}" 
                                      alt="{{ $food->name }}" 
                                      loading="lazy" decoding="async"
@@ -599,16 +607,42 @@
                                 <!-- Meal Type Badge -->
                                 <div class="absolute top-3 left-3">
                                     @php
-                                        $badgeStyle = match($food->type) {
-                                            'Breakfast' => 'bg-amber-600 text-white',
-                                            'Lunch' => 'bg-orange-600 text-white',
-                                            'Dinner' => 'bg-indigo-600 text-white',
-                                            'Beverage' => 'bg-[#0A2E2A] text-[#C9A050] border border-[#C9A050]/40',
-                                            default => 'bg-[#0A2E2A] text-white',
+                                        $lowerType = strtolower($food->type);
+                                        $badgeStyle = match(true) {
+                                            str_contains($lowerType, 'breakfast') => 'bg-amber-600 text-white',
+                                            str_contains($lowerType, 'lunch') => 'bg-orange-600 text-white',
+                                            str_contains($lowerType, 'dinner') => 'bg-indigo-600 text-white',
+                                            str_contains($lowerType, 'seafood') => 'bg-cyan-700 text-white',
+                                            str_contains($lowerType, 'burger') => 'bg-amber-700 text-white',
+                                            str_contains($lowerType, 'pizza') => 'bg-red-600 text-white',
+                                            str_contains($lowerType, 'pasta') => 'bg-emerald-700 text-white',
+                                            str_contains($lowerType, 'dessert') => 'bg-pink-600 text-white',
+                                            str_contains($lowerType, 'drink') => 'bg-blue-600 text-white',
+                                            str_contains($lowerType, 'salad') => 'bg-teal-700 text-white',
+                                            str_contains($lowerType, 'sushi') => 'bg-rose-700 text-white',
+                                            str_contains($lowerType, 'snack') => 'bg-purple-700 text-white',
+                                            str_contains($lowerType, 'beverage') => 'bg-[#0A2E2A] text-[#C9A050] border border-[#C9A050]/40',
+                                            default => 'bg-[#0A2E2A] text-white border border-[#C9A050]/30',
+                                        };
+                                        $typeIcon = match(true) {
+                                            str_contains($lowerType, 'breakfast') => '🍳 ',
+                                            str_contains($lowerType, 'lunch') => '☀️ ',
+                                            str_contains($lowerType, 'dinner') => '🌙 ',
+                                            str_contains($lowerType, 'seafood') => '🦞 ',
+                                            str_contains($lowerType, 'burger') => '🍔 ',
+                                            str_contains($lowerType, 'pizza') => '🍕 ',
+                                            str_contains($lowerType, 'pasta') => '🍝 ',
+                                            str_contains($lowerType, 'dessert') => '🍰 ',
+                                            str_contains($lowerType, 'drink') => '🥤 ',
+                                            str_contains($lowerType, 'salad') => '🥗 ',
+                                            str_contains($lowerType, 'sushi') => '🍣 ',
+                                            str_contains($lowerType, 'snack') => '🍿 ',
+                                            str_contains($lowerType, 'beverage') => '🍹 ',
+                                            default => '',
                                         };
                                     @endphp
                                     <span class="px-3 py-1 text-[11px] font-black rounded-xl shadow-xs uppercase tracking-wider {{ $badgeStyle }}">
-                                        {{ $food->type === 'Beverage' ? '🍹 Beverage' : $food->type }}
+                                        {{ $typeIcon }}{{ $food->type }}
                                     </span>
                                 </div>
 
@@ -620,16 +654,16 @@
                             </div>
 
                             <!-- Dish Info -->
-                            <h3 class="text-base font-black text-gray-900 group-hover:text-[#C9A050] transition-colors line-clamp-1 mb-1 tracking-tight" title="{{ $food->name }}">
+                            <h3 class="text-base font-black text-gray-900 dark:text-[#F5F3EF] group-hover:text-[#C9A050] transition-colors line-clamp-1 mb-1 tracking-tight" title="{{ $food->name }}">
                                 {{ $food->name }}
                             </h3>
 
-                            <p class="text-gray-500 text-xs line-clamp-2 mb-3.5 leading-relaxed font-medium">
+                            <p class="text-gray-500 dark:text-[#8FA8A3] text-xs line-clamp-2 mb-3.5 leading-relaxed font-medium">
                                 {{ $food->description ?: 'Freshly prepared specialty dish crafted with authentic spices and premium ingredients.' }}
                             </p>
 
                             <!-- Cooking / Health Metadata -->
-                            <div class="flex items-center space-x-3 text-[11px] font-semibold text-gray-500 mb-3.5 pb-3.5 border-b border-gray-100">
+                            <div class="flex items-center space-x-3 text-[11px] font-semibold text-gray-500 dark:text-[#8FA8A3] mb-3.5 pb-3.5 border-b border-gray-100 dark:border-[#163832]">
                                 <span class="flex items-center space-x-1">
                                     <span>⏱️</span>
                                     <span>{{ $food->prep_time ?: '15 min' }}</span>
@@ -652,7 +686,7 @@
                                     $days = is_array($food->available_days) ? $food->available_days : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                                 @endphp
                                 @foreach(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as $d)
-                                    <span class="px-2 py-0.5 text-[9px] font-black rounded-lg {{ in_array($d, $days) ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-400' }}">
+                                    <span class="px-2 py-0.5 text-[9px] font-black rounded-lg {{ in_array($d, $days) ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-700/40' : 'bg-gray-100 dark:bg-[#123831] text-gray-400 dark:text-[#5E7A74]' }}">
                                         {{ $d }}
                                     </span>
                                 @endforeach
@@ -660,15 +694,15 @@
                         </div>
 
                         <!-- Bottom Price & Actions Bar -->
-                        <div class="pt-3.5 border-t border-gray-100 flex items-center justify-between">
+                        <div class="pt-3.5 border-t border-gray-100 dark:border-[#163832] flex items-center justify-between">
                             <div>
-                                <span class="text-[10px] uppercase font-black text-gray-400 block tracking-wider leading-tight">Price</span>
+                                <span class="text-[10px] uppercase font-black text-gray-400 dark:text-[#8FA8A3] block tracking-wider leading-tight">Price</span>
                                 <span class="text-xl font-black text-[#C9A050]">Rs. {{ number_format($food->price, 2) }}</span>
                             </div>
 
                             <div class="flex items-center space-x-2">
                                 <button type="button" @click="openEdit({{ json_encode($food) }})" 
-                                        class="p-2.5 text-gray-400 hover:text-[#0A2E2A] hover:bg-[#C9A050]/20 bg-gray-50 rounded-xl transition-all border border-gray-200/80 cursor-pointer" 
+                                        class="p-2.5 text-gray-400 dark:text-[#8FA8A3] hover:text-[#0A2E2A] dark:hover:text-[#F5F3EF] hover:bg-[#C9A050]/20 bg-gray-50 dark:bg-[#061513] rounded-xl transition-all border border-gray-200/80 dark:border-[#163832] cursor-pointer" 
                                         title="Edit Item">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
@@ -676,7 +710,7 @@
                                 </button>
 
                                 <button type="button" @click="confirmDelete({{ $food->id }}, '{{ addslashes($food->name) }}', '{{ $food->type === 'Beverage' ? 'beverage' : 'meal' }}')" 
-                                        class="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 bg-gray-50 rounded-xl transition-all border border-gray-200/80 cursor-pointer" 
+                                        class="p-2.5 text-gray-400 dark:text-[#8FA8A3] hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 bg-gray-50 dark:bg-[#061513] rounded-xl transition-all border border-gray-200/80 dark:border-[#163832] cursor-pointer" 
                                         title="Delete Item">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -754,10 +788,13 @@
                                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Category Type *</label>
                                 <select name="type" x-model="currentFood.type" required 
                                         class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <option value="Breakfast">Breakfast 🍳</option>
-                                    <option value="Lunch">Lunch ☀️</option>
-                                    <option value="Dinner">Dinner 🌙</option>
+                                    <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu 🍳</option>
+                                    <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu ☀️</option>
+                                    <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu 🌙</option>
+                                    <option value="English breakfast Menu">English breakfast Menu 🥪</option>
+                                    {{-- BEVERAGE FEATURE (DISABLED FOR LATER USE)
                                     <option value="Beverage">Beverage 🍹</option>
+                                    --}}
                                 </select>
                             </div>
                         </div>
@@ -844,36 +881,62 @@
                             </div>
                         </div>
 
-                        <!-- Image Upload / URL Mode -->
+                        <!-- Dish Photo (Local File Upload) -->
                         <div>
                             <div class="flex items-center justify-between mb-1.5">
-                                <label class="block text-xs font-bold text-gray-700" x-text="currentFood.type === 'Beverage' ? 'Beverage Photo' : 'Dish Photo'"></label>
-                                <div class="flex items-center space-x-2 text-xs">
-                                    <button type="button" @click="imageMode = 'url'" :class="imageMode === 'url' ? 'text-[#C9A050] font-bold underline' : 'text-gray-400'">Image URL</button>
-                                    <span>|</span>
-                                    <button type="button" @click="imageMode = 'file'" :class="imageMode === 'file' ? 'text-[#C9A050] font-bold underline' : 'text-gray-400'">Upload File</button>
+                                <label class="block text-xs font-bold text-gray-700" x-text="currentFood.type === 'Beverage' ? 'Beverage Photo (Upload File) *' : 'Dish Photo (Upload File) *'"></label>
+                                <button type="button" @click="imageMode = (imageMode === 'url' ? 'file' : 'url')" class="text-[11px] text-[#C9A050] hover:underline font-bold">
+                                    <span x-text="imageMode === 'url' ? 'Use Local Upload' : 'Or Use Image URL'"></span>
+                                </button>
+                            </div>
+
+                            <!-- Local File Upload Box (Default) -->
+                            <div x-show="imageMode === 'file'">
+                                <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-200 hover:border-[#C9A050] bg-gray-50/80 rounded-2xl p-4 transition-all duration-200 group">
+                                    <input type="file" name="image" accept="image/*" @change="handleImagePreview($event)" 
+                                           class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                    
+                                    <template x-if="!previewImage">
+                                        <div class="flex flex-col items-center text-center">
+                                            <div class="w-11 h-11 rounded-2xl bg-[#C9A050]/15 text-[#0A2E2A] flex items-center justify-center text-xl mb-1.5 group-hover:scale-110 transition-transform">
+                                                📷
+                                            </div>
+                                            <p class="text-xs font-bold text-gray-800">
+                                                <span class="text-[#C9A050] underline">Click to choose image</span> or drag here
+                                            </p>
+                                            <p class="text-[10px] text-gray-400 mt-0.5">Saves directly to local storage (PNG, JPG, WEBP max 5MB)</p>
+                                        </div>
+                                    </template>
+
+                                    <!-- Live Image Preview Inside Upload Container -->
+                                    <template x-if="previewImage">
+                                        <div class="flex items-center space-x-3 w-full">
+                                            <img :src="previewImage" class="w-14 h-14 object-cover rounded-xl shadow-xs border border-gray-200 shrink-0" alt="Preview">
+                                            <div class="min-w-0 flex-1">
+                                                <p class="text-xs font-bold text-gray-900 truncate">Photo Selected</p>
+                                                <p class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5">
+                                                    <span>✓</span> Ready to save to server
+                                                </p>
+                                                <span class="text-[10px] text-[#C9A050] font-bold mt-0.5 inline-block">Click to replace photo</span>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
 
-                            <div x-show="imageMode === 'url'">
+                            <!-- Alternative URL Mode -->
+                            <div x-show="imageMode === 'url'" x-transition>
                                 <input type="url" name="image_url" x-model="currentFood.image_url" 
                                        @input="previewImage = $event.target.value"
                                        placeholder="https://images.unsplash.com/..." 
                                        class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 transition-all focus:ring-0">
+                                <template x-if="previewImage">
+                                    <div class="mt-2.5 flex items-center space-x-3 p-2 bg-gray-50 rounded-xl border border-gray-100">
+                                        <img :src="previewImage" class="w-12 h-12 object-cover rounded-lg shadow-xs" alt="Preview">
+                                        <p class="text-[11px] text-gray-500 font-medium">URL Image Preview</p>
+                                    </div>
+                                </template>
                             </div>
-
-                            <div x-show="imageMode === 'file'">
-                                <input type="file" name="image" accept="image/*" @change="handleImagePreview($event)" 
-                                       class="w-full px-3 py-2 bg-gray-50 rounded-2xl border border-gray-200 text-xs font-medium text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#0A2E2A] file:text-white hover:file:bg-[#0A2E2A]/90">
-                            </div>
-
-                            <!-- Live Image Preview -->
-                            <template x-if="previewImage">
-                                <div class="mt-3 flex items-center space-x-3 p-2 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <img :src="previewImage" loading="lazy" decoding="async" class="w-16 h-16 object-cover rounded-xl shadow-xs" alt="Preview">
-                                    <p class="text-[11px] text-gray-500 font-medium">Selected image preview looks ready!</p>
-                                </div>
-                            </template>
                         </div>
 
                         <!-- Submit Buttons -->
@@ -942,10 +1005,13 @@
                                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Category Type *</label>
                                 <select name="type" x-model="currentFood.type" required 
                                         class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <option value="Breakfast">Breakfast 🍳</option>
-                                    <option value="Lunch">Lunch ☀️</option>
-                                    <option value="Dinner">Dinner 🌙</option>
+                                    <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu 🍳</option>
+                                    <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu ☀️</option>
+                                    <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu 🌙</option>
+                                    <option value="English breakfast Menu">English breakfast Menu 🥪</option>
+                                    {{-- BEVERAGE FEATURE (DISABLED FOR LATER USE)
                                     <option value="Beverage">Beverage 🍹</option>
+                                    --}}
                                 </select>
                             </div>
                         </div>
@@ -1029,35 +1095,61 @@
                             </div>
                         </div>
 
-                        <!-- Image Upload / URL Mode -->
+                        <!-- Dish Photo (Local File Upload / Replace) -->
                         <div>
                             <div class="flex items-center justify-between mb-1.5">
-                                <label class="block text-xs font-bold text-gray-700" x-text="currentFood.type === 'Beverage' ? 'Beverage Photo' : 'Dish Photo'"></label>
-                                <div class="flex items-center space-x-2 text-xs">
-                                    <button type="button" @click="imageMode = 'url'" :class="imageMode === 'url' ? 'text-[#C9A050] font-bold underline' : 'text-gray-400'">Image URL</button>
-                                    <span>|</span>
-                                    <button type="button" @click="imageMode = 'file'" :class="imageMode === 'file' ? 'text-[#C9A050] font-bold underline' : 'text-gray-400'">Upload File</button>
+                                <label class="block text-xs font-bold text-gray-700" x-text="currentFood.type === 'Beverage' ? 'Beverage Photo (Upload File)' : 'Dish Photo (Upload File)'"></label>
+                                <button type="button" @click="imageMode = (imageMode === 'url' ? 'file' : 'url')" class="text-[11px] text-[#C9A050] hover:underline font-bold">
+                                    <span x-text="imageMode === 'url' ? 'Use Local Upload' : 'Or Use Image URL'"></span>
+                                </button>
+                            </div>
+
+                            <!-- Local File Upload Box -->
+                            <div x-show="imageMode === 'file'">
+                                <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-200 hover:border-[#C9A050] bg-gray-50/80 rounded-2xl p-4 transition-all duration-200 group">
+                                    <input type="file" name="image" accept="image/*" @change="handleImagePreview($event)" 
+                                           class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                    
+                                    <template x-if="!previewImage">
+                                        <div class="flex flex-col items-center text-center">
+                                            <div class="w-11 h-11 rounded-2xl bg-[#C9A050]/15 text-[#0A2E2A] flex items-center justify-center text-xl mb-1.5 group-hover:scale-110 transition-transform">
+                                                📷
+                                            </div>
+                                            <p class="text-xs font-bold text-gray-800">
+                                                <span class="text-[#C9A050] underline">Click to choose replacement image</span>
+                                            </p>
+                                            <p class="text-[10px] text-gray-400 mt-0.5">Saves to local storage (PNG, JPG, WEBP max 5MB)</p>
+                                        </div>
+                                    </template>
+
+                                    <!-- Live Current / Selected Image Preview -->
+                                    <template x-if="previewImage">
+                                        <div class="flex items-center space-x-3 w-full">
+                                            <img :src="previewImage" class="w-14 h-14 object-cover rounded-xl shadow-xs border border-gray-200 shrink-0" alt="Preview">
+                                            <div class="min-w-0 flex-1">
+                                                <p class="text-xs font-bold text-gray-900 truncate">Current Dish Photo</p>
+                                                <p class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5">
+                                                    <span>✓</span> Active on web & mobile apps
+                                                </p>
+                                                <span class="text-[10px] text-[#C9A050] font-bold mt-0.5 inline-block">Click here to upload new photo</span>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
 
-                            <div x-show="imageMode === 'url'">
+                            <!-- Alternative URL Mode -->
+                            <div x-show="imageMode === 'url'" x-transition>
                                 <input type="url" name="image_url" x-model="currentFood.image_url" 
                                        @input="previewImage = $event.target.value"
                                        class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 transition-all focus:ring-0">
+                                <template x-if="previewImage">
+                                    <div class="mt-2.5 flex items-center space-x-3 p-2 bg-gray-50 rounded-xl border border-gray-100">
+                                        <img :src="previewImage" class="w-12 h-12 object-cover rounded-lg shadow-xs" alt="Preview">
+                                        <p class="text-[11px] text-gray-500 font-medium">URL Image Preview</p>
+                                    </div>
+                                </template>
                             </div>
-
-                            <div x-show="imageMode === 'file'">
-                                <input type="file" name="image" accept="image/*" @change="handleImagePreview($event)" 
-                                       class="w-full px-3 py-2 bg-gray-50 rounded-2xl border border-gray-200 text-xs font-medium text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#0A2E2A] file:text-white hover:file:bg-[#0A2E2A]/90">
-                            </div>
-
-                            <!-- Live Image Preview -->
-                            <template x-if="previewImage">
-                                <div class="mt-3 flex items-center space-x-3 p-2 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <img :src="previewImage" loading="lazy" decoding="async" class="w-16 h-16 object-cover rounded-xl shadow-xs" alt="Preview">
-                                    <p class="text-[11px] text-gray-500 font-medium">Selected image preview</p>
-                                </div>
-                            </template>
                         </div>
 
                         <!-- Submit Buttons -->

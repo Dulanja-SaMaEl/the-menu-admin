@@ -12,20 +12,24 @@
         
         <div class="flex items-center space-x-3 overflow-x-auto no-scrollbar pb-1 max-w-full">
             @if(auth()->user()?->role !== 'Chef')
+                <a href="{{ route('reports.index') }}" class="bg-white border border-gray-200 text-[#0A2E2A] hover:border-[#C9A050] hover:text-[#C9A050] font-bold py-2.5 px-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer">
+                    <svg class="w-4 h-4 text-current transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <span class="text-xs font-bold tracking-wide">Executive Reports</span>
+                </a>
                 <a href="{{ route('dashboard.salesExport') }}" class="bg-white border border-gray-200 text-[#0A2E2A] hover:border-[#C9A050] hover:text-[#C9A050] font-bold py-2.5 px-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer">
                     <svg class="w-4 h-4 text-current transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     <span class="text-xs font-bold tracking-wide">Export Report</span>
                 </a>
             @endif
             
-            <div class="flex bg-white/90 backdrop-blur-md p-1.5 rounded-2xl shadow-sm border border-gray-200/70 flex-nowrap shrink-0">
-                <button class="px-3.5 py-2 text-xs font-bold text-gray-400 hover:text-gray-800 rounded-xl hover:-translate-y-0.5 transition-all">Yesterday</button>
-                <button class="px-4 py-2 text-xs font-black bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] rounded-xl shadow-md shadow-[#C9A050]/20">Today</button>
-                <button class="px-3.5 py-2 text-xs font-bold text-gray-400 hover:text-gray-800 rounded-xl hover:-translate-y-0.5 transition-all">Week</button>
-                <button class="px-3.5 py-2 text-xs font-bold text-gray-400 hover:text-gray-800 rounded-xl hover:-translate-y-0.5 transition-all">Month</button>
-                <button class="px-3.5 py-2 text-xs font-bold text-gray-400 hover:text-gray-800 rounded-xl hover:-translate-y-0.5 transition-all">Year</button>
+            <div class="flex bg-white/90 dark:bg-[#081A17] backdrop-blur-md p-1.5 rounded-2xl shadow-sm border border-gray-200/70 dark:border-[#163832] flex-nowrap shrink-0">
+                <button class="px-3.5 py-2 text-xs font-bold text-gray-400 dark:text-[#8FA8A3] hover:text-gray-800 dark:hover:text-[#F5F3EF] rounded-xl hover:-translate-y-0.5 transition-all">Yesterday</button>
+                <button class="px-4 py-2 text-xs font-black bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] dark:text-[#061513] rounded-xl shadow-md shadow-[#C9A050]/20">Today</button>
+                <button class="px-3.5 py-2 text-xs font-bold text-gray-400 dark:text-[#8FA8A3] hover:text-gray-800 dark:hover:text-[#F5F3EF] rounded-xl hover:-translate-y-0.5 transition-all">Week</button>
+                <button class="px-3.5 py-2 text-xs font-bold text-gray-400 dark:text-[#8FA8A3] hover:text-gray-800 dark:hover:text-[#F5F3EF] rounded-xl hover:-translate-y-0.5 transition-all">Month</button>
+                <button class="px-3.5 py-2 text-xs font-bold text-gray-400 dark:text-[#8FA8A3] hover:text-gray-800 dark:hover:text-[#F5F3EF] rounded-xl hover:-translate-y-0.5 transition-all">Year</button>
             </div>
-            <button type="button" title="Custom Date Range / History" class="p-2.5 bg-white border border-gray-200 text-[#0A2E2A] hover:border-[#C9A050] hover:text-[#C9A050] rounded-xl shadow-sm hover:shadow-md transition-all duration-200 shrink-0 cursor-pointer active:scale-95">
+            <button type="button" title="Custom Date Range / History" class="p-2.5 bg-white dark:bg-[#081A17] border border-gray-200 dark:border-[#163832] text-[#0A2E2A] dark:text-[#C9A050] hover:border-[#C9A050] hover:text-[#C9A050] rounded-xl shadow-sm hover:shadow-md transition-all duration-200 shrink-0 cursor-pointer active:scale-95">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </button>
         </div>
@@ -215,77 +219,77 @@
             </div>
             <div class="space-y-3">
                 @forelse($topUpcomingDays as $day)
-                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/60 hover:bg-[#C9A050]/5 border border-transparent hover:border-[#C9A050]/20 transition-all duration-300">
+                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/60 dark:bg-[#061513] hover:bg-[#C9A050]/5 dark:hover:bg-[#123831]/40 border border-transparent dark:border-[#163832] hover:border-[#C9A050]/20 transition-all duration-300">
                     <div class="flex items-center space-x-3.5">
-                        <div class="w-12 h-12 rounded-2xl bg-white border border-gray-200/80 flex flex-col items-center justify-center shadow-xs shrink-0">
-                            <span class="text-[10px] font-black text-gray-400 uppercase leading-none">{{ \Carbon\Carbon::parse($day->date)->format('M') }}</span>
+                        <div class="w-12 h-12 rounded-2xl bg-white dark:bg-[#081A17] border border-gray-200/80 dark:border-[#163832] flex flex-col items-center justify-center shadow-xs shrink-0">
+                            <span class="text-[10px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase leading-none">{{ \Carbon\Carbon::parse($day->date)->format('M') }}</span>
                             <span class="text-base font-black text-[#C9A050] leading-tight">{{ \Carbon\Carbon::parse($day->date)->format('d') }}</span>
                         </div>
                         <div>
-                            <h4 class="font-bold text-gray-900 text-sm">{{ \Carbon\Carbon::parse($day->date)->format('l') }}</h4>
-                            <p class="text-[10px] text-gray-500 font-medium">{{ \Carbon\Carbon::parse($day->date)->diffForHumans() }}</p>
+                            <h4 class="font-bold text-gray-900 dark:text-[#F5F3EF] text-sm">{{ \Carbon\Carbon::parse($day->date)->format('l') }}</h4>
+                            <p class="text-[10px] text-gray-500 dark:text-[#8FA8A3] font-medium">{{ \Carbon\Carbon::parse($day->date)->diffForHumans() }}</p>
                         </div>
                     </div>
                     <div class="text-right shrink-0 ml-3">
-                        <span class="text-lg sm:text-xl font-black text-gray-900">{{ $day->total }}</span>
-                        <p class="text-[9px] font-black text-gray-400 uppercase tracking-wider">Scheduled</p>
+                        <span class="text-lg sm:text-xl font-black text-gray-900 dark:text-[#F5F3EF]">{{ $day->total }}</span>
+                        <p class="text-[9px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider">Scheduled</p>
                     </div>
                 </div>
                 @empty
                 <div class="text-center py-8">
-                    <div class="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-3">
-                        <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div class="w-12 h-12 rounded-full bg-gray-50 dark:bg-[#061513] flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-gray-300 dark:text-[#8FA8A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    <p class="text-sm text-gray-500 font-medium">No scheduled deliveries in the next 20 days.</p>
+                    <p class="text-sm text-gray-500 dark:text-[#8FA8A3] font-medium">No scheduled deliveries in the next 20 days.</p>
                 </div>
                 @endforelse
             </div>
         </div>
 
         <!-- Recent Orders (Real data) -->
-        <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 hover:border-[#C9A050]/40 transition-all duration-300">
+        <div class="bg-white/95 dark:bg-[#081A17] backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] hover:border-[#C9A050]/40 transition-all duration-300">
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h3 class="font-black text-gray-900 text-lg">Recent Orders</h3>
-                    <p class="text-xs text-gray-400 mt-0.5">Latest 5 orders placed</p>
+                    <h3 class="font-black text-gray-900 dark:text-[#F5F3EF] text-lg">Recent Orders</h3>
+                    <p class="text-xs text-gray-400 dark:text-[#8FA8A3] mt-0.5">Latest 5 orders placed</p>
                 </div>
                 <a href="{{ route('orders') }}" class="text-xs font-bold text-[#C9A050] hover:text-[#b88f3f] transition-colors">See all →</a>
             </div>
             <div class="space-y-3">
                 @forelse($recentOrders as $order)
-                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/60 hover:bg-[#C9A050]/5 border border-transparent hover:border-[#C9A050]/20 transition-all duration-300">
+                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/60 dark:bg-[#061513] hover:bg-[#C9A050]/5 dark:hover:bg-[#123831]/40 border border-transparent dark:border-[#163832] hover:border-[#C9A050]/20 transition-all duration-300">
                     <div class="flex items-center space-x-3 min-w-0">
                         <img src="https://ui-avatars.com/api/?name={{ urlencode($order->user->name ?? 'Guest') }}&background=0A2E2A&color=C9A050" class="w-10 h-10 rounded-2xl shadow-xs shrink-0 ring-1 ring-[#C9A050]/20" alt="">
                         <div class="min-w-0">
-                            <h4 class="font-bold text-gray-900 truncate text-sm">{{ $order->user->name ?? 'Guest' }}</h4>
-                            <p class="text-[10px] text-gray-400">#ORD-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }} · {{ $order->created_at->diffForHumans() }}</p>
+                            <h4 class="font-bold text-gray-900 dark:text-[#F5F3EF] truncate text-sm">{{ $order->user->name ?? 'Guest' }}</h4>
+                            <p class="text-[10px] text-gray-400 dark:text-[#8FA8A3]">#ORD-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }} · {{ $order->created_at->diffForHumans() }}</p>
                         </div>
                     </div>
                     <div class="text-right shrink-0 ml-3">
                         @if(auth()->user()?->role !== 'Chef')
-                            <span class="font-black text-gray-900 text-sm">Rs. {{ number_format($order->total_price, 0) }}</span>
+                            <span class="font-black text-gray-900 dark:text-[#F5F3EF] text-sm">Rs. {{ number_format($order->total_price, 0) }}</span>
                         @else
-                            <span class="text-xs font-bold text-gray-500">{{ $order->items->sum('quantity') }} items</span>
+                            <span class="text-xs font-bold text-gray-500 dark:text-[#8FA8A3]">{{ $order->items->sum('quantity') }} items</span>
                         @endif
                         <p class="text-[10px] font-black uppercase tracking-wider
-                            @if($order->status === 'pending') text-amber-600
-                            @elseif($order->status === 'processing') text-blue-600
-                            @elseif(in_array($order->status, ['completed','delivered'])) text-emerald-600
-                            @else text-rose-600 @endif">{{ ucfirst($order->status) }}</p>
+                            @if($order->status === 'pending') text-amber-600 dark:text-amber-400
+                            @elseif($order->status === 'processing') text-blue-600 dark:text-blue-400
+                            @elseif(in_array($order->status, ['completed','delivered'])) text-emerald-600 dark:text-emerald-400
+                            @else text-rose-600 dark:text-rose-400 @endif">{{ ucfirst($order->status) }}</p>
                     </div>
                 </div>
                 @empty
-                <p class="text-sm text-gray-400 text-center py-8">No orders yet today.</p>
+                <p class="text-sm text-gray-400 dark:text-[#8FA8A3] text-center py-8">No orders yet today.</p>
                 @endforelse
             </div>
         </div>
 
         <!-- Trending Dishes (Real data from DB) -->
-        <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 hover:border-[#C9A050]/40 transition-all duration-300">
+        <div class="bg-white/95 dark:bg-[#081A17] backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] hover:border-[#C9A050]/40 transition-all duration-300">
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h3 class="font-black text-gray-900 text-lg">Top Ordered Dishes</h3>
-                    <p class="text-xs text-gray-400 mt-0.5">Most ordered culinary items</p>
+                    <h3 class="font-black text-gray-900 dark:text-[#F5F3EF] text-lg">Top Ordered Dishes</h3>
+                    <p class="text-xs text-gray-400 dark:text-[#8FA8A3] mt-0.5">Most ordered culinary items</p>
                 </div>
             </div>
             <div class="space-y-3">
@@ -299,47 +303,66 @@
                     $colors = ['text-emerald-700 bg-emerald-50 border-emerald-200/60', 'text-[#C9A050] bg-amber-50 border-amber-200/60', 'text-rose-600 bg-rose-50 border-rose-200/60', 'text-blue-600 bg-blue-50 border-blue-200/60', 'text-violet-600 bg-violet-50 border-violet-200/60'];
                 @endphp
                 @forelse($topDishes as $i => $item)
-                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/60 hover:bg-[#C9A050]/5 border border-transparent hover:border-[#C9A050]/20 transition-all duration-300">
+                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/60 dark:bg-[#061513] hover:bg-[#C9A050]/5 dark:hover:bg-[#123831]/40 border border-transparent dark:border-[#163832] hover:border-[#C9A050]/20 transition-all duration-300">
                     <div class="flex items-center space-x-3 min-w-0">
                         @if($item->food && $item->food->image_url)
-                            <img src="{{ $item->food->image_url }}" class="w-11 h-11 rounded-2xl shadow-xs shrink-0 object-cover ring-1 ring-gray-200" alt="" onerror="this.style.display='none'">
+                            <img src="{{ $item->food->image_url }}" class="w-11 h-11 rounded-2xl shadow-xs shrink-0 object-cover ring-1 ring-gray-200 dark:ring-[#163832]" alt="" onerror="this.style.display='none'">
                         @else
                             <div class="w-11 h-11 rounded-2xl flex items-center justify-center border shadow-xs shrink-0 {{ $colors[$i % 5] }}">
                                 <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.26 1.44 1.42 2.43 2.89 2.43 5.29v8.05zM1 21.99V21h15.03v.99c0 .55-.45 1-1.01 1H2.01c-.56 0-1.01-.45-1.01-1zm15.03-7c0-8-15.03-8-15.03 0h15.03zM1.02 17h15v2h-15z"/></svg>
                             </div>
                         @endif
                         <div class="min-w-0">
-                            <h4 class="font-bold text-gray-900 truncate text-sm">{{ $item->food->name ?? 'Unknown Dish' }}</h4>
+                            <h4 class="font-bold text-gray-900 dark:text-[#F5F3EF] truncate text-sm">{{ $item->food->name ?? 'Unknown Dish' }}</h4>
                             <span class="inline-block mt-0.5 px-2 py-0.5 bg-[#0A2E2A] text-[#C9A050] text-[9px] font-black rounded-md uppercase tracking-wider">{{ ucfirst($item->food->type ?? 'food') }}</span>
                         </div>
                     </div>
                     <div class="text-right shrink-0 ml-3">
-                        <span class="text-lg sm:text-xl font-black text-gray-900">{{ $item->total_qty }}</span>
-                        <p class="text-[9px] font-black text-gray-400 uppercase tracking-wider">Ordered</p>
+                        <span class="text-lg sm:text-xl font-black text-gray-900 dark:text-[#F5F3EF]">{{ $item->total_qty }}</span>
+                        <p class="text-[9px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider">Ordered</p>
                     </div>
                 </div>
                 @empty
-                <p class="text-sm text-gray-400 text-center py-8">No orders recorded yet.</p>
+                <p class="text-sm text-gray-400 dark:text-[#8FA8A3] text-center py-8">No orders recorded yet.</p>
                 @endforelse
             </div>
         </div>
 
         <!-- Best Service Location (Task 3) -->
-        <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 hover:border-[#C9A050]/40 transition-all duration-300">
+        <div class="bg-white/95 dark:bg-[#081A17] backdrop-blur-md p-6 sm:p-8 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] hover:border-[#C9A050]/40 transition-all duration-300">
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h3 class="font-black text-gray-900 text-lg">Best Service Location</h3>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Top delivery destinations</p>
+                    <h3 class="font-black text-gray-900 dark:text-[#F5F3EF] text-lg">Best Service Location</h3>
+                    <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] mt-0.5">Top delivery destinations</p>
                 </div>
                 <form method="GET" action="{{ route('dashboard') }}" class="relative shrink-0 ml-2">
-                    <select name="location_period" onchange="this.form.submit()" class="text-[10px] font-bold border border-gray-200 rounded-xl pl-2.5 pr-7 py-1.5 bg-gray-50 text-gray-700 hover:border-[#C9A050] focus:outline-none focus:ring-1 focus:ring-[#C9A050] cursor-pointer transition-colors appearance-none">
+                    <select name="location_period" onchange="this.form.submit()" class="text-[10px] font-bold border border-gray-200 dark:border-[#163832] rounded-xl pl-2.5 pr-7 py-1.5 bg-gray-50 dark:bg-[#061513] text-gray-700 dark:text-[#F5F3EF] hover:border-[#C9A050] focus:outline-none focus:ring-1 focus:ring-[#C9A050] cursor-pointer transition-colors appearance-none">
                         <option value="3" {{ $locationPeriod === '3' ? 'selected' : '' }}>Last 3 Months</option>
                         <option value="6" {{ $locationPeriod === '6' ? 'selected' : '' }}>Last 6 Months</option>
                     </select>
-                    <svg class="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="w-3.5 h-3.5 text-gray-400 dark:text-[#8FA8A3] absolute right-2.5 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </form>
             </div>
             <div class="space-y-3">
+                @forelse($topLocations as $i => $loc)
+                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/60 dark:bg-[#061513] hover:bg-[#C9A050]/5 dark:hover:bg-[#123831]/40 border border-transparent dark:border-[#163832] hover:border-[#C9A050]/20 transition-all duration-300">
+                    <div class="flex items-center space-x-3 min-w-0">
+                        <div class="w-10 h-10 rounded-2xl flex items-center justify-center border shadow-xs shrink-0 {{ ['text-emerald-700 bg-emerald-50 border-emerald-200/60', 'text-[#C9A050] bg-amber-50 border-amber-200/60', 'text-rose-600 bg-rose-50 border-rose-200/60', 'text-blue-600 bg-blue-50 border-blue-200/60', 'text-violet-600 bg-violet-50 border-violet-200/60'][$i % 5] }}">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        </div>
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-gray-900 dark:text-[#F5F3EF] truncate text-sm" title="{{ $loc->location }}">{{ \Illuminate\Support\Str::limit($loc->location, 20) }}</h4>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0 ml-3">
+                        <span class="text-lg sm:text-xl font-black text-gray-900 dark:text-[#F5F3EF]">{{ $loc->total }}</span>
+                        <p class="text-[9px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-wider">Orders</p>
+                    </div>
+                </div>
+                @empty
+                <p class="text-sm text-gray-400 dark:text-[#8FA8A3] text-center py-8">No locations found.</p>
+                @endforelse
+            </div>
                 @forelse($topLocations as $i => $loc)
                 <div class="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/60 hover:bg-[#C9A050]/5 border border-transparent hover:border-[#C9A050]/20 transition-all duration-300">
                     <div class="flex items-center space-x-3 min-w-0">

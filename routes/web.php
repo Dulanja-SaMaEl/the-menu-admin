@@ -11,6 +11,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -89,6 +90,10 @@ Route::middleware('auth')->group(function () {
         // Customers Management
         Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
         Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+        
+        // Reports & Analytics Management
+        Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
         
         // History & Logs
         Route::get('/logs', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('logs.index');

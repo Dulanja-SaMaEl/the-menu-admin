@@ -929,17 +929,14 @@ class OrderController extends Controller
 
         foreach ($request->items as $item) {
             $food = \App\Models\Food::find($item['food_id']);
-            $defaultMealType = strtolower($food?->type ?? 'lunch');
-            if (!in_array($defaultMealType, ['breakfast', 'lunch', 'dinner'])) {
-                $defaultMealType = 'lunch';
-            }
+            $canonicalMealType = self::normalizeMealType($item['meal_type'] ?? null, $food?->type);
 
             \App\Models\OrderItem::create([
                 'order_id' => $order->id,
                 'food_id' => $item['food_id'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
-                'meal_type' => $item['meal_type'] ?? $defaultMealType,
+                'meal_type' => $canonicalMealType,
                 'scheduled_date' => $item['scheduled_date'] ?? now()->toDateString(),
             ]);
         }

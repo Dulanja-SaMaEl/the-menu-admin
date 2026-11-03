@@ -128,10 +128,11 @@ class PageController extends Controller
     public function categories()
     {
         $categories = [
-            ['name' => 'Breakfast', 'icon' => '🍳', 'type' => 'Breakfast', 'items' => \App\Models\Food::where('type', 'Breakfast')->count(), 'slug' => 'breakfast'],
-            ['name' => 'Lunch',     'icon' => '☀️', 'type' => 'Lunch',     'items' => \App\Models\Food::where('type', 'Lunch')->count(),     'slug' => 'lunch'],
-            ['name' => 'Dinner',    'icon' => '🌙', 'type' => 'Dinner',    'items' => \App\Models\Food::where('type', 'Dinner')->count(),    'slug' => 'dinner'],
-            ['name' => 'All Dishes', 'icon' => '🍽️', 'type' => 'All',      'items' => \App\Models\Food::count(),                              'slug' => 'all'],
+            ['name' => 'Sri Lankan Style Breakfast Menu', 'icon' => '🍳', 'type' => 'Sri Lankan Style Breakfast Menu', 'items' => \App\Models\Food::where('type', 'Sri Lankan Style Breakfast Menu')->count(), 'slug' => 'sl-breakfast'],
+            ['name' => 'Sri Lankan Style Lunch Menu',     'icon' => '☀️', 'type' => 'Sri Lankan Style Lunch Menu',     'items' => \App\Models\Food::where('type', 'Sri Lankan Style Lunch Menu')->count(),     'slug' => 'sl-lunch'],
+            ['name' => 'Sri Lankan Style Dinner Menu',    'icon' => '🌙', 'type' => 'Sri Lankan Style Dinner Menu',    'items' => \App\Models\Food::where('type', 'Sri Lankan Style Dinner Menu')->count(),    'slug' => 'sl-dinner'],
+            ['name' => 'English breakfast Menu',          'icon' => '🥪', 'type' => 'English breakfast Menu',          'items' => \App\Models\Food::where('type', 'English breakfast Menu')->count(),          'slug' => 'english-breakfast'],
+            ['name' => 'All Dishes',                      'icon' => '🍽️', 'type' => 'all',                             'items' => \App\Models\Food::where('type', '!=', 'Beverage')->count(),                   'slug' => 'all'],
         ];
 
         return view('categories', compact('categories'));
@@ -169,7 +170,16 @@ class PageController extends Controller
 
     public function category($slug)
     {
-        $type = in_array(strtolower($slug), ['breakfast', 'lunch', 'dinner']) ? ucfirst(strtolower($slug)) : 'all';
+        $map = [
+            'sl-breakfast' => 'Sri Lankan Style Breakfast Menu',
+            'sl-lunch' => 'Sri Lankan Style Lunch Menu',
+            'sl-dinner' => 'Sri Lankan Style Dinner Menu',
+            'english-breakfast' => 'English breakfast Menu',
+            'breakfast' => 'Sri Lankan Style Breakfast Menu',
+            'lunch' => 'Sri Lankan Style Lunch Menu',
+            'dinner' => 'Sri Lankan Style Dinner Menu',
+        ];
+        $type = $map[strtolower($slug)] ?? 'all';
         return redirect()->route('foods.index', ['type' => $type]);
     }
 
