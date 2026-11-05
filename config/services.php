@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'textlk' => [
+        'api_token' => env('TEXTLK_API_TOKEN', '246|EmUsVd5IT0gSxUSCpvUV8GUGr061V9TTNew968J245d6a230'),
+        'sender_id' => env('TEXTLK_SENDER_ID', 'TextLKDemo'),
+        'enabled'   => env('TEXTLK_ENABLED', true),
+    ],
+
 ];
