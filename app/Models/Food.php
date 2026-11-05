@@ -33,6 +33,23 @@ class Food extends Model
         'calories' => 'integer',
     ];
 
+    protected $appends = ['slot', 'category'];
+
+    public function getSlotAttribute(): string
+    {
+        $raw = strtolower($this->attributes['type'] ?? '');
+        if (str_contains($raw, 'breakfast')) return 'Breakfast';
+        if (str_contains($raw, 'dinner')) return 'Dinner';
+        if (str_contains($raw, 'lunch')) return 'Lunch';
+        if (str_contains($raw, 'beverage')) return 'Beverage';
+        return 'Lunch';
+    }
+
+    public function getCategoryAttribute(): string
+    {
+        return $this->attributes['type'] ?? 'Lunch';
+    }
+
     protected static function booted()
     {
         static::saved(function () {
