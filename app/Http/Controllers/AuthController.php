@@ -205,21 +205,25 @@ class AuthController extends Controller
             'login' => 'required|string',
         ]);
 
-        $login = $request->login;
+        $login = trim($request->login);
 
-        // Try email first
+        // 1. Try email first
         $user = null;
         if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
             $user = User::where('email', $login)->first();
         }
 
-        // Try phone
+        // 2. Try phone normalization
         if (!$user) {
             $normalizedPhone = $this->normalizePhone($login);
-            $user = User::where('phone', $normalizedPhone)->first();
+            $user = User::where('phone', $normalizedPhone)
+                ->orWhere('phone', $login)
+                ->orWhere('phone', '+94' . $normalizedPhone)
+                ->orWhere('phone', '0' . $normalizedPhone)
+                ->first();
         }
 
-        // Fallback raw match
+        // 3. Fallback raw match
         if (!$user) {
             $user = User::where('email', $login)->orWhere('phone', $login)->first();
         }
@@ -231,31 +235,67 @@ class AuthController extends Controller
         }
 
         $otp = sprintf("%06d", mt_rand(1, 999999));
-        $identifier = $user->email ?? $user->phone;
+
+        // Determine user-friendly identifier to return
+        $isPhoneLogin = !filter_var($login, FILTER_VALIDATE_EMAIL);
+        $norm = $user->phone ? $this->normalizePhone($user->phone) : $this->normalizePhone($login);
+        $returnIdentifier = $isPhoneLogin 
+            ? ($user->phone ? ('+94' . $norm) : $login)
+            : $user->email;
+
+        // Collect all possible identifier representations to associate with this reset token
+        $allIdentifiers = array_filter(array_unique([
+            $user->email,
+            $user->phone,
+            $norm,
+            $norm ? ('+94' . $norm) : null,
+            $norm ? ('0' . $norm) : null,
+            $login,
+            $returnIdentifier,
+        ]));
 
         \Illuminate\Support\Facades\DB::table('password_reset_tokens')
-            ->where('email', $identifier)
+            ->whereIn('email', $allIdentifiers)
             ->delete();
 
-        \Illuminate\Support\Facades\DB::table('password_reset_tokens')->insert([
-            'email' => $identifier,
-            'token' => Hash::make($otp),
-            'created_at' => now(),
-        ]);
+        $tokenRecords = [];
+        $hashedToken = Hash::make($otp);
+        foreach ($allIdentifiers as $id) {
+            $tokenRecords[] = [
+                'email' => $id,
+                'token' => $hashedToken,
+                'created_at' => now(),
+            ];
+        }
+        \Illuminate\Support\Facades\DB::table('password_reset_tokens')->insert($tokenRecords);
 
-        \Illuminate\Support\Facades\Log::info("Password reset OTP for user {$identifier}: {$otp}");
+        \Illuminate\Support\Facades\Log::info("Password reset OTP for user {$user->id} ({$returnIdentifier}): {$otp}");
 
         // Send Live SMS OTP via Text.lk if user phone is available
-        $smsPhone = !empty($user->phone) ? $user->phone : (is_numeric(preg_replace('/[^0-9]/', '', $identifier)) ? $identifier : null);
+        $smsPhone = !empty($user->phone) ? $user->phone : ($norm ?: null);
+        $smsResult = null;
         if ($smsPhone) {
-            \App\Services\TextLkSmsService::sendOtp($smsPhone, $otp);
+            $smsResult = \App\Services\TextLkSmsService::sendOtp($smsPhone, $otp);
+            \Illuminate\Support\Facades\Log::info("TextLk sendOtp result for {$smsPhone}: " . json_encode($smsResult));
         }
 
-        return response()->json([
-            'message' => 'Password reset OTP generated successfully.',
-            'identifier' => $identifier,
-            'dev_otp' => config('app.debug') ? $otp : null,
-        ]);
+        $response = [
+            'message' => ($smsResult && !$smsResult['success'])
+                ? 'OTP generated! ' . ($smsResult['message'] ?? 'SMS delivery issue')
+                : 'Password reset OTP generated successfully.',
+            'identifier' => $returnIdentifier,
+            'sms_sent' => $smsResult['success'] ?? false,
+        ];
+
+        // Always provide dev_otp if debug mode is on OR if SMS delivery failed so user is never locked out
+        if (config('app.debug') || ($smsResult && !$smsResult['success'])) {
+            $response['dev_otp'] = $otp;
+            if ($smsResult && !$smsResult['success']) {
+                $response['sms_error'] = $smsResult['message'] ?? 'SMS dispatch failed';
+            }
+        }
+
+        return response()->json($response);
     }
 
     public function verifyOtp(Request $request)
@@ -265,8 +305,38 @@ class AuthController extends Controller
             'otp' => 'required|string',
         ]);
 
+        $id = trim($request->identifier);
+        $norm = $this->normalizePhone($id);
+
+        $possibleIdentifiers = array_filter(array_unique([
+            $id,
+            $norm,
+            $norm ? ('+94' . $norm) : null,
+            $norm ? ('0' . $norm) : null,
+        ]));
+
+        $user = User::where('email', $id)
+            ->orWhere('phone', $norm)
+            ->orWhere('phone', $id)
+            ->first();
+
+        if ($user) {
+            $userNorm = $user->phone ? $this->normalizePhone($user->phone) : null;
+            $possibleIdentifiers[] = $user->email;
+            if ($user->phone) {
+                $possibleIdentifiers[] = $user->phone;
+            }
+            if ($userNorm) {
+                $possibleIdentifiers[] = $userNorm;
+                $possibleIdentifiers[] = '+94' . $userNorm;
+                $possibleIdentifiers[] = '0' . $userNorm;
+            }
+        }
+        $possibleIdentifiers = array_filter(array_unique($possibleIdentifiers));
+
         $tokenRecord = \Illuminate\Support\Facades\DB::table('password_reset_tokens')
-            ->where('email', $request->identifier)
+            ->whereIn('email', $possibleIdentifiers)
+            ->latest('created_at')
             ->first();
 
         if (!$tokenRecord) {
@@ -279,7 +349,7 @@ class AuthController extends Controller
 
         $createdAt = \Carbon\Carbon::parse($tokenRecord->created_at);
         if ($createdAt->addMinutes(15)->isPast()) {
-            \Illuminate\Support\Facades\DB::table('password_reset_tokens')->where('email', $request->identifier)->delete();
+            \Illuminate\Support\Facades\DB::table('password_reset_tokens')->whereIn('email', $possibleIdentifiers)->delete();
             return response()->json(['message' => 'OTP has expired.'], 400);
         }
 
@@ -297,8 +367,38 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
+        $id = trim($request->identifier);
+        $norm = $this->normalizePhone($id);
+
+        $possibleIdentifiers = array_filter(array_unique([
+            $id,
+            $norm,
+            $norm ? ('+94' . $norm) : null,
+            $norm ? ('0' . $norm) : null,
+        ]));
+
+        $user = User::where('email', $id)
+            ->orWhere('phone', $norm)
+            ->orWhere('phone', $id)
+            ->first();
+
+        if ($user) {
+            $userNorm = $user->phone ? $this->normalizePhone($user->phone) : null;
+            $possibleIdentifiers[] = $user->email;
+            if ($user->phone) {
+                $possibleIdentifiers[] = $user->phone;
+            }
+            if ($userNorm) {
+                $possibleIdentifiers[] = $userNorm;
+                $possibleIdentifiers[] = '+94' . $userNorm;
+                $possibleIdentifiers[] = '0' . $userNorm;
+            }
+        }
+        $possibleIdentifiers = array_filter(array_unique($possibleIdentifiers));
+
         $tokenRecord = \Illuminate\Support\Facades\DB::table('password_reset_tokens')
-            ->where('email', $request->identifier)
+            ->whereIn('email', $possibleIdentifiers)
+            ->latest('created_at')
             ->first();
 
         if (!$tokenRecord) {
@@ -311,14 +411,9 @@ class AuthController extends Controller
 
         $createdAt = \Carbon\Carbon::parse($tokenRecord->created_at);
         if ($createdAt->addMinutes(15)->isPast()) {
-            \Illuminate\Support\Facades\DB::table('password_reset_tokens')->where('email', $request->identifier)->delete();
+            \Illuminate\Support\Facades\DB::table('password_reset_tokens')->whereIn('email', $possibleIdentifiers)->delete();
             return response()->json(['message' => 'OTP has expired.'], 400);
         }
-
-        $user = User::where('email', $request->identifier)
-            ->orWhere('phone', $this->normalizePhone($request->identifier))
-            ->orWhere('phone', $request->identifier)
-            ->first();
 
         if (!$user) {
             return response()->json(['message' => 'User not found.'], 404);
@@ -328,7 +423,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        \Illuminate\Support\Facades\DB::table('password_reset_tokens')->where('email', $request->identifier)->delete();
+        \Illuminate\Support\Facades\DB::table('password_reset_tokens')->whereIn('email', $possibleIdentifiers)->delete();
 
         return response()->json([
             'message' => 'Password has been successfully reset.'
