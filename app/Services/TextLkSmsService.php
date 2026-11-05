@@ -160,6 +160,11 @@ class TextLkSmsService
         // Remove all non-numeric characters (+, -, spaces, parentheses)
         $cleaned = preg_replace('/[^0-9]/', '', $phone);
 
+        // What if user had +940771234567 (12 digits starting with 940)?
+        if (strlen($cleaned) === 12 && str_starts_with($cleaned, '940')) {
+            $cleaned = '94' . substr($cleaned, 3);
+        }
+
         // Leading 0: e.g. 0771234567 (10 digits) -> 94771234567
         if (str_starts_with($cleaned, '0') && strlen($cleaned) === 10) {
             $cleaned = '94' . substr($cleaned, 1);
