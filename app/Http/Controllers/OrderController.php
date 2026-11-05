@@ -964,6 +964,22 @@ class OrderController extends Controller
             ]);
         } catch (\Throwable $e) {}
 
+        // Send Order Confirmation SMS via Text.lk
+        try {
+            $customerPhone = $order->customer_phone ?: $user->phone;
+            if (!empty($customerPhone)) {
+                $orderNum = $order->order_number ?: "ORD-" . str_pad($order->id, 4, '0', STR_PAD_LEFT);
+                \App\Services\TextLkSmsService::sendOrderConfirmation(
+                    $customerPhone,
+                    $orderNum,
+                    (float) $order->total_price,
+                    $order->customer_name ?: $user->name
+                );
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning("Order confirmation SMS skipped: " . $e->getMessage());
+        }
+
         $loadedOrder = $order->load(['items.food.ingredients', 'user', 'driver']);
         \App\Events\OrderStatusUpdated::safeDispatch($loadedOrder, 'created');
 
@@ -1007,6 +1023,22 @@ class OrderController extends Controller
                     'is_read' => false,
                 ]);
             } catch (\Throwable $e) {}
+
+            // Send Order Status Update SMS via Text.lk
+            try {
+                $customerPhone = $order->customer_phone ?: $order->user?->phone;
+                if (!empty($customerPhone)) {
+                    $orderNum = $order->order_number ?: "ORD-" . str_pad($order->id, 4, '0', STR_PAD_LEFT);
+                    \App\Services\TextLkSmsService::sendOrderStatusUpdate(
+                        $customerPhone,
+                        $orderNum,
+                        $newStatus,
+                        $order->driver?->name
+                    );
+                }
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("Order status SMS skipped: " . $e->getMessage());
+            }
         }
 
         if ($order->driver) {

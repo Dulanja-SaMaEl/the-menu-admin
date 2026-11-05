@@ -245,6 +245,12 @@ class AuthController extends Controller
 
         \Illuminate\Support\Facades\Log::info("Password reset OTP for user {$identifier}: {$otp}");
 
+        // Send Live SMS OTP via Text.lk if user phone is available
+        $smsPhone = !empty($user->phone) ? $user->phone : (is_numeric(preg_replace('/[^0-9]/', '', $identifier)) ? $identifier : null);
+        if ($smsPhone) {
+            \App\Services\TextLkSmsService::sendOtp($smsPhone, $otp);
+        }
+
         return response()->json([
             'message' => 'Password reset OTP generated successfully.',
             'identifier' => $identifier,
