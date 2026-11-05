@@ -19,9 +19,14 @@ class FoodController extends Controller
         // Exclude Beverage items while beverage module is temporarily disabled
         $query->where('type', '!=', 'Beverage');
 
-        // Filter by meal type (Breakfast, Lunch, Dinner)
+        // Filter by meal type (Breakfast, Lunch, Dinner - supports exact and descriptive categories)
         if ($request->filled('type') && strtolower($request->type) !== 'all') {
-            $query->where('type', $request->type);
+            $typeInput = trim($request->type);
+            $lower = strtolower($typeInput);
+            $query->where(function ($q) use ($typeInput, $lower) {
+                $q->where('type', $typeInput)
+                  ->orWhere('type', 'like', "%{$lower}%");
+            });
         }
 
         // Filter by available day (Mon, Tue, Wed, Thu, Fri, Sat, Sun)
