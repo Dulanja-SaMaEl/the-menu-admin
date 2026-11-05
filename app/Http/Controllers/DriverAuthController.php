@@ -216,6 +216,22 @@ class DriverAuthController extends Controller
         // Broadcast OrderStatusUpdated to admin panel
         \App\Events\OrderStatusUpdated::safeDispatch($order->fresh(['user', 'driver', 'items.food']));
 
+        // Send Order Status Update SMS via Text.lk
+        try {
+            $customerPhone = $order->customer_phone ?: $order->user?->phone;
+            if (!empty($customerPhone)) {
+                $orderNum = $order->order_number ?: "ORD-" . str_pad($order->id, 4, '0', STR_PAD_LEFT);
+                \App\Services\TextLkSmsService::sendOrderStatusUpdate(
+                    $customerPhone,
+                    $orderNum,
+                    $request->status,
+                    $driver->name
+                );
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning("Driver update status SMS skipped: " . $e->getMessage());
+        }
+
         return response()->json(['message' => 'Order status updated successfully', 'order' => $order]);
     }
 

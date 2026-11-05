@@ -50,6 +50,20 @@ class EventController extends Controller
             }
         }
 
+        // Send confirmation SMS via Text.lk
+        try {
+            $user = $request->user();
+            if ($user && !empty($user->phone)) {
+                \App\Services\TextLkSmsService::sendCateringInquiryConfirmation(
+                    $user->phone,
+                    $event->name,
+                    $user->name
+                );
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning("Event confirmation SMS skipped: " . $e->getMessage());
+        }
+
         if ($request->wantsJson()) {
             return response()->json($event->load('items.food.ingredients'), 201);
         }
