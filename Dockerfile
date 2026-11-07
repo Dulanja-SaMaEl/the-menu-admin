@@ -49,6 +49,11 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-pl
 RUN php artisan storage:link || true
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Copy entrypoint script for automatic migrations & caching
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 EXPOSE 80
 
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
