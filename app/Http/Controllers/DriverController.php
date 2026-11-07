@@ -58,7 +58,8 @@ class DriverController extends Controller
     {
         $validated = $request->validate([
             'name'           => ['required', 'string', 'max:255'],
-            'email'          => ['nullable', 'email', 'max:255'],
+            'email'          => ['nullable', 'email', 'max:255', 'unique:drivers,email'],
+            'password'       => ['nullable', 'string', 'min:6'],
             'phone'          => ['nullable', 'string', 'max:50'],
             'vehicle_type'   => ['nullable', 'string', 'max:50'],
             'vehicle_number' => ['nullable', 'string', 'max:50'],
@@ -67,21 +68,36 @@ class DriverController extends Controller
         ], [
             'name.required' => 'Please enter the driver\'s name.',
             'email.email'   => 'Please enter a valid email address.',
+            'email.unique'  => 'A driver with this email address already exists.',
         ]);
 
-        $driver = Driver::create([
-            'name'             => $validated['name'],
-            'email'            => $validated['email'] ?? null,
-            'password'         => \Illuminate\Support\Facades\Hash::make('password123'), // default password
-            'phone'            => $validated['phone'] ?? null,
-            'vehicle_type'     => $validated['vehicle_type'] ?? null,
-            'vehicle_number'   => $validated['vehicle_number'] ?? null,
-            'status'           => $validated['status'] ?? 'available',
-            'total_deliveries' => 0,
-            'max_orders'       => $validated['max_orders'] ?? 5,
-        ]);
+        try {
+            $email = !empty($validated['email']) ? trim($validated['email']) : 'driver_' . time() . '@themenu.lk';
+            $password = !empty($validated['password']) ? $validated['password'] : 'password123';
 
-        return redirect()->route('drivers')->with('success', 'Driver added successfully.');
+            $driverData = [
+                'name'           => $validated['name'],
+                'email'          => $email,
+                'password'       => \Illuminate\Support\Facades\Hash::make($password),
+                'phone'          => $validated['phone'] ?? null,
+                'vehicle_type'   => $validated['vehicle_type'] ?? 'Motorbike',
+                'vehicle_number' => $validated['vehicle_number'] ?? null,
+                'status'         => $validated['status'] ?? 'available',
+                'max_orders'     => $validated['max_orders'] ?? 5,
+                'is_active'      => true,
+            ];
+
+            if (\Illuminate\Support\Facades\Schema::hasColumn('drivers', 'total_deliveries')) {
+                $driverData['total_deliveries'] = 0;
+            }
+
+            $driver = Driver::create($driverData);
+
+            return redirect()->route('drivers')->with('success', 'Driver ' . $driver->name . ' added successfully (App login password: ' . $password . ').');
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Error adding driver: ' . $e->getMessage());
+            return redirect()->route('drivers')->withErrors(['error' => 'Could not add driver: ' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -91,7 +107,8 @@ class DriverController extends Controller
     {
         $validated = $request->validate([
             'name'           => ['required', 'string', 'max:255'],
-            'email'          => ['nullable', 'email', 'max:255'],
+            'email'          => ['nullable', 'email', 'max:255', 'unique:drivers,email,' . $driver->id],
+            'password'       => ['nullable', 'string', 'min:6'],
             'phone'          => ['nullable', 'string', 'max:50'],
             'vehicle_type'   => ['nullable', 'string', 'max:50'],
             'vehicle_number' => ['nullable', 'string', 'max:50'],
@@ -105,6 +122,12 @@ class DriverController extends Controller
 
         if (!isset($validated['status'])) {
             $validated['status'] = $driver->status;
+        }
+
+        if (!empty($request->password)) {
+            $validated['password'] = \Illuminate\Support\Facades\Hash::make($request->password);
+        } else {
+            unset($validated['password']);
         }
 
         $driver->update($validated);

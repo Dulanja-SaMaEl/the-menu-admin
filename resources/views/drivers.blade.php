@@ -37,6 +37,17 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="bg-red-50 border border-red-200 text-red-700 px-5 py-3 rounded-2xl text-sm font-medium space-y-1">
+                @foreach ($errors->all() as $error)
+                    <p class="flex items-center gap-2">
+                        <span>⚠️</span>
+                        <span>{{ $error }}</span>
+                    </p>
+                @endforeach
+            </div>
+        @endif
+
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -314,6 +325,14 @@
                                     class="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-[#C9A050] focus:border-[#C9A050] transition-all"
                                     placeholder="+94 76 123 4567">
                             </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">Driver App Password</label>
+                            <input type="password" name="password"
+                                class="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-[#C9A050] focus:border-[#C9A050] transition-all"
+                                placeholder="Leave blank for default: password123">
+                            <p class="text-[10px] text-gray-400 mt-1 font-medium">Used by courier to sign in on the mobile app. Defaults to <span class="font-bold text-[#0A2E2A]">password123</span>.</p>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
