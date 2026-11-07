@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('drivers', function (Blueprint $table) {
             if (!Schema::hasColumn('drivers', 'max_orders')) {
-                $table->unsignedInteger('max_orders')->default(5)->after('total_deliveries');
+                $table->unsignedInteger('max_orders')->default(5);
             }
         });
     }

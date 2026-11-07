@@ -45,7 +45,25 @@ class Order extends Model
         'coupon_code',
         'discount_amount',
         'driver_id',
+        'proof_photo_path',
+        'pod_notes',
+        'recipient_name',
     ];
+
+    protected $appends = [
+        'proof_photo_url',
+    ];
+
+    public function getProofPhotoUrlAttribute(): ?string
+    {
+        if (!$this->proof_photo_path) {
+            return null;
+        }
+        if (str_starts_with($this->proof_photo_path, 'http://') || str_starts_with($this->proof_photo_path, 'https://')) {
+            return $this->proof_photo_path;
+        }
+        return asset('storage/' . ltrim($this->proof_photo_path, '/'));
+    }
 
     protected $casts = [
         'total_price' => 'float',

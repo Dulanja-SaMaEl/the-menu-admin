@@ -147,6 +147,15 @@
                                         <div class="flex flex-col gap-1 min-w-0">
                                             <p class="text-sm font-bold text-gray-900 truncate">{{ $driver->name }}</p>
                                             <p class="text-xs text-gray-400 truncate">{{ $driver->email ?? '—' }}</p>
+                                            @if($driver->latitude && $driver->longitude)
+                                                <a href="https://www.google.com/maps?q={{ $driver->latitude }},{{ $driver->longitude }}" target="_blank" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-600 hover:text-emerald-700 hover:underline mt-0.5">
+                                                    <span class="relative flex h-2 w-2">
+                                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                                    </span>
+                                                    <span>Live GPS ({{ $driver->last_ping_at?->diffForHumans() ?? 'Active' }})</span>
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
