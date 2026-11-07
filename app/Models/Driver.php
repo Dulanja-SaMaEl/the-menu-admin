@@ -20,6 +20,11 @@ class Driver extends Authenticatable
         'total_deliveries',
         'max_orders',
         'avatar_url',
+        'latitude',
+        'longitude',
+        'heading',
+        'speed',
+        'last_ping_at',
     ];
 
     protected $hidden = [
@@ -30,6 +35,11 @@ class Driver extends Authenticatable
     protected $casts = [
         'total_deliveries' => 'integer',
         'max_orders' => 'integer',
+        'latitude' => 'float',
+        'longitude' => 'float',
+        'heading' => 'float',
+        'speed' => 'float',
+        'last_ping_at' => 'datetime',
         'password' => 'hashed',
     ];
 

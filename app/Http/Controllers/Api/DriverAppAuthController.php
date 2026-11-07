@@ -210,4 +210,58 @@ class DriverAppAuthController extends Controller
             'is_active' => $driver->is_active,
         ]);
     }
+
+    // ─── Update Driver Telemetry (Live GPS Location) ──────────────────
+    public function updateTelemetry(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'latitude'  => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'heading'   => 'nullable|numeric',
+            'speed'     => 'nullable|numeric',
+            'accuracy'  => 'nullable|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
+
+        /** @var Driver|null $driver */
+        $driver = $request->user();
+        if (!$driver && $request->has('driver_id')) {
+            $driver = Driver::find($request->driver_id);
+        }
+
+        if (!$driver) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Driver not found or unauthenticated.',
+            ], 404);
+        }
+
+        $driver->update([
+            'latitude'     => $request->latitude,
+            'longitude'    => $request->longitude,
+            'heading'      => $request->input('heading', 0.0),
+            'speed'        => $request->input('speed', 0.0),
+            'last_ping_at' => now(),
+        ]);
+
+        if (class_exists(\App\Events\DriverLocationUpdated::class)) {
+            \App\Events\DriverLocationUpdated::safeDispatch($driver, [
+                'accuracy' => $request->accuracy,
+            ]);
+        }
+
+        return response()->json([
+            'success'   => true,
+            'message'   => 'Telemetry updated successfully.',
+            'latitude'  => $driver->latitude,
+            'longitude' => $driver->longitude,
+        ]);
+    }
 }

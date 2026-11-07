@@ -1,11 +1,15 @@
 <x-app-layout>
     @php
         $statusStyles = [
-            'pending'    => ['label' => 'Pending',    'class' => 'bg-amber-50 text-amber-600 border-amber-200'],
-            'processing' => ['label' => 'Processing', 'class' => 'bg-blue-50 text-blue-600 border-blue-200'],
-            'completed'  => ['label' => 'Completed',  'class' => 'bg-emerald-50 text-emerald-600 border-emerald-200'],
-            'delivered'  => ['label' => 'Delivered',  'class' => 'bg-emerald-50 text-emerald-600 border-emerald-200'],
-            'cancelled'  => ['label' => 'Cancelled',  'class' => 'bg-rose-50 text-rose-600 border-rose-200'],
+            'pending'     => ['label' => 'Pending',     'class' => 'bg-amber-50 text-amber-600 border-amber-200'],
+            'processing'  => ['label' => 'Processing',  'class' => 'bg-blue-50 text-blue-600 border-blue-200'],
+            'assigned'    => ['label' => 'Assigned',    'class' => 'bg-indigo-50 text-indigo-600 border-indigo-200'],
+            'accepted'    => ['label' => 'Accepted',    'class' => 'bg-purple-50 text-purple-600 border-purple-200'],
+            'at_store'    => ['label' => 'At Store',    'class' => 'bg-cyan-50 text-cyan-600 border-cyan-200'],
+            'on_delivery' => ['label' => 'On Delivery', 'class' => 'bg-amber-50 text-amber-700 border-amber-300'],
+            'completed'   => ['label' => 'Completed',   'class' => 'bg-emerald-50 text-emerald-600 border-emerald-200'],
+            'delivered'   => ['label' => 'Delivered',   'class' => 'bg-emerald-50 text-emerald-600 border-emerald-200'],
+            'cancelled'   => ['label' => 'Cancelled',   'class' => 'bg-rose-50 text-rose-600 border-rose-200'],
         ];
         $totalAll = $counts->sum();
         $pendingCount = $counts->get('pending', 0);
@@ -1639,6 +1643,28 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+                                                            @if ($order->proof_photo_path || $order->recipient_name || $order->pod_notes)
+                                                                <div class="bg-emerald-50/60 p-4 rounded-2xl border border-emerald-100 mt-4">
+                                                                    <div class="flex items-center gap-1.5 mb-2">
+                                                                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                                        <span class="text-emerald-800 text-[11px] uppercase font-black tracking-wider">Proof of Delivery (POD)</span>
+                                                                    </div>
+                                                                    @if ($order->recipient_name)
+                                                                        <p class="text-xs text-gray-700 font-medium"><span class="font-bold text-gray-900">Received By:</span> {{ $order->recipient_name }}</p>
+                                                                    @endif
+                                                                    @if ($order->pod_notes)
+                                                                        <p class="text-xs text-gray-600 mt-1"><span class="font-bold text-gray-900">Notes:</span> {{ $order->pod_notes }}</p>
+                                                                    @endif
+                                                                    @if ($order->proof_photo_url)
+                                                                        <div class="mt-2.5">
+                                                                            <a href="{{ $order->proof_photo_url }}" target="_blank">
+                                                                                <img src="{{ $order->proof_photo_url }}" class="h-28 w-auto max-w-full rounded-xl border border-emerald-200 object-cover shadow-xs hover:opacity-90 transition-opacity" alt="Proof of Delivery Photo">
+                                                                            </a>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
                                                         </div>
 
                                                     </div>
@@ -2614,6 +2640,28 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+                                                            @if ($order->proof_photo_path || $order->recipient_name || $order->pod_notes)
+                                                                <div class="bg-emerald-50/60 p-4 rounded-2xl border border-emerald-100 mt-4">
+                                                                    <div class="flex items-center gap-1.5 mb-2">
+                                                                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                                        <span class="text-emerald-800 text-[11px] uppercase font-black tracking-wider">Proof of Delivery (POD)</span>
+                                                                    </div>
+                                                                    @if ($order->recipient_name)
+                                                                        <p class="text-xs text-gray-700 font-medium"><span class="font-bold text-gray-900">Received By:</span> {{ $order->recipient_name }}</p>
+                                                                    @endif
+                                                                    @if ($order->pod_notes)
+                                                                        <p class="text-xs text-gray-600 mt-1"><span class="font-bold text-gray-900">Notes:</span> {{ $order->pod_notes }}</p>
+                                                                    @endif
+                                                                    @if ($order->proof_photo_url)
+                                                                        <div class="mt-2.5">
+                                                                            <a href="{{ $order->proof_photo_url }}" target="_blank">
+                                                                                <img src="{{ $order->proof_photo_url }}" class="h-28 w-auto max-w-full rounded-xl border border-emerald-200 object-cover shadow-xs hover:opacity-90 transition-opacity" alt="Proof of Delivery Photo">
+                                                                            </a>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
                                                         </div>
 
                                                     </div>

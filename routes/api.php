@@ -150,7 +150,12 @@ Route::prefix('driver-app-api')->group(function () {
         // Orders
         Route::get('orders-latest', [DriverAppOrderController::class, 'latest']);
         Route::get('orders', [DriverAppOrderController::class, 'index']);
-        Route::patch('orders/{id}/status', [DriverAppOrderController::class, 'updateStatus']);
+        Route::match(['post', 'patch'], 'orders/{id}/status', [DriverAppOrderController::class, 'updateStatus']);
+        Route::post('orders/{id}/{status}', [DriverAppOrderController::class, 'updateStatus']);
+
+        // Driver Live Telemetry & GPS Tracking
+        Route::post('/driver/telemetry', [DriverAppAuthController::class, 'updateTelemetry']);
+        Route::post('/telemetry',        [DriverAppAuthController::class, 'updateTelemetry']);
     });
 
     Route::post('/driver/status', [DriverAppAuthController::class, 'updateDriverStatus']);
