@@ -31,12 +31,54 @@
     <style>
         [x-cloak] { display: none !important; }
 
-        /* Smooth UI Transition */
-        html.theme-transition,
-        html.theme-transition *,
-        html.theme-transition *::before,
-        html.theme-transition *::after {
-            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease !important;
+        /* ==========================================================================
+           PERFORMANT THEME TRANSITION
+           Scoped to the structural shells and the exact surfaces / typography whose
+           colors actually change. The previous universal `*` selector forced a
+           transition on every DOM node (and pseudo-element) during the swap, which
+           caused the Light/Dark toggle jank on data-heavy pages.
+           ========================================================================== */
+        html.theme-transition body,
+        html.theme-transition main,
+        html.theme-transition header,
+        html.theme-transition .bg-white,
+        html.theme-transition .bg-white\/95,
+        html.theme-transition .bg-white\/90,
+        html.theme-transition .bg-white\/85,
+        html.theme-transition .bg-white\/80,
+        html.theme-transition .bg-gray-50,
+        html.theme-transition .bg-gray-50\/40,
+        html.theme-transition .bg-gray-50\/50,
+        html.theme-transition .bg-gray-50\/60,
+        html.theme-transition .bg-gray-50\/70,
+        html.theme-transition .bg-gray-50\/80,
+        html.theme-transition .bg-gray-100,
+        html.theme-transition .bg-slate-50,
+        html.theme-transition .bg-slate-100,
+        html.theme-transition .border-gray-100,
+        html.theme-transition .border-gray-200,
+        html.theme-transition .border-gray-300,
+        html.theme-transition thead,
+        html.theme-transition th,
+        html.theme-transition td,
+        html.theme-transition .sidebar-nav-item,
+        html.theme-transition h1,
+        html.theme-transition h2,
+        html.theme-transition h3,
+        html.theme-transition h4,
+        html.theme-transition h5,
+        html.theme-transition h6,
+        html.theme-transition .text-gray-900,
+        html.theme-transition .text-gray-800,
+        html.theme-transition .text-gray-700,
+        html.theme-transition .text-gray-600,
+        html.theme-transition .text-gray-500,
+        html.theme-transition .text-slate-900,
+        html.theme-transition .text-slate-800,
+        html.theme-transition .text-slate-700,
+        html.theme-transition .text-slate-600,
+        html.theme-transition .text-slate-500 {
+            transition: background-color 300ms ease-in-out, border-color 300ms ease-in-out, color 300ms ease-in-out !important;
         }
 
         #sidebar-container {
@@ -1261,8 +1303,8 @@
         }
     </style>
 </head>
-<body class="font-sans antialiased bg-gray-50/70 text-slate-900 selection:bg-[#C9A050]/20 selection:text-[#0A2E2A]">
-    <div class="flex h-screen overflow-hidden" 
+<body class="font-sans antialiased bg-gray-50/70 text-slate-900 selection:bg-[#C9A050]/20 selection:text-[#0A2E2A] transition-colors duration-300 ease-in-out">
+    <div class="flex h-screen overflow-hidden transition-colors duration-300 ease-in-out" 
          x-data="{ sidebarOpen: window.innerWidth >= 1024, mobileMenuOpen: false }"
          @resize.window="if (window.innerWidth >= 1024) mobileMenuOpen = false">
 
@@ -1309,6 +1351,7 @@
                     $navItems = [
                         ['route' => 'dashboard', 'label' => 'Dashboard', 'match' => 'dashboard', 'icon' => 'M4 6h16M4 12h16m-7 6h7'],
                         ['route' => 'orders', 'label' => 'Orders', 'match' => 'orders*', 'icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'],
+                        ['route' => 'pos.index', 'label' => 'Point of Sale', 'match' => 'pos*', 'icon' => 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z'],
                         ['route' => 'transactions.index', 'label' => 'Transactions', 'match' => 'transactions*', 'icon' => 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z'],
                         ['route' => 'customers.index', 'label' => 'Customers', 'match' => 'customers*', 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'],
                         ['route' => 'reports.index', 'label' => 'Reports', 'match' => 'reports*', 'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'],
@@ -1328,7 +1371,7 @@
                 @foreach($navItems as $item)
                     @php
                         $isRestrictedForChef = in_array($item['label'], [
-                            'Transactions', 'Customers', 'Reports', 'Special Offers', 'Drivers', 'Events', 'Bills & POS', 'Users', 'History & Logs', 'Settings'
+                            'Transactions', 'Customers', 'Reports', 'Special Offers', 'Drivers', 'Events', 'Point of Sale', 'Bills & POS', 'Users', 'History & Logs', 'Settings'
                         ]);
                     @endphp
                     @if(auth()->user()?->role === 'Chef' && $isRestrictedForChef)
@@ -1385,9 +1428,9 @@
         </aside>
 
         <!-- Main Workspace -->
-        <main class="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden">
+        <main class="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden transition-colors duration-300 ease-in-out">
             <!-- Modern Header Bar -->
-            <header class="sticky top-0 z-30 bg-white/85 backdrop-blur-md px-4 sm:px-8 py-3.5 flex items-center justify-between border-b border-gray-100 shadow-[0_4px_20px_-4px_rgba(10,46,42,0.05)]">
+            <header class="sticky top-0 z-30 bg-white/85 backdrop-blur-md px-4 sm:px-8 py-3.5 flex items-center justify-between border-b border-gray-100 shadow-[0_4px_20px_-4px_rgba(10,46,42,0.05)] transition-colors duration-300 ease-in-out">
                 <div class="flex items-center space-x-3">
                     <!-- Mobile Hamburger Button -->
                     <button @click="mobileMenuOpen = true" 
@@ -1424,20 +1467,35 @@
                     <!-- Luxury Light/Dark Mode Toggle Button -->
                     <div x-data="{
                         isDark: document.documentElement.classList.contains('dark'),
+                        _themeTimer: null,
                         toggleTheme() {
-                            document.documentElement.classList.add('theme-transition');
+                            const root = document.documentElement;
+
+                            // Enable the transition window and flip the theme class in the
+                            // same synchronous frame so the color swap starts instantly and
+                            // never blocks the UI thread.
+                            root.classList.add('theme-transition');
                             this.isDark = !this.isDark;
-                            if (this.isDark) {
-                                document.documentElement.classList.add('dark');
-                                localStorage.setItem('menu_theme', 'dark');
-                            } else {
-                                document.documentElement.classList.remove('dark');
-                                localStorage.setItem('menu_theme', 'light');
-                            }
-                            window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: this.isDark ? 'dark' : 'light' } }));
-                            setTimeout(() => {
-                                document.documentElement.classList.remove('theme-transition');
-                            }, 300);
+                            root.classList.toggle('dark', this.isDark);
+
+                            try {
+                                localStorage.setItem('menu_theme', this.isDark ? 'dark' : 'light');
+                            } catch (e) {}
+
+                            // Broadcast after paint so the event work stays off the
+                            // critical rendering path.
+                            requestAnimationFrame(() => {
+                                window.dispatchEvent(new CustomEvent('theme-changed', {
+                                    detail: { theme: this.isDark ? 'dark' : 'light' }
+                                }));
+                            });
+
+                            // Release the transition window once colors have settled.
+                            // Debounced so rapid toggles don't strip the class mid-animation.
+                            window.clearTimeout(this._themeTimer);
+                            this._themeTimer = window.setTimeout(() => {
+                                root.classList.remove('theme-transition');
+                            }, 320);
                         }
                     }">
                         <button type="button" 
@@ -1517,7 +1575,7 @@
             </header>
 
             <!-- Page Body Content -->
-            <div class="p-4 sm:p-6 lg:p-8 flex-1">
+            <div class="p-4 sm:p-6 lg:p-8 flex-1 transition-colors duration-300 ease-in-out">
                 {{ $slot }}
             </div>
         </main>

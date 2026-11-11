@@ -12,6 +12,7 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\PosController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -81,6 +82,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/drivers/{driver}', [DriverController::class, 'destroy'])->name('drivers.destroy');
         
         Route::get('/bills', [PageController::class, 'bills'])->name('bills');
+
+        // Point of Sale (Touch-Screen Terminal & 80mm Thermal Receipts)
+        Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
+        Route::post('/pos/checkout', [PosController::class, 'checkout'])->name('pos.checkout');
+        Route::get('/pos/receipt/{order}', [PosController::class, 'receipt'])->name('pos.receipt');
         
         // Financial & Transactions Management
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');

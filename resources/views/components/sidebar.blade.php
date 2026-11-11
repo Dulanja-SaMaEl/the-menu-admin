@@ -2,6 +2,7 @@
     $navItems = [
         ['route' => 'dashboard', 'label' => 'Dashboard', 'match' => 'dashboard', 'icon' => 'M4 6h16M4 12h16m-7 6h7'],
         ['route' => 'orders', 'label' => 'Orders', 'match' => 'orders*', 'icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'],
+        ['route' => 'pos.index', 'label' => 'Point of Sale', 'match' => 'pos*', 'icon' => 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z'],
         ['route' => 'transactions.index', 'label' => 'Transactions', 'match' => 'transactions*', 'icon' => 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z'],
         ['route' => 'customers.index', 'label' => 'Customers', 'match' => 'customers*', 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'],
         ['route' => 'reports.index', 'label' => 'Reports', 'match' => 'reports*', 'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'],
@@ -22,7 +23,7 @@
     @foreach($navItems as $item)
         @php
             $isRestrictedForChef = in_array($item['label'], [
-                'Transactions', 'Customers', 'Reports', 'Special Offers', 'Drivers', 'Events', 'Bills & POS', 'Users', 'History & Logs', 'Settings'
+                'Transactions', 'Customers', 'Reports', 'Special Offers', 'Drivers', 'Events', 'Point of Sale', 'Bills & POS', 'Users', 'History & Logs', 'Settings'
             ]);
         @endphp
         @if(auth()->user()?->role === 'Chef' && $isRestrictedForChef)
