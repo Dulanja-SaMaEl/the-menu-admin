@@ -13,6 +13,9 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
+    # Ensure Images/ and images/ both resolve cleanly across case-sensitive servers
+    RewriteRule ^Images/(.*)$ images/$1 [L,NC]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
@@ -22,6 +25,11 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+# Ensure Proper MIME Type for SVG & Web Assets
+<IfModule mod_mime.c>
+    AddType image/svg+xml .svg .svgz
 </IfModule>
 
 # Enable GZIP / Deflate Compression for Fast Mobile App Transfers
