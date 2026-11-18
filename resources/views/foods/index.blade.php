@@ -7,7 +7,7 @@
         currentFood: {
             id: '',
             name: '',
-            type: 'Sri Lankan Style Breakfast Menu',
+            type: 'Breakfast',
             price: '',
             description: '',
             prep_time: '15 min',
@@ -24,7 +24,7 @@
         imageMode: 'file',
         previewImage: null,
 
-        openAddFood(defaultType = 'Sri Lankan Style Breakfast Menu') {
+        openAddFood(defaultType = 'Breakfast') {
             this.currentFood = {
                 id: '',
                 name: '',
@@ -189,60 +189,60 @@
 
         <!-- Metric KPI Cards (Balanced 5-Column Grid) -->
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-8">
-            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+            <a href="{{ route('foods.index', ['type' => 'Breakfast']) }}" class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
-                        <span class="text-xs font-bold text-amber-700 dark:text-amber-400 truncate" title="Sri Lankan Style Breakfast Menu">SL Breakfast</span>
+                        <span class="text-xs font-bold text-amber-700 dark:text-amber-400 truncate group-hover:text-[#C9A050] transition-colors" title="Sri Lankan Style Breakfast Menu">SL Breakfast</span>
                         <span class="w-9 h-9 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-sm font-bold shadow-xs border border-amber-100 dark:border-amber-800/40 shrink-0 ml-1">🍳</span>
                     </div>
                     <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $breakfastCount }}</p>
                 </div>
                 <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Morning menus</p>
-            </div>
+            </a>
 
-            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+            <a href="{{ route('foods.index', ['type' => 'Lunch']) }}" class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
-                        <span class="text-xs font-bold text-orange-700 dark:text-orange-400 truncate" title="Sri Lankan Style Lunch Menu">SL Lunch</span>
+                        <span class="text-xs font-bold text-orange-700 dark:text-orange-400 truncate group-hover:text-[#C9A050] transition-colors" title="Sri Lankan Style Lunch Menu">SL Lunch</span>
                         <span class="w-9 h-9 rounded-2xl bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 flex items-center justify-center text-sm font-bold shadow-xs border border-orange-100 dark:border-orange-800/40 shrink-0 ml-1">☀️</span>
                     </div>
                     <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $lunchCount }}</p>
                 </div>
                 <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Mid-day specials</p>
-            </div>
+            </a>
 
-            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+            <a href="{{ route('foods.index', ['type' => 'Dinner']) }}" class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
-                        <span class="text-xs font-bold text-indigo-700 dark:text-indigo-400 truncate" title="Sri Lankan Style Dinner Menu">SL Dinner</span>
+                        <span class="text-xs font-bold text-indigo-700 dark:text-indigo-400 truncate group-hover:text-[#C9A050] transition-colors" title="Sri Lankan Style Dinner Menu">SL Dinner</span>
                         <span class="w-9 h-9 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-sm font-bold shadow-xs border border-indigo-100 dark:border-indigo-800/40 shrink-0 ml-1">🌙</span>
                     </div>
                     <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $dinnerCount }}</p>
                 </div>
                 <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Evening courses</p>
-            </div>
+            </a>
 
             <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
-                        <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 truncate" title="English breakfast Menu">English Breakfast</span>
-                        <span class="w-9 h-9 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm font-bold shadow-xs border border-emerald-100 dark:border-emerald-800/40 shrink-0 ml-1">🥪</span>
+                        <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 truncate">Ingredients</span>
+                        <span class="w-9 h-9 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm font-bold shadow-xs border border-emerald-100 dark:border-emerald-800/40 shrink-0 ml-1">🥗</span>
                     </div>
-                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $englishBreakfastCount }}</p>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ $ingredientsCount }}</p>
                 </div>
-                <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Continental menus</p>
+                <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Recipe ingredients</p>
             </div>
 
-            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+            <a href="{{ route('foods.index', ['type' => 'all']) }}" class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
-                        <span class="text-xs font-bold text-[#C9A050] dark:text-[#D8B060]">Avg. Price</span>
+                        <span class="text-xs font-bold text-[#C9A050] dark:text-[#D8B060] group-hover:underline">Avg. Price</span>
                         <span class="w-9 h-9 rounded-2xl bg-[#C9A050]/15 text-[#0A2E2A] dark:text-[#D8B060] flex items-center justify-center text-xs font-black shadow-xs border border-[#C9A050]/30 shrink-0 ml-1">Rs</span>
                     </div>
                     <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Rs. {{ number_format($avgPrice, 0) }}</p>
                 </div>
                 <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Across all items</p>
-            </div>
+            </a>
         </div>
 
         <!-- Filter & Search Toolbar -->
@@ -252,21 +252,35 @@
                 @php
                     $tabs = [
                         ['id' => 'all', 'label' => 'All Items', 'count' => $totalCount, 'icon' => '🍽️'],
-                        ['id' => 'Sri Lankan Style Breakfast Menu', 'label' => 'Sri Lankan Style Breakfast Menu', 'count' => $breakfastCount, 'icon' => '🍳'],
-                        ['id' => 'Sri Lankan Style Lunch Menu', 'label' => 'Sri Lankan Style Lunch Menu', 'count' => $lunchCount, 'icon' => '☀️'],
-                        ['id' => 'Sri Lankan Style Dinner Menu', 'label' => 'Sri Lankan Style Dinner Menu', 'count' => $dinnerCount, 'icon' => '🌙'],
-                        ['id' => 'English breakfast Menu', 'label' => 'English breakfast Menu', 'count' => $englishBreakfastCount, 'icon' => '🥪'],
-                        /* BEVERAGE FEATURE (DISABLED FOR LATER USE)
-                        ['id' => 'Beverage', 'label' => 'Beverages', 'count' => $beverageCount, 'icon' => '🍹'],
-                        */
+                        ['id' => 'Breakfast', 'label' => 'Sri Lankan Style Breakfast Menu', 'count' => $breakfastCount, 'icon' => '🍳'],
+                        ['id' => 'Lunch', 'label' => 'Sri Lankan Style Lunch Menu', 'count' => $lunchCount, 'icon' => '☀️'],
+                        ['id' => 'Dinner', 'label' => 'Sri Lankan Style Dinner Menu', 'count' => $dinnerCount, 'icon' => '🌙'],
                     ];
+                    if ($englishBreakfastCount > 0) {
+                        $tabs[] = ['id' => 'English breakfast Menu', 'label' => 'English breakfast Menu', 'count' => $englishBreakfastCount, 'icon' => '🥪'];
+                    }
                 @endphp
 
                 @foreach($tabs as $tab)
                     @php 
-                        $isActive = strtolower($activeType) === strtolower($tab['id']); 
-                        $isBeverageTab = strtolower($tab['id']) === 'beverage';
+                        $curType = strtolower($activeType);
+                        $tabId = strtolower($tab['id']);
+                        $isActive = ($curType === $tabId)
+                            || ($tabId === 'breakfast' && str_contains($curType, 'break'))
+                            || ($tabId === 'lunch' && str_contains($curType, 'lunch'))
+                            || ($tabId === 'dinner' && str_contains($curType, 'din'));
+                        $isBeverageTab = $tabId === 'beverage';
                     @endphp
+                    <a href="{{ route('foods.index', array_merge(request()->query(), ['type' => $tab['id'], 'page' => 1])) }}"
+                       class="px-4.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center space-x-2 whitespace-nowrap {{ $isActive ? ($isBeverageTab ? 'bg-[#0A2E2A] text-white shadow-lg border border-[#C9A050]/50 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]' : 'bg-[#0A2E2A] text-white shadow-md border border-[#C9A050]/30 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]') : ($isBeverageTab ? 'text-[#0A2E2A] dark:text-[#C9A050] hover:bg-[#C9A050]/15 bg-[#C9A050]/10 border border-[#C9A050]/30 font-black' : 'text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100/80 dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF] bg-gray-50/80 dark:bg-[#081A17] border border-transparent dark:border-[#163832]') }}">
+                        <span>{{ $tab['icon'] }}</span>
+                        <span>{{ $tab['label'] }}</span>
+                        <span class="px-2 py-0.5 text-[10px] rounded-lg font-black {{ $isActive ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] dark:bg-[#C9A050] dark:text-[#061513]' : ($isBeverageTab ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#123831]' : 'bg-gray-200 text-gray-700 dark:bg-[#123831] dark:text-[#A3B8B3] dark:border dark:border-[#1E4940]') }}">
+                            {{ $tab['count'] }}
+                        </span>
+                    </a>
+                @endforeach
+            </div>
                     <a href="{{ route('foods.index', array_merge(request()->query(), ['type' => $tab['id'], 'page' => 1])) }}"
                        class="px-4.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center space-x-2 whitespace-nowrap {{ $isActive ? ($isBeverageTab ? 'bg-[#0A2E2A] text-white shadow-lg border border-[#C9A050]/50 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]' : 'bg-[#0A2E2A] text-white shadow-md border border-[#C9A050]/30 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]') : ($isBeverageTab ? 'text-[#0A2E2A] dark:text-[#C9A050] hover:bg-[#C9A050]/15 bg-[#C9A050]/10 border border-[#C9A050]/30 font-black' : 'text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100/80 dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF] bg-gray-50/80 dark:bg-[#081A17] border border-transparent dark:border-[#163832]') }}">
                         <span>{{ $tab['icon'] }}</span>
@@ -788,13 +802,13 @@
                                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Category Type *</label>
                                 <select name="type" x-model="currentFood.type" required 
                                         class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu 🍳</option>
-                                    <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu ☀️</option>
-                                    <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu 🌙</option>
-                                    <option value="English breakfast Menu">English breakfast Menu 🥪</option>
-                                    {{-- BEVERAGE FEATURE (DISABLED FOR LATER USE)
-                                    <option value="Beverage">Beverage 🍹</option>
-                                    --}}
+                                    <option value="Breakfast">Breakfast 🍳 (Morning Menu)</option>
+                                    <option value="Lunch">Lunch ☀️ (Mid-day Special)</option>
+                                    <option value="Dinner">Dinner 🌙 (Evening Course)</option>
+                                    <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu</option>
+                                    <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu</option>
+                                    <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu</option>
+                                    <option value="English breakfast Menu">English breakfast Menu</option>
                                 </select>
                             </div>
                         </div>
@@ -1005,13 +1019,13 @@
                                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Category Type *</label>
                                 <select name="type" x-model="currentFood.type" required 
                                         class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu 🍳</option>
-                                    <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu ☀️</option>
-                                    <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu 🌙</option>
-                                    <option value="English breakfast Menu">English breakfast Menu 🥪</option>
-                                    {{-- BEVERAGE FEATURE (DISABLED FOR LATER USE)
-                                    <option value="Beverage">Beverage 🍹</option>
-                                    --}}
+                                    <option value="Breakfast">Breakfast 🍳 (Morning Menu)</option>
+                                    <option value="Lunch">Lunch ☀️ (Mid-day Special)</option>
+                                    <option value="Dinner">Dinner 🌙 (Evening Course)</option>
+                                    <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu</option>
+                                    <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu</option>
+                                    <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu</option>
+                                    <option value="English breakfast Menu">English breakfast Menu</option>
                                 </select>
                             </div>
                         </div>

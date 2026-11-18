@@ -23,10 +23,10 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         @php
             $displayCategories = isset($categories) && count($categories) ? $categories : [
-                ['name' => 'Sri Lankan Style Breakfast Menu', 'icon' => '🍳', 'items' => \App\Models\Food::where('type', 'Sri Lankan Style Breakfast Menu')->count(), 'slug' => 'sl-breakfast'],
-                ['name' => 'Sri Lankan Style Lunch Menu',     'icon' => '☀️', 'items' => \App\Models\Food::where('type', 'Sri Lankan Style Lunch Menu')->count(),     'slug' => 'sl-lunch'],
-                ['name' => 'Sri Lankan Style Dinner Menu',    'icon' => '🌙', 'items' => \App\Models\Food::where('type', 'Sri Lankan Style Dinner Menu')->count(),    'slug' => 'sl-dinner'],
-                ['name' => 'English breakfast Menu',          'icon' => '🥪', 'items' => \App\Models\Food::where('type', 'English breakfast Menu')->count(),          'slug' => 'english-breakfast'],
+                ['name' => 'Sri Lankan Style Breakfast Menu', 'icon' => '🍳', 'items' => \App\Models\Food::where('type', 'Breakfast')->orWhere('type', 'like', '%breakfast%')->count(), 'slug' => 'breakfast'],
+                ['name' => 'Sri Lankan Style Lunch Menu',     'icon' => '☀️', 'items' => \App\Models\Food::where('type', 'Lunch')->orWhere('type', 'like', '%lunch%')->count(),         'slug' => 'lunch'],
+                ['name' => 'Sri Lankan Style Dinner Menu',    'icon' => '🌙', 'items' => \App\Models\Food::where('type', 'Dinner')->orWhere('type', 'like', '%dinner%')->count(),        'slug' => 'dinner'],
+                ['name' => 'All Dishes',                      'icon' => '🍽️', 'items' => \App\Models\Food::where('type', '!=', 'Beverage')->count(),                                      'slug' => 'all'],
             ];
         @endphp
 

@@ -127,12 +127,22 @@ class PageController extends Controller
 
     public function categories()
     {
+        $breakfastCount = \App\Models\Food::where(function($q) {
+            $q->where('type', 'Breakfast')->orWhere('type', 'like', '%breakfast%');
+        })->count();
+        $lunchCount = \App\Models\Food::where(function($q) {
+            $q->where('type', 'Lunch')->orWhere('type', 'like', '%lunch%');
+        })->count();
+        $dinnerCount = \App\Models\Food::where(function($q) {
+            $q->where('type', 'Dinner')->orWhere('type', 'like', '%dinner%');
+        })->count();
+        $totalCount = \App\Models\Food::where('type', '!=', 'Beverage')->count();
+
         $categories = [
-            ['name' => 'Sri Lankan Style Breakfast Menu', 'icon' => '🍳', 'type' => 'Sri Lankan Style Breakfast Menu', 'items' => \App\Models\Food::where('type', 'Sri Lankan Style Breakfast Menu')->count(), 'slug' => 'sl-breakfast'],
-            ['name' => 'Sri Lankan Style Lunch Menu',     'icon' => '☀️', 'type' => 'Sri Lankan Style Lunch Menu',     'items' => \App\Models\Food::where('type', 'Sri Lankan Style Lunch Menu')->count(),     'slug' => 'sl-lunch'],
-            ['name' => 'Sri Lankan Style Dinner Menu',    'icon' => '🌙', 'type' => 'Sri Lankan Style Dinner Menu',    'items' => \App\Models\Food::where('type', 'Sri Lankan Style Dinner Menu')->count(),    'slug' => 'sl-dinner'],
-            ['name' => 'English breakfast Menu',          'icon' => '🥪', 'type' => 'English breakfast Menu',          'items' => \App\Models\Food::where('type', 'English breakfast Menu')->count(),          'slug' => 'english-breakfast'],
-            ['name' => 'All Dishes',                      'icon' => '🍽️', 'type' => 'all',                             'items' => \App\Models\Food::where('type', '!=', 'Beverage')->count(),                   'slug' => 'all'],
+            ['name' => 'Sri Lankan Style Breakfast Menu', 'icon' => '🍳', 'type' => 'Breakfast', 'items' => $breakfastCount, 'slug' => 'breakfast'],
+            ['name' => 'Sri Lankan Style Lunch Menu',     'icon' => '☀️', 'type' => 'Lunch',     'items' => $lunchCount,     'slug' => 'lunch'],
+            ['name' => 'Sri Lankan Style Dinner Menu',    'icon' => '🌙', 'type' => 'Dinner',    'items' => $dinnerCount,    'slug' => 'dinner'],
+            ['name' => 'All Dishes',                      'icon' => '🍽️', 'type' => 'all',       'items' => $totalCount,      'slug' => 'all'],
         ];
 
         return view('categories', compact('categories'));
@@ -171,13 +181,13 @@ class PageController extends Controller
     public function category($slug)
     {
         $map = [
-            'sl-breakfast' => 'Sri Lankan Style Breakfast Menu',
-            'sl-lunch' => 'Sri Lankan Style Lunch Menu',
-            'sl-dinner' => 'Sri Lankan Style Dinner Menu',
-            'english-breakfast' => 'English breakfast Menu',
-            'breakfast' => 'Sri Lankan Style Breakfast Menu',
-            'lunch' => 'Sri Lankan Style Lunch Menu',
-            'dinner' => 'Sri Lankan Style Dinner Menu',
+            'sl-breakfast' => 'Breakfast',
+            'sl-lunch' => 'Lunch',
+            'sl-dinner' => 'Dinner',
+            'english-breakfast' => 'Breakfast',
+            'breakfast' => 'Breakfast',
+            'lunch' => 'Lunch',
+            'dinner' => 'Dinner',
         ];
         $type = $map[strtolower($slug)] ?? 'all';
         return redirect()->route('foods.index', ['type' => $type]);

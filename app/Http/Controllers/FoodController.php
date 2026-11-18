@@ -24,8 +24,17 @@ class FoodController extends Controller
             $typeInput = trim($request->type);
             $lower = strtolower($typeInput);
             $query->where(function ($q) use ($typeInput, $lower) {
-                $q->where('type', $typeInput)
-                  ->orWhere('type', 'like', "%{$lower}%");
+                if (str_contains($lower, 'break')) {
+                    $q->where('type', 'Breakfast')->orWhere('type', 'like', '%breakfast%');
+                } elseif (str_contains($lower, 'lunch')) {
+                    $q->where('type', 'Lunch')->orWhere('type', 'like', '%lunch%');
+                } elseif (str_contains($lower, 'din')) {
+                    $q->where('type', 'Dinner')->orWhere('type', 'like', '%dinner%');
+                } elseif (str_contains($lower, 'bev')) {
+                    $q->where('type', 'Beverage')->orWhere('type', 'like', '%beverage%');
+                } else {
+                    $q->where('type', $typeInput)->orWhere('type', 'like', "%{$lower}%");
+                }
             });
         }
 
@@ -38,16 +47,61 @@ class FoodController extends Controller
             });
         }
 
-        // Search query (Name, Description, Type, Ingredients)
+        // Search query (Name, Description, Type, Ingredients + Typo & Keyword Tolerance)
         if ($request->filled('search')) {
-            $search = trim($request->search);
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('type', 'like', "%{$search}%")
-                  ->orWhereHas('ingredients', function ($iq) use ($search) {
-                      $iq->where('name', 'like', "%{$search}%");
+            $rawSearch = trim($request->search);
+            $searchKeywords = collect(preg_split('/\s+/', $rawSearch))->filter()->values();
+
+            $query->where(function ($q) use ($rawSearch, $searchKeywords) {
+                // Direct match
+                $q->where('name', 'like', "%{$rawSearch}%")
+                  ->orWhere('description', 'like', "%{$rawSearch}%")
+                  ->orWhere('type', 'like', "%{$rawSearch}%")
+                  ->orWhereHas('ingredients', function ($iq) use ($rawSearch) {
+                      $iq->where('name', 'like', "%{$rawSearch}%");
                   });
+
+                // Common phonetic / typo variations (e.g. Avacado <-> Avocado, biriyani <-> biryani, kottu <-> kothu)
+                $typoMap = [
+                    'avacado' => 'avocado',
+                    'avocado' => 'avacado',
+                    'biriyani' => 'biryani',
+                    'biryani' => 'biriyani',
+                    'kottu' => 'kothu',
+                    'kothu' => 'kottu',
+                    'omlet' => 'omelette',
+                    'omelet' => 'omelette',
+                    'chilli' => 'chili',
+                    'chili' => 'chilli',
+                    'roti' => 'rotti',
+                    'rotti' => 'roti',
+                ];
+
+                foreach ($typoMap as $misspelling => $correction) {
+                    if (stripos($rawSearch, $misspelling) !== false) {
+                        $variant = str_ireplace($misspelling, $correction, $rawSearch);
+                        $q->orWhere('name', 'like', "%{$variant}%")
+                          ->orWhere('description', 'like', "%{$variant}%")
+                          ->orWhereHas('ingredients', function ($iq) use ($variant) {
+                              $iq->where('name', 'like', "%{$variant}%");
+                          });
+                    }
+                }
+
+                // If multi-word search, match items matching keywords anywhere in food/ingredients
+                if ($searchKeywords->count() > 1) {
+                    $q->orWhere(function ($subQ) use ($searchKeywords) {
+                        foreach ($searchKeywords as $kw) {
+                            $subQ->where(function ($termQ) use ($kw) {
+                                $termQ->where('name', 'like', "%{$kw}%")
+                                      ->orWhere('description', 'like', "%{$kw}%")
+                                      ->orWhereHas('ingredients', function ($iq) use ($kw) {
+                                          $iq->where('name', 'like', "%{$kw}%");
+                                      });
+                            });
+                        }
+                    });
+                }
             });
         }
 
@@ -191,10 +245,17 @@ class FoodController extends Controller
         */
 
         $totalCount = Food::where('type', '!=', 'Beverage')->count();
-        $breakfastCount = Food::where('type', 'Sri Lankan Style Breakfast Menu')->count();
-        $lunchCount = Food::where('type', 'Sri Lankan Style Lunch Menu')->count();
-        $dinnerCount = Food::where('type', 'Sri Lankan Style Dinner Menu')->count();
-        $englishBreakfastCount = Food::where('type', 'English breakfast Menu')->count();
+        $breakfastCount = Food::where(function ($q) {
+            $q->where('type', 'Breakfast')->orWhere('type', 'like', '%breakfast%');
+        })->count();
+        $lunchCount = Food::where(function ($q) {
+            $q->where('type', 'Lunch')->orWhere('type', 'like', '%lunch%');
+        })->count();
+        $dinnerCount = Food::where(function ($q) {
+            $q->where('type', 'Dinner')->orWhere('type', 'like', '%dinner%');
+        })->count();
+        $englishBreakfastCount = Food::where('type', 'like', '%english%')->orWhere('name', 'like', '%english%')->count();
+        $ingredientsCount = \App\Models\Ingredient::count();
         $avgPrice = round((float) Food::where('type', '!=', 'Beverage')->avg('price'), 2);
 
         $foods = $query->paginate(12)->withQueryString();
@@ -202,7 +263,7 @@ class FoodController extends Controller
 
         return view('foods.index', compact(
             'foods', 'totalCount', 'breakfastCount', 'lunchCount',
-            'dinnerCount', 'englishBreakfastCount', 'beverageCount', 'avgPrice', 'activeType', 'search', 'sort', 'beverages'
+            'dinnerCount', 'englishBreakfastCount', 'ingredientsCount', 'beverageCount', 'avgPrice', 'activeType', 'search', 'sort', 'beverages'
         ));
     }
 
@@ -222,7 +283,7 @@ class FoodController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:Sri Lankan Style Breakfast Menu,Sri Lankan Style Lunch Menu,Sri Lankan Style Dinner Menu,English breakfast Menu,Beverage',
+            'type' => 'required|in:Breakfast,Lunch,Dinner,Sri Lankan Style Breakfast Menu,Sri Lankan Style Lunch Menu,Sri Lankan Style Dinner Menu,English breakfast Menu,Beverage',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string|max:1000',
             'prep_time' => 'nullable|string|max:50',
@@ -234,6 +295,15 @@ class FoodController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'image_url' => 'nullable|url|max:1000',
         ]);
+
+        // Normalize meal type to standard database categories
+        if (str_contains(strtolower($validated['type']), 'break')) {
+            $validated['type'] = 'Breakfast';
+        } elseif (str_contains(strtolower($validated['type']), 'lunch')) {
+            $validated['type'] = 'Lunch';
+        } elseif (str_contains(strtolower($validated['type']), 'din')) {
+            $validated['type'] = 'Dinner';
+        }
 
         // Handle local image file upload (saves to storage/app/public/foods and stores path in DB)
         if ($request->hasFile('image')) {
@@ -303,7 +373,7 @@ class FoodController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:Sri Lankan Style Breakfast Menu,Sri Lankan Style Lunch Menu,Sri Lankan Style Dinner Menu,English breakfast Menu,Beverage',
+            'type' => 'required|in:Breakfast,Lunch,Dinner,Sri Lankan Style Breakfast Menu,Sri Lankan Style Lunch Menu,Sri Lankan Style Dinner Menu,English breakfast Menu,Beverage',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string|max:1000',
             'prep_time' => 'nullable|string|max:50',
@@ -315,6 +385,15 @@ class FoodController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'image_url' => 'nullable|url|max:1000',
         ]);
+
+        // Normalize meal type to standard database categories
+        if (str_contains(strtolower($validated['type']), 'break')) {
+            $validated['type'] = 'Breakfast';
+        } elseif (str_contains(strtolower($validated['type']), 'lunch')) {
+            $validated['type'] = 'Lunch';
+        } elseif (str_contains(strtolower($validated['type']), 'din')) {
+            $validated['type'] = 'Dinner';
+        }
 
         if ($request->hasFile('image')) {
             // Delete old file if saved locally in public storage
