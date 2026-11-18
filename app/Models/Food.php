@@ -23,7 +23,7 @@ class Food extends Model
     protected $fillable = [
         'name', 'description', 'price', 'image_url', 'type',
         'available_days', 'prep_time', 'calories', 'difficulty',
-        'servings', 'rating',
+        'servings', 'portion_size', 'brand', 'volume_ml', 'channel', 'rating',
     ];
 
     protected $casts = [
@@ -31,9 +31,24 @@ class Food extends Model
         'price' => 'float',
         'rating' => 'float',
         'calories' => 'integer',
+        'volume_ml' => 'integer',
     ];
 
     protected $appends = ['slot', 'category'];
+
+    public function scopeForPos($query)
+    {
+        return $query->where(function ($q) {
+            $q->whereIn('channel', ['pos', 'all'])->orWhereNull('channel');
+        });
+    }
+
+    public function scopeForApp($query)
+    {
+        return $query->where(function ($q) {
+            $q->whereIn('channel', ['app', 'all'])->orWhereNull('channel');
+        });
+    }
 
     public function getSlotAttribute(): string
     {
@@ -41,8 +56,11 @@ class Food extends Model
         if (str_contains($raw, 'breakfast')) return 'Breakfast';
         if (str_contains($raw, 'dinner')) return 'Dinner';
         if (str_contains($raw, 'lunch')) return 'Lunch';
-        if (str_contains($raw, 'beverage')) return 'Beverage';
-        return 'Lunch';
+        if (str_contains($raw, 'beverage') || str_contains($raw, 'drink')) return 'Beverages';
+        if (str_contains($raw, 'rice') || str_contains($raw, 'carb') || str_contains($raw, 'rotti') || str_contains($raw, 'hopper')) return 'Rice & Carbs';
+        if (str_contains($raw, 'curry') || str_contains($raw, 'meat') || str_contains($raw, 'chicken') || str_contains($raw, 'pork') || str_contains($raw, 'fish')) return 'Curries & Meats';
+        if (str_contains($raw, 'sambol') || str_contains($raw, 'veggie') || str_contains($raw, 'salad')) return 'Veggies & Sambols';
+        return $this->attributes['type'] ?? 'Lunch';
     }
 
     public function getCategoryAttribute(): string

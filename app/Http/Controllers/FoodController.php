@@ -16,10 +16,7 @@ class FoodController extends Controller
     {
         $query = Food::with('ingredients');
 
-        // Exclude Beverage items while beverage module is temporarily disabled
-        $query->where('type', '!=', 'Beverage');
-
-        // Filter by meal type (Breakfast, Lunch, Dinner - supports exact and descriptive categories)
+        // Filter by item category / meal type
         if ($request->filled('type') && strtolower($request->type) !== 'all') {
             $typeInput = trim($request->type);
             $lower = strtolower($typeInput);
@@ -30,11 +27,25 @@ class FoodController extends Controller
                     $q->where('type', 'Lunch')->orWhere('type', 'like', '%lunch%');
                 } elseif (str_contains($lower, 'din')) {
                     $q->where('type', 'Dinner')->orWhere('type', 'like', '%dinner%');
-                } elseif (str_contains($lower, 'bev')) {
+                } elseif (str_contains($lower, 'bev') || str_contains($lower, 'drink')) {
                     $q->where('type', 'Beverage')->orWhere('type', 'like', '%beverage%');
+                } elseif (str_contains($lower, 'rice') || str_contains($lower, 'carb')) {
+                    $q->where('type', 'Rice & Carbs')->orWhere('type', 'like', '%rice%')->orWhere('type', 'like', '%carb%');
+                } elseif (str_contains($lower, 'curr') || str_contains($lower, 'meat') || str_contains($lower, 'fish')) {
+                    $q->where('type', 'Curries & Meats')->orWhere('type', 'like', '%curr%')->orWhere('type', 'like', '%meat%')->orWhere('type', 'like', '%fish%');
+                } elseif (str_contains($lower, 'veg') || str_contains($lower, 'sambol')) {
+                    $q->where('type', 'Veggies & Sambols')->orWhere('type', 'like', '%veg%')->orWhere('type', 'like', '%sambol%');
                 } else {
                     $q->where('type', $typeInput)->orWhere('type', 'like', "%{$lower}%");
                 }
+            });
+        }
+
+        // Filter by channel (pos, app, all)
+        if ($request->filled('channel') && strtolower($request->channel) !== 'all') {
+            $ch = strtolower(trim($request->channel));
+            $query->where(function ($q) use ($ch) {
+                $q->where('channel', $ch)->orWhere('channel', 'all');
             });
         }
 
@@ -57,6 +68,8 @@ class FoodController extends Controller
                 $q->where('name', 'like', "%{$rawSearch}%")
                   ->orWhere('description', 'like', "%{$rawSearch}%")
                   ->orWhere('type', 'like', "%{$rawSearch}%")
+                  ->orWhere('brand', 'like', "%{$rawSearch}%")
+                  ->orWhere('portion_size', 'like', "%{$rawSearch}%")
                   ->orWhereHas('ingredients', function ($iq) use ($rawSearch) {
                       $iq->where('name', 'like', "%{$rawSearch}%");
                   });
@@ -244,7 +257,7 @@ class FoodController extends Controller
         }
         */
 
-        $totalCount = Food::where('type', '!=', 'Beverage')->count();
+        $totalCount = Food::count();
         $breakfastCount = Food::where(function ($q) {
             $q->where('type', 'Breakfast')->orWhere('type', 'like', '%breakfast%');
         })->count();
@@ -254,17 +267,59 @@ class FoodController extends Controller
         $dinnerCount = Food::where(function ($q) {
             $q->where('type', 'Dinner')->orWhere('type', 'like', '%dinner%');
         })->count();
+        $beverageCount = Food::where(function ($q) {
+            $q->where('type', 'Beverage')->orWhere('type', 'like', '%beverage%');
+        })->count();
         $englishBreakfastCount = Food::where('type', 'like', '%english%')->orWhere('name', 'like', '%english%')->count();
         $ingredientsCount = \App\Models\Ingredient::count();
-        $avgPrice = round((float) Food::where('type', '!=', 'Beverage')->avg('price'), 2);
+        $avgPrice = round((float) (Food::avg('price') ?: 0), 2);
 
         $foods = $query->paginate(12)->withQueryString();
-        $beverages = Food::where('type', 'Beverage')->latest('id')->paginate(12)->withQueryString();
+        $beverages = Food::where('type', 'Beverage')->orWhere('type', 'like', '%beverage%')->latest('id')->paginate(12)->withQueryString();
 
         return view('foods.index', compact(
             'foods', 'totalCount', 'breakfastCount', 'lunchCount',
             'dinnerCount', 'englishBreakfastCount', 'ingredientsCount', 'beverageCount', 'avgPrice', 'activeType', 'search', 'sort', 'beverages'
         ));
+    }
+
+    /**
+     * Download sample Excel or CSV template for buffet items & beverages.
+     */
+    public function downloadTemplate(Request $request)
+    {
+        $format = strtolower($request->query('format', 'xlsx'));
+        $filename = 'the_menu_buffet_and_beverage_template.' . ($format === 'csv' ? 'csv' : 'xlsx');
+
+        if ($format === 'csv') {
+            return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\FoodItemsTemplateExport, $filename, \Maatwebsite\Excel\Excel::CSV);
+        }
+
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\FoodItemsTemplateExport, $filename, \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    /**
+     * Bulk import buffet items and beverages via Excel or CSV.
+     */
+    public function importItems(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv,txt|max:10240',
+        ]);
+
+        try {
+            $importer = new \App\Imports\FoodItemsImport();
+            \Maatwebsite\Excel\Facades\Excel::import($importer, $request->file('file'));
+
+            $msg = "Import completed successfully! {$importer->createdCount} items added, {$importer->updatedCount} updated.";
+            if ($importer->skippedCount > 0) {
+                $msg .= " ({$importer->skippedCount} empty rows skipped)";
+            }
+
+            return redirect()->route('foods.index')->with('success', $msg);
+        } catch (\Throwable $e) {
+            return redirect()->route('foods.index')->with('error', 'Import failed: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -283,8 +338,12 @@ class FoodController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:Breakfast,Lunch,Dinner,Sri Lankan Style Breakfast Menu,Sri Lankan Style Lunch Menu,Sri Lankan Style Dinner Menu,English breakfast Menu,Beverage',
+            'type' => 'required|string|max:100',
             'price' => 'required|numeric|min:0',
+            'portion_size' => 'nullable|string|max:100',
+            'brand' => 'nullable|string|max:100',
+            'volume_ml' => 'nullable|integer|min:0',
+            'channel' => 'nullable|string|in:all,pos,app',
             'description' => 'nullable|string|max:1000',
             'prep_time' => 'nullable|string|max:50',
             'calories' => 'nullable|integer|min:0',
@@ -296,14 +355,25 @@ class FoodController extends Controller
             'image_url' => 'nullable|url|max:1000',
         ]);
 
-        // Normalize meal type to standard database categories
-        if (str_contains(strtolower($validated['type']), 'break')) {
+        // Normalize meal/item type to standard categories
+        $lowerType = strtolower($validated['type']);
+        if (str_contains($lowerType, 'break')) {
             $validated['type'] = 'Breakfast';
-        } elseif (str_contains(strtolower($validated['type']), 'lunch')) {
+        } elseif (str_contains($lowerType, 'lunch')) {
             $validated['type'] = 'Lunch';
-        } elseif (str_contains(strtolower($validated['type']), 'din')) {
+        } elseif (str_contains($lowerType, 'din')) {
             $validated['type'] = 'Dinner';
+        } elseif (str_contains($lowerType, 'bev') || str_contains($lowerType, 'drink')) {
+            $validated['type'] = 'Beverages';
+        } elseif (str_contains($lowerType, 'rice') || str_contains($lowerType, 'carb') || str_contains($lowerType, 'hopper')) {
+            $validated['type'] = 'Rice & Carbs';
+        } elseif (str_contains($lowerType, 'curry') || str_contains($lowerType, 'meat')) {
+            $validated['type'] = 'Curries & Meats';
+        } elseif (str_contains($lowerType, 'sambol') || str_contains($lowerType, 'veggie')) {
+            $validated['type'] = 'Veggies & Sambols';
         }
+
+        $validated['channel'] = $validated['channel'] ?? 'all';
 
         // Handle local image file upload (saves to storage/app/public/foods and stores path in DB)
         if ($request->hasFile('image')) {
@@ -373,8 +443,12 @@ class FoodController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:Breakfast,Lunch,Dinner,Sri Lankan Style Breakfast Menu,Sri Lankan Style Lunch Menu,Sri Lankan Style Dinner Menu,English breakfast Menu,Beverage',
+            'type' => 'required|string|max:100',
             'price' => 'required|numeric|min:0',
+            'portion_size' => 'nullable|string|max:100',
+            'brand' => 'nullable|string|max:100',
+            'volume_ml' => 'nullable|integer|min:0',
+            'channel' => 'nullable|string|in:all,pos,app',
             'description' => 'nullable|string|max:1000',
             'prep_time' => 'nullable|string|max:50',
             'calories' => 'nullable|integer|min:0',
@@ -386,14 +460,25 @@ class FoodController extends Controller
             'image_url' => 'nullable|url|max:1000',
         ]);
 
-        // Normalize meal type to standard database categories
-        if (str_contains(strtolower($validated['type']), 'break')) {
+        // Normalize meal/item type to standard categories
+        $lowerType = strtolower($validated['type']);
+        if (str_contains($lowerType, 'break')) {
             $validated['type'] = 'Breakfast';
-        } elseif (str_contains(strtolower($validated['type']), 'lunch')) {
+        } elseif (str_contains($lowerType, 'lunch')) {
             $validated['type'] = 'Lunch';
-        } elseif (str_contains(strtolower($validated['type']), 'din')) {
+        } elseif (str_contains($lowerType, 'din')) {
             $validated['type'] = 'Dinner';
+        } elseif (str_contains($lowerType, 'bev') || str_contains($lowerType, 'drink')) {
+            $validated['type'] = 'Beverages';
+        } elseif (str_contains($lowerType, 'rice') || str_contains($lowerType, 'carb') || str_contains($lowerType, 'hopper')) {
+            $validated['type'] = 'Rice & Carbs';
+        } elseif (str_contains($lowerType, 'curry') || str_contains($lowerType, 'meat')) {
+            $validated['type'] = 'Curries & Meats';
+        } elseif (str_contains($lowerType, 'sambol') || str_contains($lowerType, 'veggie')) {
+            $validated['type'] = 'Veggies & Sambols';
         }
+
+        $validated['channel'] = $validated['channel'] ?? 'all';
 
         if ($request->hasFile('image')) {
             // Delete old file if saved locally in public storage

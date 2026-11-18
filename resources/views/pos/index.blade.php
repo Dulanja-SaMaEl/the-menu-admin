@@ -118,7 +118,12 @@
                     }
                     if (this.searchQuery.trim() !== '') {
                         const q = this.searchQuery.toLowerCase().trim();
-                        list = list.filter(f => f.name.toLowerCase().includes(q) || (f.category && f.category.toLowerCase().includes(q)));
+                        list = list.filter(f => 
+                            f.name.toLowerCase().includes(q) || 
+                            (f.category && f.category.toLowerCase().includes(q)) ||
+                            (f.brand && f.brand.toLowerCase().includes(q)) ||
+                            (f.portion_size && f.portion_size.toLowerCase().includes(q))
+                        );
                     }
                     return list;
                 },
@@ -192,6 +197,9 @@
                             name: food.name,
                             price: Number(food.price),
                             category: food.category,
+                            portion_size: food.portion_size || '',
+                            brand: food.brand || '',
+                            volume_ml: food.volume_ml || null,
                             quantity: 1
                         });
                     }
@@ -579,6 +587,16 @@
                                 <span class="absolute top-2 left-2 bg-black/70 backdrop-blur-sm text-[10px] font-bold text-gray-300 uppercase px-2 py-0.5 rounded-lg border border-white/10"
                                       x-text="food.category"></span>
 
+                                <!-- Portion Size / Volume Pill -->
+                                <template x-if="food.portion_size">
+                                    <span class="absolute bottom-2 left-2 bg-[#C9A050] text-[#051411] text-[10px] font-black px-2 py-0.5 rounded-md shadow-md"
+                                          x-text="food.portion_size"></span>
+                                </template>
+                                <template x-if="!food.portion_size && food.volume_ml">
+                                    <span class="absolute bottom-2 left-2 bg-[#C9A050] text-[#051411] text-[10px] font-black px-2 py-0.5 rounded-md shadow-md"
+                                          x-text="food.volume_ml + ' ml'"></span>
+                                </template>
+
                                 <!-- In-Cart Quantity Indicator Badge -->
                                 <template x-if="getItemCountInCart(food.id) > 0">
                                     <div class="absolute top-2 right-2 bg-[#C9A050] text-[#051411] font-black text-xs px-2 py-0.5 rounded-full shadow-lg border border-white/20 animate-bounce">
@@ -589,6 +607,9 @@
 
                             <!-- Card Body -->
                             <div class="p-3 sm:p-3.5 flex flex-col flex-1">
+                                <template x-if="food.brand">
+                                    <span class="text-[9px] font-black uppercase text-[#C9A050] tracking-wider block mb-0.5" x-text="food.brand"></span>
+                                </template>
                                 <h3 class="text-xs sm:text-sm font-bold text-white leading-tight line-clamp-2" x-text="food.name"></h3>
                                 
                                 <div class="mt-auto pt-2.5 flex items-center justify-between">
@@ -702,7 +723,12 @@
                     <div class="py-2 px-2.5 bg-white/5 hover:bg-white/[0.08] rounded-2xl transition-colors border border-white/5">
                         <div class="flex items-start justify-between gap-2">
                             <div class="min-w-0 flex-1">
-                                <p class="text-xs sm:text-sm font-bold text-white leading-snug truncate" x-text="item.name"></p>
+                                <div class="flex items-center space-x-1.5 flex-wrap">
+                                    <p class="text-xs sm:text-sm font-bold text-white leading-snug truncate" x-text="item.name"></p>
+                                    <template x-if="item.portion_size">
+                                        <span class="text-[9px] bg-[#C9A050]/20 text-[#C9A050] font-black px-1.5 py-0.5 rounded border border-[#C9A050]/30 shrink-0" x-text="item.portion_size"></span>
+                                    </template>
+                                </div>
                                 <p class="text-[11px] text-gray-400 font-medium">
                                     Rs. <span x-text="format(item.price)"></span> each
                                 </p>

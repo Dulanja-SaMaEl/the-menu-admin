@@ -3,12 +3,17 @@
         openCreateModal: false,
         openEditModal: false,
         openDeleteModal: false,
+        openImportModal: false,
         viewMode: 'table',
         currentFood: {
             id: '',
             name: '',
             type: 'Breakfast',
             price: '',
+            portion_size: '',
+            brand: '',
+            volume_ml: '',
+            channel: 'all',
             description: '',
             prep_time: '15 min',
             calories: '450',
@@ -30,6 +35,10 @@
                 name: '',
                 type: defaultType,
                 price: '',
+                portion_size: '',
+                brand: '',
+                volume_ml: '',
+                channel: 'all',
                 description: '',
                 prep_time: '15 min',
                 calories: '450',
@@ -48,8 +57,12 @@
             this.currentFood = {
                 id: '',
                 name: '',
-                type: 'Beverage',
+                type: 'Beverages',
                 price: '250.00',
+                portion_size: '330ml Can',
+                brand: 'Coca-Cola',
+                volume_ml: '330',
+                channel: 'all',
                 description: '',
                 prep_time: 'Ready to Serve',
                 calories: '140',
@@ -70,11 +83,15 @@
                 name: food.name,
                 type: food.type,
                 price: food.price,
+                portion_size: food.portion_size || '',
+                brand: food.brand || '',
+                volume_ml: food.volume_ml || '',
+                channel: food.channel || 'all',
                 description: food.description || '',
-                prep_time: food.prep_time || (food.type === 'Beverage' ? 'Ready to Serve' : '15 min'),
-                calories: food.calories || (food.type === 'Beverage' ? '140' : '450'),
-                difficulty: food.difficulty || (food.type === 'Beverage' ? 'Chilled' : 'Easy'),
-                servings: food.servings || (food.type === 'Beverage' ? '330 ml can' : '1 person'),
+                prep_time: food.prep_time || (food.type === 'Beverage' || food.type === 'Beverages' ? 'Ready to Serve' : '15 min'),
+                calories: food.calories || (food.type === 'Beverage' || food.type === 'Beverages' ? '140' : '450'),
+                difficulty: food.difficulty || (food.type === 'Beverage' || food.type === 'Beverages' ? 'Chilled' : 'Easy'),
+                servings: food.servings || (food.type === 'Beverage' || food.type === 'Beverages' ? '330 ml can' : '1 person'),
                 rating: food.rating || '4.8',
                 image_url: food.image_url || '',
                 available_days: Array.isArray(food.available_days) ? food.available_days : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -156,28 +173,33 @@
                     <span class="px-3 py-1 bg-[#0A2E2A]/10 text-[#0A2E2A] text-xs font-black rounded-xl border border-[#0A2E2A]/20">
                         {{ $totalCount }} Total Items
                     </span>
-                    {{-- BEVERAGE FEATURE (DISABLED FOR LATER USE)
-                    <span class="px-3 py-1 bg-[#C9A050]/20 text-[#0A2E2A] text-xs font-black rounded-xl border border-[#C9A050]/40">
-                        🍹 {{ $beverageCount }} Master Beverages
-                    </span>
-                    --}}
+                    <a href="{{ route('foods.index', ['type' => 'Beverages']) }}" class="px-3 py-1 bg-[#C9A050]/20 hover:bg-[#C9A050]/30 text-[#0A2E2A] text-xs font-black rounded-xl border border-[#C9A050]/40 transition-colors">
+                        🍹 {{ $beverageCount }} Beverages
+                    </a>
                 </div>
-                <p class="text-xs sm:text-sm text-gray-500 mt-1 font-medium">Curate gourmet daily menus, master beverages for monthly lunch plans, and manage pricing in LKR</p>
+                <p class="text-xs sm:text-sm text-gray-500 mt-1 font-medium">Curate daily buffet dishes, a-la-carte portions, beverages with volume & brand, and export/import via Excel/CSV</p>
             </div>
 
             <!-- Primary Actions -->
             <div class="flex items-center flex-wrap gap-2.5">
-                {{-- BEVERAGE FEATURE (DISABLED FOR LATER USE)
+                <!-- Excel / CSV Bulk Importer Button -->
+                <button type="button" @click="openImportModal = true" 
+                        class="px-5 py-3.5 bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs sm:text-sm rounded-2xl shadow-lg shadow-emerald-800/20 transition-all duration-300 flex items-center space-x-2 active:scale-95 cursor-pointer">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                    </svg>
+                    <span>Import Items (Excel / CSV)</span>
+                </button>
+
                 <!-- Add Beverage Button -->
                 <button type="button" @click="openAddBeverage()" 
                         class="px-5 py-3.5 bg-[#0A2E2A] hover:bg-[#0d3a35] text-[#C9A050] border border-[#C9A050]/40 font-black text-xs sm:text-sm rounded-2xl shadow-md transition-all duration-300 flex items-center space-x-2 active:scale-95 cursor-pointer">
                     <span class="text-base">🍹</span>
                     <span>Add Beverage</span>
                 </button>
-                --}}
 
                 <!-- Add Dish Button -->
-                <button type="button" @click="openAddFood('Sri Lankan Style Breakfast Menu')" 
+                <button type="button" @click="openAddFood('Breakfast')" 
                         class="px-6 py-3.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black text-xs sm:text-sm rounded-2xl shadow-lg shadow-[#C9A050]/25 transition-all duration-300 flex items-center space-x-2.5 active:scale-95 cursor-pointer">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5 text-[#0A2E2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
@@ -252,12 +274,25 @@
                 @php
                     $tabs = [
                         ['id' => 'all', 'label' => 'All Items', 'count' => $totalCount, 'icon' => '🍽️'],
-                        ['id' => 'Breakfast', 'label' => 'Sri Lankan Style Breakfast Menu', 'count' => $breakfastCount, 'icon' => '🍳'],
-                        ['id' => 'Lunch', 'label' => 'Sri Lankan Style Lunch Menu', 'count' => $lunchCount, 'icon' => '☀️'],
-                        ['id' => 'Dinner', 'label' => 'Sri Lankan Style Dinner Menu', 'count' => $dinnerCount, 'icon' => '🌙'],
+                        ['id' => 'Breakfast', 'label' => 'Sri Lankan Breakfast', 'count' => $breakfastCount, 'icon' => '🍳'],
+                        ['id' => 'Lunch', 'label' => 'Sri Lankan Lunch', 'count' => $lunchCount, 'icon' => '☀️'],
+                        ['id' => 'Dinner', 'label' => 'Sri Lankan Dinner', 'count' => $dinnerCount, 'icon' => '🌙'],
+                        ['id' => 'Beverages', 'label' => 'Beverages & Drinks', 'count' => $beverageCount, 'icon' => '🍹'],
                     ];
+                    $riceCount = \App\Models\Food::where('type', 'Rice & Carbs')->orWhere('type', 'like', '%rice%')->orWhere('type', 'like', '%carb%')->count();
+                    if ($riceCount > 0) {
+                        $tabs[] = ['id' => 'Rice & Carbs', 'label' => 'Rice & Carbs', 'count' => $riceCount, 'icon' => '🍚'];
+                    }
+                    $curryCount = \App\Models\Food::where('type', 'Curries & Meats')->orWhere('type', 'like', '%curr%')->orWhere('type', 'like', '%meat%')->orWhere('type', 'like', '%fish%')->count();
+                    if ($curryCount > 0) {
+                        $tabs[] = ['id' => 'Curries & Meats', 'label' => 'Curries & Meats', 'count' => $curryCount, 'icon' => '🍛'];
+                    }
+                    $veggieCount = \App\Models\Food::where('type', 'Veggies & Sambols')->orWhere('type', 'like', '%veg%')->orWhere('type', 'like', '%sambol%')->count();
+                    if ($veggieCount > 0) {
+                        $tabs[] = ['id' => 'Veggies & Sambols', 'label' => 'Veggies & Sambols', 'count' => $veggieCount, 'icon' => '🥗'];
+                    }
                     if ($englishBreakfastCount > 0) {
-                        $tabs[] = ['id' => 'English breakfast Menu', 'label' => 'English breakfast Menu', 'count' => $englishBreakfastCount, 'icon' => '🥪'];
+                        $tabs[] = ['id' => 'English breakfast Menu', 'label' => 'English Breakfast', 'count' => $englishBreakfastCount, 'icon' => '🥪'];
                     }
                 @endphp
 
@@ -268,19 +303,13 @@
                         $isActive = ($curType === $tabId)
                             || ($tabId === 'breakfast' && str_contains($curType, 'break'))
                             || ($tabId === 'lunch' && str_contains($curType, 'lunch'))
-                            || ($tabId === 'dinner' && str_contains($curType, 'din'));
-                        $isBeverageTab = $tabId === 'beverage';
+                            || ($tabId === 'dinner' && str_contains($curType, 'din'))
+                            || ($tabId === 'beverages' && (str_contains($curType, 'bev') || str_contains($curType, 'drink')))
+                            || ($tabId === 'rice & carbs' && (str_contains($curType, 'rice') || str_contains($curType, 'carb')))
+                            || ($tabId === 'curries & meats' && (str_contains($curType, 'curr') || str_contains($curType, 'meat')))
+                            || ($tabId === 'veggies & sambols' && (str_contains($curType, 'veg') || str_contains($curType, 'sambol')));
+                        $isBeverageTab = str_contains($tabId, 'bev');
                     @endphp
-                    <a href="{{ route('foods.index', array_merge(request()->query(), ['type' => $tab['id'], 'page' => 1])) }}"
-                       class="px-4.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center space-x-2 whitespace-nowrap {{ $isActive ? ($isBeverageTab ? 'bg-[#0A2E2A] text-white shadow-lg border border-[#C9A050]/50 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]' : 'bg-[#0A2E2A] text-white shadow-md border border-[#C9A050]/30 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]') : ($isBeverageTab ? 'text-[#0A2E2A] dark:text-[#C9A050] hover:bg-[#C9A050]/15 bg-[#C9A050]/10 border border-[#C9A050]/30 font-black' : 'text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100/80 dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF] bg-gray-50/80 dark:bg-[#081A17] border border-transparent dark:border-[#163832]') }}">
-                        <span>{{ $tab['icon'] }}</span>
-                        <span>{{ $tab['label'] }}</span>
-                        <span class="px-2 py-0.5 text-[10px] rounded-lg font-black {{ $isActive ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] dark:bg-[#C9A050] dark:text-[#061513]' : ($isBeverageTab ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#123831]' : 'bg-gray-200 text-gray-700 dark:bg-[#123831] dark:text-[#A3B8B3] dark:border dark:border-[#1E4940]') }}">
-                            {{ $tab['count'] }}
-                        </span>
-                    </a>
-                @endforeach
-            </div>
                     <a href="{{ route('foods.index', array_merge(request()->query(), ['type' => $tab['id'], 'page' => 1])) }}"
                        class="px-4.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center space-x-2 whitespace-nowrap {{ $isActive ? ($isBeverageTab ? 'bg-[#0A2E2A] text-white shadow-lg border border-[#C9A050]/50 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]' : 'bg-[#0A2E2A] text-white shadow-md border border-[#C9A050]/30 dark:bg-[#143D35] dark:text-[#D8B060] dark:border-[#C9A050]') : ($isBeverageTab ? 'text-[#0A2E2A] dark:text-[#C9A050] hover:bg-[#C9A050]/15 bg-[#C9A050]/10 border border-[#C9A050]/30 font-black' : 'text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100/80 dark:hover:bg-[#123831] dark:hover:text-[#F5F3EF] bg-gray-50/80 dark:bg-[#081A17] border border-transparent dark:border-[#163832]') }}">
                         <span>{{ $tab['icon'] }}</span>
@@ -672,6 +701,35 @@
                                 {{ $food->name }}
                             </h3>
 
+                            @if($food->portion_size || $food->brand || $food->volume_ml || ($food->channel && $food->channel !== 'all'))
+                                <div class="flex items-center flex-wrap gap-1.5 mb-2">
+                                    @if($food->portion_size)
+                                        <span class="px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] border border-emerald-200 dark:border-emerald-800/40">
+                                            ⚖️ {{ $food->portion_size }}
+                                        </span>
+                                    @endif
+                                    @if($food->volume_ml)
+                                        <span class="px-2 py-0.5 rounded-lg bg-cyan-50 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-300 font-bold text-[10px] border border-cyan-200 dark:border-cyan-800/40">
+                                            🥤 {{ $food->volume_ml }} ml
+                                        </span>
+                                    @endif
+                                    @if($food->brand)
+                                        <span class="px-2 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 font-bold text-[10px] border border-amber-200 dark:border-amber-800/40">
+                                            🏷️ {{ $food->brand }}
+                                        </span>
+                                    @endif
+                                    @if($food->channel === 'pos')
+                                        <span class="px-2 py-0.5 rounded-lg bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 font-bold text-[10px] border border-purple-200 dark:border-purple-800/40">
+                                            🍽️ POS Buffet Only
+                                        </span>
+                                    @elseif($food->channel === 'app')
+                                        <span class="px-2 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 font-bold text-[10px] border border-blue-200 dark:border-blue-800/40">
+                                            📱 App Only
+                                        </span>
+                                    @endif
+                                </div>
+                            @endif
+
                             <p class="text-gray-500 dark:text-[#8FA8A3] text-xs line-clamp-2 mb-3.5 leading-relaxed font-medium">
                                 {{ $food->description ?: 'Freshly prepared specialty dish crafted with authentic spices and premium ingredients.' }}
                             </p>
@@ -793,22 +851,60 @@
                         <!-- Name & Category Type -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div class="sm:col-span-2">
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Beverage Name *' : 'Meal / Dish Name *'"></label>
+                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Beverage Name *' : 'Meal / Dish Name *'"></label>
                                 <input type="text" name="name" x-model="currentFood.name" required 
-                                       :placeholder="currentFood.type === 'Beverage' ? 'e.g. Coca Cola, Fresh Mango Juice' : 'e.g. Special Chicken Biriyani'" 
+                                       :placeholder="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'e.g. Coca-Cola, Highland Water, Fresh Lime Juice' : 'e.g. Kaju Maluwa (Cashew Curry), Ceylon Chicken Curry, Basmati Rice'" 
                                        class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Category Type *</label>
                                 <select name="type" x-model="currentFood.type" required 
                                         class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <option value="Breakfast">Breakfast 🍳 (Morning Menu)</option>
-                                    <option value="Lunch">Lunch ☀️ (Mid-day Special)</option>
-                                    <option value="Dinner">Dinner 🌙 (Evening Course)</option>
-                                    <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu</option>
-                                    <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu</option>
-                                    <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu</option>
-                                    <option value="English breakfast Menu">English breakfast Menu</option>
+                                    <optgroup label="Daily Buffet Counters">
+                                        <option value="Rice & Carbs">🍚 Rice & Carbs (Basmati, Red Rice, Hoppers, Rotti)</option>
+                                        <option value="Curries & Meats">🍛 Curries & Meats (Chicken, Kaju Maluwa, Pork, Fish, Dhal)</option>
+                                        <option value="Veggies & Sambols">🥗 Veggies & Sambols (Pol Sambol, Katta Sambol, Moju)</option>
+                                    </optgroup>
+                                    <optgroup label="Drinks & Liquids">
+                                        <option value="Beverages">🍹 Beverages (Soft Drinks, Water, Fresh Juices)</option>
+                                    </optgroup>
+                                    <optgroup label="Daily Meal Menus">
+                                        <option value="Breakfast">Breakfast 🍳 (Morning Menu)</option>
+                                        <option value="Lunch">Lunch ☀️ (Mid-day Special)</option>
+                                        <option value="Dinner">Dinner 🌙 (Evening Course)</option>
+                                        <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu</option>
+                                        <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu</option>
+                                        <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu</option>
+                                        <option value="English breakfast Menu">English breakfast Menu</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Portion Size, Brand, Volume & Channel -->
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-3.5 bg-amber-50/40 rounded-2xl border border-amber-200/60">
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Portion Size</label>
+                                <input type="text" name="portion_size" x-model="currentFood.portion_size" placeholder="e.g. 1 Portion, 10 Pcs, 1 Can" 
+                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Brand / Supplier</label>
+                                <input type="text" name="brand" x-model="currentFood.brand" placeholder="e.g. Coca-Cola, Highland, Elephant House" 
+                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Volume (ml)</label>
+                                <input type="number" min="0" step="1" name="volume_ml" x-model="currentFood.volume_ml" placeholder="e.g. 330, 500, 750" 
+                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Sales Channel</label>
+                                <select name="channel" x-model="currentFood.channel" 
+                                        class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                                    <option value="all">Everywhere (POS & App)</option>
+                                    <option value="pos">POS Buffet Only (Counter)</option>
+                                    <option value="app">Mobile App Only</option>
                                 </select>
                             </div>
                         </div>
@@ -1011,7 +1107,7 @@
                         <!-- Name & Category Type -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div class="sm:col-span-2">
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Beverage Name *' : 'Meal / Dish Name *'"></label>
+                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Beverage Name *' : 'Meal / Dish Name *'"></label>
                                 <input type="text" name="name" x-model="currentFood.name" required 
                                        class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
                             </div>
@@ -1019,13 +1115,51 @@
                                 <label class="block text-xs font-bold text-gray-700 mb-1.5">Category Type *</label>
                                 <select name="type" x-model="currentFood.type" required 
                                         class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <option value="Breakfast">Breakfast 🍳 (Morning Menu)</option>
-                                    <option value="Lunch">Lunch ☀️ (Mid-day Special)</option>
-                                    <option value="Dinner">Dinner 🌙 (Evening Course)</option>
-                                    <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu</option>
-                                    <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu</option>
-                                    <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu</option>
-                                    <option value="English breakfast Menu">English breakfast Menu</option>
+                                    <optgroup label="Daily Buffet Counters">
+                                        <option value="Rice & Carbs">🍚 Rice & Carbs (Basmati, Red Rice, Hoppers, Rotti)</option>
+                                        <option value="Curries & Meats">🍛 Curries & Meats (Chicken, Kaju Maluwa, Pork, Fish, Dhal)</option>
+                                        <option value="Veggies & Sambols">🥗 Veggies & Sambols (Pol Sambol, Katta Sambol, Moju)</option>
+                                    </optgroup>
+                                    <optgroup label="Drinks & Liquids">
+                                        <option value="Beverages">🍹 Beverages (Soft Drinks, Water, Fresh Juices)</option>
+                                    </optgroup>
+                                    <optgroup label="Daily Meal Menus">
+                                        <option value="Breakfast">Breakfast 🍳 (Morning Menu)</option>
+                                        <option value="Lunch">Lunch ☀️ (Mid-day Special)</option>
+                                        <option value="Dinner">Dinner 🌙 (Evening Course)</option>
+                                        <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu</option>
+                                        <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu</option>
+                                        <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu</option>
+                                        <option value="English breakfast Menu">English breakfast Menu</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Portion Size, Brand, Volume & Channel -->
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-3.5 bg-amber-50/40 rounded-2xl border border-amber-200/60">
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Portion Size</label>
+                                <input type="text" name="portion_size" x-model="currentFood.portion_size" placeholder="e.g. 1 Portion, 10 Pcs, 1 Can" 
+                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Brand / Supplier</label>
+                                <input type="text" name="brand" x-model="currentFood.brand" placeholder="e.g. Coca-Cola, Highland, Elephant House" 
+                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Volume (ml)</label>
+                                <input type="number" min="0" step="1" name="volume_ml" x-model="currentFood.volume_ml" placeholder="e.g. 330, 500, 750" 
+                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Sales Channel</label>
+                                <select name="channel" x-model="currentFood.channel" 
+                                        class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                                    <option value="all">Everywhere (POS & App)</option>
+                                    <option value="pos">POS Buffet Only (Counter)</option>
+                                    <option value="app">Mobile App Only</option>
                                 </select>
                             </div>
                         </div>
@@ -1213,6 +1347,123 @@
                         <span x-text="'Yes, Delete ' + (deleteType === 'beverage' ? 'Beverage' : 'Meal')"></span>
                     </button>
                 </form>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- BULK IMPORT MODAL (EXCEL / CSV) -->
+        <!-- ========================================== -->
+        <div x-show="openImportModal" 
+             x-cloak 
+             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs overflow-y-auto"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0">
+
+            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-xl overflow-hidden my-8 border border-gray-100"
+                 @click.away="openImportModal = false"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+                 x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+
+                <div class="p-6 sm:p-8" x-data="{ uploadFileName: '' }">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-5">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-2xl bg-emerald-700 text-white flex items-center justify-center font-bold text-xl shadow-xs">
+                                📊
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-extrabold text-gray-900">Bulk Import Buffet & Beverages</h2>
+                                <p class="text-xs text-gray-400">Upload an Excel (.xlsx) or CSV file with buffet dishes & drinks</p>
+                            </div>
+                        </div>
+                        <button @click="openImportModal = false" class="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- Step 1: Download Templates -->
+                    <div class="mb-5 p-4 rounded-2xl bg-[#0A2E2A]/5 border border-[#0A2E2A]/15">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-wider text-[#0A2E2A]">Step 1: Download Sample Template</span>
+                            <span class="text-[10px] font-bold text-[#C9A050]">23 Pre-filled SL Dishes</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mb-3 leading-relaxed">
+                            Use our pre-formatted spreadsheet with Sri Lankan buffet dishes (Basmati, Kaju Maluwa, Chicken Curry, Pol Sambol, Moju) and beverages with brands & ML volume.
+                        </p>
+                        <div class="flex items-center flex-wrap gap-2">
+                            <a href="{{ route('foods.template', ['format' => 'xlsx']) }}" 
+                               class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs inline-flex items-center space-x-1.5 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <span>Download Excel (.xlsx)</span>
+                            </a>
+                            <a href="{{ route('foods.template', ['format' => 'csv']) }}" 
+                               class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl border border-gray-300 inline-flex items-center space-x-1.5 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <span>Download CSV (.csv)</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Upload File Form -->
+                    <form method="POST" action="{{ route('foods.import') }}" enctype="multipart/form-data" class="space-y-4">
+                        @csrf
+
+                        <div>
+                            <label class="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">Step 2: Upload Completed File</label>
+                            <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-emerald-600 bg-gray-50/80 rounded-2xl p-6 transition-all duration-200 text-center cursor-pointer">
+                                <input type="file" name="file" accept=".xlsx,.xls,.csv,text/csv" required 
+                                       @change="uploadFileName = $event.target.files[0] ? $event.target.files[0].name : ''"
+                                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+
+                                <template x-if="!uploadFileName">
+                                    <div>
+                                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-2xl mx-auto mb-2">
+                                            📁
+                                        </div>
+                                        <p class="text-xs font-bold text-gray-800">
+                                            <span class="text-emerald-700 underline">Click to choose spreadsheet</span> or drag and drop here
+                                        </p>
+                                        <p class="text-[11px] text-gray-400 mt-1">Supports .xlsx, .xls, and .csv files (max 10MB)</p>
+                                    </div>
+                                </template>
+
+                                <template x-if="uploadFileName">
+                                    <div class="flex items-center space-x-3 text-left w-full p-2 bg-emerald-50 rounded-xl border border-emerald-200">
+                                        <div class="w-9 h-9 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                                            ✓
+                                        </div>
+                                        <div class="min-w-0 flex-1">
+                                            <p class="text-xs font-bold text-gray-900 truncate" x-text="uploadFileName"></p>
+                                            <p class="text-[10px] text-emerald-700 font-semibold">Ready to import items</p>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Column Specification Hint -->
+                        <div class="p-3 bg-gray-50 rounded-xl text-[11px] text-gray-500 font-medium space-y-1">
+                            <p class="font-bold text-gray-700">Supported columns:</p>
+                            <p class="font-mono text-[10px] text-emerald-800">Name | Category | Price_LKR | Portion_Size | Brand | Volume_ML | Channel | Description | Calories</p>
+                            <p class="text-[10px] text-gray-400">Note: Items with Channel = <strong>pos</strong> are exclusively available on the POS Buffet Counter.</p>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="pt-3 border-t border-gray-100 flex items-center justify-end space-x-3">
+                            <button type="button" @click="openImportModal = false" class="px-5 py-3 rounded-2xl border border-gray-200 text-gray-600 font-bold text-xs hover:bg-gray-100 transition-all cursor-pointer">
+                                Cancel
+                            </button>
+                            <button type="submit" class="px-6 py-3 bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs sm:text-sm rounded-2xl shadow-lg shadow-emerald-900/20 transition-all cursor-pointer">
+                                Upload & Import Items
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 

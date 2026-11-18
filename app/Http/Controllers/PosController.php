@@ -17,11 +17,16 @@ class PosController extends Controller
     {
         $search = trim((string) $request->query('search', ''));
 
-        // Mirror the Food & Menu module: beverage placeholders stay hidden while disabled.
+        // Fetch all sellable counter items (Buffet items, Individual Portions, Beverages, Meal Sets)
         $foods = Food::query()
-            ->where('type', '!=', 'Beverage')
+            ->forPos()
             ->when($search !== '', function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('brand', 'like', '%' . $search . '%')
+                      ->orWhere('type', 'like', '%' . $search . '%')
+                      ->orWhere('portion_size', 'like', '%' . $search . '%');
+                });
             })
             ->orderBy('type')
             ->orderBy('name')
@@ -31,6 +36,9 @@ class PosController extends Controller
                 'name' => $food->name,
                 'price' => (float) $food->price,
                 'category' => $food->type,
+                'portion_size' => $food->portion_size ?: $food->servings,
+                'brand' => $food->brand,
+                'volume_ml' => $food->volume_ml,
                 'image' => $food->image_url,
             ])
             ->values();
