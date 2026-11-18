@@ -811,25 +811,27 @@
         <!-- ========================================== -->
         <!-- ADD ITEM / BEVERAGE MODAL -->
         <!-- ========================================== -->
-        <div x-show="openCreateModal" 
-             x-cloak 
-             class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs"
-             @keydown.escape.window="openCreateModal = false"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0">
-
-            <div class="bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-2xl max-h-[92vh] flex flex-col border border-gray-200/80 dark:border-[#163832] overflow-hidden"
-                 @click.away="openCreateModal = false"
-                 x-transition:enter="transition ease-out duration-250"
-                 x-transition:enter-start="opacity-0 scale-[0.98] translate-y-2"
-                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+        <template x-teleport="body">
+            <div x-show="openCreateModal" 
+                 x-cloak 
+                 class="fixed inset-0 z-[100] overflow-y-auto flex justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-xs"
+                 @keydown.escape.window="openCreateModal = false"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
                  x-transition:leave="transition ease-in duration-150"
-                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                 x-transition:leave-end="opacity-0 scale-[0.98] translate-y-2">
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0">
+
+                <div class="m-auto bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-gray-200/80 dark:border-[#163832] overflow-hidden"
+                     style="max-height: 90vh;"
+                     @click.away="openCreateModal = false"
+                     x-transition:enter="transition ease-out duration-250"
+                     x-transition:enter-start="opacity-0 scale-[0.98] translate-y-2"
+                     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 scale-[0.98] translate-y-2">
 
                 <!-- 1. Sticky / Fixed Header -->
                 <div class="px-6 py-4.5 border-b border-gray-100 dark:border-[#163832] flex items-center justify-between shrink-0 bg-white/95 dark:bg-[#071916]/95 backdrop-blur-md">
@@ -1095,29 +1097,32 @@
                 </form>
             </div>
         </div>
+        </template>
 
         <!-- ========================================== -->
         <!-- EDIT ITEM / BEVERAGE MODAL -->
         <!-- ========================================== -->
-        <div x-show="openEditModal" 
-             x-cloak 
-             class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs"
-             @keydown.escape.window="openEditModal = false"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0">
-
-            <div class="bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-2xl max-h-[92vh] flex flex-col border border-gray-200/80 dark:border-[#163832] overflow-hidden"
-                 @click.away="openEditModal = false"
-                 x-transition:enter="transition ease-out duration-250"
-                 x-transition:enter-start="opacity-0 scale-[0.98] translate-y-2"
-                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+        <template x-teleport="body">
+            <div x-show="openEditModal" 
+                 x-cloak 
+                 class="fixed inset-0 z-[100] overflow-y-auto flex justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-xs"
+                 @keydown.escape.window="openEditModal = false"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
                  x-transition:leave="transition ease-in duration-150"
-                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                 x-transition:leave-end="opacity-0 scale-[0.98] translate-y-2">
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0">
+
+                <div class="m-auto bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-gray-200/80 dark:border-[#163832] overflow-hidden"
+                     style="max-height: 90vh;"
+                     @click.away="openEditModal = false"
+                     x-transition:enter="transition ease-out duration-250"
+                     x-transition:enter-start="opacity-0 scale-[0.98] translate-y-2"
+                     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 scale-[0.98] translate-y-2">
 
                 <!-- 1. Sticky / Fixed Header -->
                 <div class="px-6 py-4.5 border-b border-gray-100 dark:border-[#163832] flex items-center justify-between shrink-0 bg-white/95 dark:bg-[#071916]/95 backdrop-blur-md">
@@ -1380,66 +1385,71 @@
                 </form>
             </div>
         </div>
+        </template>
 
         <!-- ========================================== -->
         <!-- DELETE CONFIRMATION MODAL -->
         <!-- ========================================== -->
-        <div x-show="openDeleteModal" 
-             x-cloak 
-             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0">
+        <template x-teleport="body">
+            <div x-show="openDeleteModal" 
+                 x-cloak 
+                 class="fixed inset-0 z-[100] overflow-y-auto flex justify-center p-4 bg-black/70 backdrop-blur-xs"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0">
 
-            <div class="bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-md overflow-hidden p-6 sm:p-7 border border-gray-100 dark:border-[#163832]"
-                 @click.away="openDeleteModal = false">
-                <div class="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center text-xl font-bold mb-4 border border-red-200 dark:border-red-900/40">
-                    ⚠️
+                <div class="m-auto bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-md overflow-hidden p-6 sm:p-7 border border-gray-100 dark:border-[#163832]"
+                     @click.away="openDeleteModal = false">
+                    <div class="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center text-xl font-bold mb-4 border border-red-200 dark:border-red-900/40">
+                        ⚠️
+                    </div>
+                    <h3 class="text-lg font-black text-gray-900 dark:text-[#F5F3EF] mb-1" x-text="'Delete ' + (deleteType === 'beverage' ? 'Beverage' : 'Meal') + '?'"></h3>
+                    <p class="text-xs sm:text-sm text-gray-500 dark:text-[#8FA8A3] mb-6">
+                        Are you sure you want to remove <strong class="text-gray-800 dark:text-[#D1DCD9]" x-text="deleteName"></strong> from the catalog? This will permanently delete this <span x-text="deleteType === 'beverage' ? 'beverage item' : 'dish and its ratings'"></span>.
+                    </p>
+
+                    <form method="POST" :action="'/foods/' + deleteId" class="flex items-center justify-end space-x-3">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" @click="openDeleteModal = false" class="px-4 py-2.5 rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-bold text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-50 dark:hover:bg-[#123831] transition-all cursor-pointer">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-md shadow-red-500/20 transition-all cursor-pointer">
+                            <span x-text="'Yes, Delete ' + (deleteType === 'beverage' ? 'Beverage' : 'Meal')"></span>
+                        </button>
+                    </form>
                 </div>
-                <h3 class="text-lg font-black text-gray-900 dark:text-[#F5F3EF] mb-1" x-text="'Delete ' + (deleteType === 'beverage' ? 'Beverage' : 'Meal') + '?'"></h3>
-                <p class="text-xs sm:text-sm text-gray-500 dark:text-[#8FA8A3] mb-6">
-                    Are you sure you want to remove <strong class="text-gray-800 dark:text-[#D1DCD9]" x-text="deleteName"></strong> from the catalog? This will permanently delete this <span x-text="deleteType === 'beverage' ? 'beverage item' : 'dish and its ratings'"></span>.
-                </p>
-
-                <form method="POST" :action="'/foods/' + deleteId" class="flex items-center justify-end space-x-3">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" @click="openDeleteModal = false" class="px-4 py-2.5 rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-bold text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-50 dark:hover:bg-[#123831] transition-all cursor-pointer">
-                        Cancel
-                    </button>
-                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-md shadow-red-500/20 transition-all cursor-pointer">
-                        <span x-text="'Yes, Delete ' + (deleteType === 'beverage' ? 'Beverage' : 'Meal')"></span>
-                    </button>
-                </form>
             </div>
-        </div>
+        </template>
 
         <!-- ========================================== -->
         <!-- BULK IMPORT MODAL (EXCEL / CSV) -->
         <!-- ========================================== -->
-        <div x-show="openImportModal" 
-             x-cloak 
-             class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs"
-             @keydown.escape.window="openImportModal = false"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0">
-
-            <div class="bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-xl max-h-[92vh] flex flex-col border border-gray-200/80 dark:border-[#163832] overflow-hidden"
-                 @click.away="openImportModal = false"
-                 x-transition:enter="transition ease-out duration-250"
-                 x-transition:enter-start="opacity-0 scale-[0.98] translate-y-2"
-                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+        <template x-teleport="body">
+            <div x-show="openImportModal" 
+                 x-cloak 
+                 class="fixed inset-0 z-[100] overflow-y-auto flex justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-xs"
+                 @keydown.escape.window="openImportModal = false"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
                  x-transition:leave="transition ease-in duration-150"
-                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                 x-transition:leave-end="opacity-0 scale-[0.98] translate-y-2"
-                 x-data="{ uploadFileName: '' }">
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0">
+
+                <div class="m-auto bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col border border-gray-200/80 dark:border-[#163832] overflow-hidden"
+                     style="max-height: 90vh;"
+                     @click.away="openImportModal = false"
+                     x-transition:enter="transition ease-out duration-250"
+                     x-transition:enter-start="opacity-0 scale-[0.98] translate-y-2"
+                     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 scale-[0.98] translate-y-2"
+                     x-data="{ uploadFileName: '' }">
 
                 <!-- 1. Sticky / Fixed Header -->
                 <div class="px-6 py-4.5 border-b border-gray-100 dark:border-[#163832] flex items-center justify-between shrink-0 bg-white/95 dark:bg-[#071916]/95 backdrop-blur-md">
@@ -1539,6 +1549,7 @@
                 </form>
             </div>
         </div>
+        </template>
 
     </div>
 </x-app-layout>
