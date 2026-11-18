@@ -29,6 +29,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
         'phone',
@@ -41,6 +42,16 @@ class User extends Authenticatable
     public function isChef(): bool
     {
         return $this->role === 'Chef';
+    }
+
+    public function isPos(): bool
+    {
+        return $this->role === 'POS';
+    }
+
+    public function isAdmin(): bool
+    {
+        return !in_array($this->role, ['Chef', 'POS']);
     }
 
     /**

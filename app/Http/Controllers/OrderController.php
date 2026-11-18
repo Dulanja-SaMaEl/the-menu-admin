@@ -87,10 +87,13 @@ class OrderController extends Controller
         // API consumers (mobile app) receive JSON for the authenticated user/driver.
         if ($request->wantsJson() || $request->is('api/*')) {
             $user = $request->user();
+            $limit = min(100, max(1, (int)$request->input('limit', 50)));
+
             if ($user instanceof Driver) {
                 $orders = \App\Models\Order::with(['items.food.ingredients', 'user'])
                                            ->where('driver_id', $user->id)
                                            ->orderBy('created_at', 'desc')
+                                           ->limit($limit)
                                            ->get();
             } else {
                 if ($user) {
@@ -99,6 +102,7 @@ class OrderController extends Controller
                 $orders = \App\Models\Order::with('items.food.ingredients')
                                            ->where('user_id', $user?->id)
                                            ->orderBy('created_at', 'desc')
+                                           ->limit($limit)
                                            ->get();
             }
 

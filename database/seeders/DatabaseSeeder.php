@@ -44,5 +44,6 @@ class DatabaseSeeder extends Seeder
         $this->call(OrderSeeder::class);
         $this->call(DriverSeeder::class);
         $this->call(EventSeeder::class);
+        $this->call(PosUserSeeder::class);
     }
 }

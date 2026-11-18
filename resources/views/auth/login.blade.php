@@ -134,7 +134,7 @@
                     Welcome Back
                 </h1>
                 <p class="text-xs sm:text-sm text-gray-300 mt-1 font-medium glass-card-subtitle">
-                    Menu Management &amp; Culinary Operations
+                    Management Console &amp; POS Counter Terminal
                 </p>
             </div>
 
@@ -159,26 +159,26 @@
             <form action="{{ route('login') }}" method="POST" class="space-y-5">
                 @csrf
 
-                <!-- Email Input -->
+                <!-- Email or Username Input -->
                 <div>
-                    <label for="email" class="block text-xs font-bold uppercase tracking-wider text-white mb-2 glass-label">
-                        Email Address
+                    <label for="login" class="block text-xs font-bold uppercase tracking-wider text-white mb-2 glass-label">
+                        Email or Username
                     </label>
                     <div class="relative group">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/70 group-focus-within:text-[#C9A050] transition-colors glass-icon">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.206"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </div>
-                        <input id="email" 
-                               type="email" 
-                               name="email" 
-                               value="{{ old('email') }}" 
+                        <input id="login" 
+                               type="text" 
+                               name="login" 
+                               value="{{ old('login', old('email')) }}" 
                                required 
                                autofocus 
                                autocomplete="username" 
-                               placeholder="admin@themenu.com" 
-                               class="glass-input w-full pl-11 pr-4 py-3.5 sm:py-4 bg-black/40 hover:bg-black/50 focus:bg-black/60 border border-white/20 focus:border-[#C9A050] rounded-2xl text-sm font-semibold text-white placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-[#C9A050]/25 shadow-inner transition-all duration-200 @error('email') border-rose-400 ring-2 ring-rose-500/30 @enderror">
+                               placeholder="admin@themenu.com or POS" 
+                               class="glass-input w-full pl-11 pr-4 py-3.5 sm:py-4 bg-black/40 hover:bg-black/50 focus:bg-black/60 border border-white/20 focus:border-[#C9A050] rounded-2xl text-sm font-semibold text-white placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-[#C9A050]/25 shadow-inner transition-all duration-200 @if($errors->has('login') || $errors->has('email')) border-rose-400 ring-2 ring-rose-500/30 @endif">
                     </div>
                 </div>
 

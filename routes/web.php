@@ -15,9 +15,12 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PosController;
 
 Route::get('/', function () {
-    return auth()->check()
-        ? redirect()->route('dashboard')
-        : redirect()->route('login');
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
+    return auth()->user()->role === 'POS'
+        ? redirect()->route('pos.index')
+        : redirect()->route('dashboard');
 });
 
 // Public Terms & Conditions for Google Play & App Store Compliance
@@ -32,8 +35,16 @@ Route::middleware('guest')->group(function () {
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Authenticated application routes
-Route::middleware('auth')->group(function () {
+// Authenticated Point of Sale (POS) Routes (Accessible by POS staff and Admins; restricted from Chef)
+Route::middleware(['auth', 'not_chef'])->group(function () {
+    Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
+    Route::post('/pos/checkout', [PosController::class, 'checkout'])->name('pos.checkout');
+    Route::get('/pos/receipt/{order}', [PosController::class, 'receipt'])->name('pos.receipt');
+    Route::get('/pos/recent-orders', [PosController::class, 'recentOrders'])->name('pos.recentOrders');
+});
+
+// Authenticated Administrative Application Routes (Strictly restricted from POS accounts)
+Route::middleware(['auth', 'not_pos'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     
     // Food & Menu Management (Full CRUD - Accessible by Kitchen/Chef)
@@ -59,7 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/category/{slug}', [PageController::class, 'category'])->name('category');
     Route::get('/messages', [PageController::class, 'messages'])->name('messages');
 
-    // Administration, Drivers, Financial & POS (Strictly restricted from Chef)
+    // Administration, Drivers, Financial & Reports (Strictly restricted from Chef)
     Route::middleware('not_chef')->group(function () {
         Route::get('/dashboard/sales-export', [PageController::class, 'exportSalesSummary'])->name('dashboard.salesExport');
         Route::get('/orders/export', [OrderController::class, 'export'])->name('orders.export');
@@ -82,11 +93,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/drivers/{driver}', [DriverController::class, 'destroy'])->name('drivers.destroy');
         
         Route::get('/bills', [PageController::class, 'bills'])->name('bills');
-
-        // Point of Sale (Touch-Screen Terminal & 80mm Thermal Receipts)
-        Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
-        Route::post('/pos/checkout', [PosController::class, 'checkout'])->name('pos.checkout');
-        Route::get('/pos/receipt/{order}', [PosController::class, 'receipt'])->name('pos.receipt');
         
         // Financial & Transactions Management
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');

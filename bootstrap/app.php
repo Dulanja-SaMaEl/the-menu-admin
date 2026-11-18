@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
         $middleware->alias([
             'not_chef' => \App\Http\Middleware\EnsureNotChef::class,
+            'not_pos' => \App\Http\Middleware\EnsureNotPos::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

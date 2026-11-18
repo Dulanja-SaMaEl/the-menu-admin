@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\UserNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -235,6 +236,12 @@ class SubscriptionRenewalService
      */
     public static function checkUserRenewal(int $userId): ?Order
     {
+        // Avoid querying orders table on every API request - cache per user per day
+        $cacheKey = "user_renewal_checked_{$userId}_" . date('Y-m-d');
+        if (Cache::has($cacheKey)) {
+            return null;
+        }
+
         $today = Carbon::today();
 
         $subscription = Order::with(['items.food'])
@@ -247,11 +254,13 @@ class SubscriptionRenewalService
             ->first();
 
         if (!$subscription || $subscription->items->isEmpty()) {
+            Cache::put($cacheKey, true, now()->endOfDay());
             return null;
         }
 
         $sortedItems = $subscription->items->filter(fn($i) => !empty($i->scheduled_date))->sortBy('scheduled_date');
         if ($sortedItems->isEmpty()) {
+            Cache::put($cacheKey, true, now()->endOfDay());
             return null;
         }
 
@@ -262,9 +271,12 @@ class SubscriptionRenewalService
         $endDate = Carbon::parse($lastItem->scheduled_date)->startOfDay();
 
         if ($today->lt($endDate)) {
+            Cache::put($cacheKey, true, now()->endOfDay());
             return null;
         }
 
-        return self::renewSubscription($subscription, $startDate, $endDate);
+        $renewed = self::renewSubscription($subscription, $startDate, $endDate);
+        Cache::put($cacheKey, true, now()->endOfDay());
+        return $renewed;
     }
 }

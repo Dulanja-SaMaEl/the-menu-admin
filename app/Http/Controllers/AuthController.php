@@ -441,31 +441,65 @@ class AuthController extends Controller
 
     /**
      * Handle a web authentication attempt.
+     * Supports both email and username (e.g. POS), routing POS staff to the
+     * dedicated Point of Sale terminal and administrators to the management dashboard.
      */
     public function authenticate(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
+        $login = trim((string) ($request->input('login') ?? $request->input('email') ?? ''));
+
+        $request->merge(['login' => $login]);
+
+        $request->validate([
+            'login' => ['required', 'string'],
             'password' => ['required', 'string'],
         ], [
-            'email.required' => 'Please enter your email address.',
-            'email.email' => 'Please enter a valid email address.',
+            'login.required' => 'Please enter your username or email address.',
             'password.required' => 'Please enter your password.',
         ]);
 
+        $password = (string) $request->input('password');
         $remember = $request->boolean('remember');
 
-        if (! Auth::attempt($credentials, $remember)) {
-            return back()
-                ->withInput($request->only('email', 'remember'))
-                ->withErrors([
-                    'email' => 'These credentials do not match our records.',
-                ]);
+        // 1. Look up user by username (case-insensitive) or email (case-insensitive)
+        $user = User::whereRaw('LOWER(username) = ?', [strtolower($login)])
+            ->orWhereRaw('LOWER(email) = ?', [strtolower($login)])
+            ->first();
+
+        // 2. If not found, check phone if input contains numbers
+        if (!$user) {
+            $normalizedPhone = $this->normalizePhone($login);
+            if (!empty($normalizedPhone)) {
+                $user = User::where('phone', $normalizedPhone)
+                    ->orWhere('phone', $login)
+                    ->first();
+            }
         }
 
-        $request->session()->regenerate();
+        // 3. Fallback: match by name
+        if (!$user) {
+            $user = User::whereRaw('LOWER(name) = ?', [strtolower($login)])->first();
+        }
 
-        return redirect()->intended(route('dashboard'));
+        // 4. Verify password and authenticate
+        if ($user && Hash::check($password, $user->password)) {
+            Auth::login($user, $remember);
+            $request->session()->regenerate();
+
+            // POS users are directly redirected to the isolated POS terminal
+            if ($user->role === 'POS') {
+                return redirect()->route('pos.index');
+            }
+
+            return redirect()->intended(route('dashboard'));
+        }
+
+        return back()
+            ->withInput($request->only('login', 'email', 'remember'))
+            ->withErrors([
+                'login' => 'These credentials do not match our records.',
+                'email' => 'These credentials do not match our records.',
+            ]);
     }
 
     /**

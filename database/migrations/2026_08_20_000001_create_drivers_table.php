@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('drivers', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('status')->default('available'); // available, on_delivery, offline
-            $table->string('vehicle_type')->nullable();
-            $table->string('vehicle_number')->nullable();
-            $table->integer('total_deliveries')->default(0);
-            $table->string('avatar_url')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('drivers')) {
+            Schema::create('drivers', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('email')->nullable();
+                $table->string('phone')->nullable();
+                $table->string('status')->default('available'); // available, on_delivery, offline
+                $table->string('vehicle_type')->nullable();
+                $table->string('vehicle_number')->nullable();
+                $table->integer('total_deliveries')->default(0);
+                $table->string('avatar_url')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
