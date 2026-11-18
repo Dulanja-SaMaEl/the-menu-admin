@@ -1926,7 +1926,7 @@
                                         @endif
                                     </td>
                                     <td class="py-4 px-6 text-xs text-gray-600 dark:text-[#8FA8A3]">
-                                        {{ $order->orderItems->count() }} item(s)
+                                        {{ $order->items ? $order->items->sum('quantity') : 0 }} item(s)
                                     </td>
                                     <td class="py-4 px-6 text-xs">
                                         @if($order->payment_method === 'Cash')

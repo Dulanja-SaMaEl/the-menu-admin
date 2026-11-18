@@ -139,6 +139,11 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function orderItems()
+    {
+        return $this->items();
+    }
+
     public function renewedFrom()
     {
         return $this->belongsTo(Order::class, 'renewed_from_order_id');
