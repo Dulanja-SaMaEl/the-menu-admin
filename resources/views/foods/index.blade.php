@@ -211,7 +211,7 @@
 
         <!-- Metric KPI Cards (Balanced 5-Column Grid) -->
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-8">
-            <a href="{{ route('foods.index', ['type' => 'Breakfast']) }}" class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
+            <a href="{{ route('foods.index', ['type' => 'Breakfast']) }}" class="bg-white dark:bg-[#081A17] rounded-3xl p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
                         <span class="text-xs font-bold text-amber-700 dark:text-amber-400 truncate group-hover:text-[#C9A050] transition-colors" title="Sri Lankan Style Breakfast Menu">SL Breakfast</span>
@@ -222,7 +222,7 @@
                 <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Morning menus</p>
             </a>
 
-            <a href="{{ route('foods.index', ['type' => 'Lunch']) }}" class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
+            <a href="{{ route('foods.index', ['type' => 'Lunch']) }}" class="bg-white dark:bg-[#081A17] rounded-3xl p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
                         <span class="text-xs font-bold text-orange-700 dark:text-orange-400 truncate group-hover:text-[#C9A050] transition-colors" title="Sri Lankan Style Lunch Menu">SL Lunch</span>
@@ -233,7 +233,7 @@
                 <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Mid-day specials</p>
             </a>
 
-            <a href="{{ route('foods.index', ['type' => 'Dinner']) }}" class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
+            <a href="{{ route('foods.index', ['type' => 'Dinner']) }}" class="bg-white dark:bg-[#081A17] rounded-3xl p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
                         <span class="text-xs font-bold text-indigo-700 dark:text-indigo-400 truncate group-hover:text-[#C9A050] transition-colors" title="Sri Lankan Style Dinner Menu">SL Dinner</span>
@@ -244,7 +244,7 @@
                 <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Evening courses</p>
             </a>
 
-            <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
+            <div class="bg-white dark:bg-[#081A17] rounded-3xl p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/40 transition-all duration-300 transform-gpu flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
                         <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 truncate">Ingredients</span>
@@ -255,7 +255,7 @@
                 <p class="text-[11px] text-gray-400 dark:text-[#8FA8A3] font-medium mt-1">Recipe ingredients</p>
             </div>
 
-            <a href="{{ route('foods.index', ['type' => 'all']) }}" class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
+            <a href="{{ route('foods.index', ['type' => 'all']) }}" class="bg-white dark:bg-[#081A17] rounded-3xl p-5 sm:p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:border-[#C9A050]/60 hover:shadow-md transition-all duration-300 transform-gpu flex flex-col justify-between group cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between mb-2 sm:mb-3">
                         <span class="text-xs font-bold text-[#C9A050] dark:text-[#D8B060] group-hover:underline">Avg. Price</span>
@@ -268,7 +268,7 @@
         </div>
 
         <!-- Filter & Search Toolbar -->
-        <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-4 sm:p-5 border border-gray-200/80 dark:border-[#163832] shadow-xs mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transform-gpu">
+        <div class="bg-white dark:bg-[#081A17] rounded-3xl p-4 sm:p-5 border border-gray-200/80 dark:border-[#163832] shadow-xs mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transform-gpu">
             <!-- Meal & Beverage Type Tabs -->
             <div class="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0 custom-scrollbar">
                 @php
@@ -356,7 +356,7 @@
             <!-- ============================================================= -->
 
             <!-- Master Beverage Banner -->
-            <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0d3833] to-[#0A2E2A] text-white rounded-[2.5rem] p-6 sm:p-8 border border-[#C9A050]/40 shadow-xl shadow-[#0A2E2A]/10 mb-8 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0d3833] to-[#0A2E2A] text-white rounded-3xl p-6 sm:p-8 border border-[#C9A050]/40 shadow-xl shadow-[#0A2E2A]/10 mb-8 relative overflow-hidden">
                 <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-[#C9A050]/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute right-8 top-1/2 -translate-y-1/2 text-8xl opacity-10 select-none pointer-events-none">🍹</div>
 
@@ -410,7 +410,7 @@
             </div>
 
             <!-- Spacious Luxury SaaS Table View -->
-            <div x-show="viewMode === 'table'" class="bg-white rounded-[2.5rem] p-6 sm:p-8 border border-gray-200/80 shadow-xs overflow-hidden mb-8 transform-gpu">
+            <div x-show="viewMode === 'table'" class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs overflow-hidden mb-8 transform-gpu">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-6 border-b border-gray-100 gap-3">
                     <div>
                         <h3 class="text-lg font-black text-gray-900 tracking-tight">Master Beverages Directory</h3>
@@ -538,7 +538,7 @@
             <!-- Beverage Cards Grid (when viewMode === 'grid') -->
             <div x-show="viewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 @forelse($foods as $bev)
-                    <div class="bg-white rounded-[2.5rem] p-6 border border-gray-200/80 shadow-xs hover:shadow-md hover:border-[#C9A050]/40 transition-all duration-300 flex flex-col group justify-between transform-gpu will-change-transform">
+                    <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs hover:shadow-md hover:border-[#C9A050]/40 transition-all duration-300 flex flex-col group justify-between transform-gpu will-change-transform">
                         <div>
                             <!-- Beverage Image -->
                             <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100 shadow-xs">
@@ -620,7 +620,7 @@
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-full py-16 text-center bg-white rounded-[2.5rem] border border-gray-200/80 shadow-xs">
+                    <div class="col-span-full py-16 text-center bg-white rounded-3xl border border-gray-200/80 shadow-xs">
                         <div class="text-5xl mb-3">🍹</div>
                         <h3 class="text-lg font-black text-gray-900 mb-1">No beverages found</h3>
                         <p class="text-xs text-gray-500 max-w-sm mx-auto mb-4 font-medium">No master beverages match your search. Add drinks to populate your master list.</p>
@@ -637,7 +637,7 @@
             <!-- ============================================================= -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
                 @forelse($foods as $food)
-                    <div class="bg-white dark:bg-[#081A17] rounded-[2.5rem] p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:shadow-md hover:border-[#C9A050]/40 transition-all duration-300 flex flex-col group justify-between transform-gpu will-change-transform">
+                    <div class="bg-white dark:bg-[#081A17] rounded-3xl p-6 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:shadow-md hover:border-[#C9A050]/40 transition-all duration-300 flex flex-col group justify-between transform-gpu will-change-transform">
                         <div>
                             <!-- Dish Image with Overlay Badges -->
                             <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100 dark:bg-[#123831] shadow-xs">
@@ -792,7 +792,7 @@
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-full py-20 text-center bg-white rounded-[2.5rem] border border-gray-200/80 shadow-xs">
+                    <div class="col-span-full py-20 text-center bg-white rounded-3xl border border-gray-200/80 shadow-xs">
                         <div class="text-6xl mb-4">🍽️</div>
                         <h3 class="text-xl font-black text-gray-900 mb-1">No items found</h3>
                         <p class="text-sm text-gray-500 max-w-md mx-auto mb-6 font-medium">No items match your selected filter or search term. Try resetting your search or add a new meal.</p>
@@ -813,219 +813,210 @@
         <!-- ========================================== -->
         <div x-show="openCreateModal" 
              x-cloak 
-             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs overflow-y-auto"
-             x-transition:enter="transition ease-out duration-300"
+             class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs"
+             @keydown.escape.window="openCreateModal = false"
+             x-transition:enter="transition ease-out duration-200"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave="transition ease-in duration-150"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0">
 
-            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-2xl overflow-hidden my-8 border border-gray-100"
+            <div class="bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-2xl max-h-[92vh] flex flex-col border border-gray-200/80 dark:border-[#163832] overflow-hidden"
                  @click.away="openCreateModal = false"
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-                 x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+                 x-transition:enter="transition ease-out duration-250"
+                 x-transition:enter-start="opacity-0 scale-[0.98] translate-y-2"
+                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-[0.98] translate-y-2">
 
-                <div class="p-6 sm:p-8">
-                    <!-- Modal Header -->
-                    <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-6">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-2xl bg-[#0A2E2A] text-[#C9A050] flex items-center justify-center font-bold text-xl border border-[#C9A050]/30 shadow-xs">
-                                <span x-text="currentFood.type === 'Beverage' ? '🍹' : '🍳'"></span>
-                            </div>
-                            <div>
-                                <h2 class="text-xl font-extrabold text-gray-900" x-text="currentFood.type === 'Beverage' ? 'Add Master Beverage' : 'Add New Dish'"></h2>
-                                <p class="text-xs text-gray-400" x-text="currentFood.type === 'Beverage' ? 'Configure a drink in the master catalog for menus & subscriptions' : 'Add a delicious meal item to Menu catalog'"></p>
-                            </div>
+                <!-- 1. Sticky / Fixed Header -->
+                <div class="px-6 py-4.5 border-b border-gray-100 dark:border-[#163832] flex items-center justify-between shrink-0 bg-white/95 dark:bg-[#071916]/95 backdrop-blur-md">
+                    <div class="flex items-center space-x-3 min-w-0">
+                        <div class="w-10 h-10 rounded-2xl bg-[#0A2E2A] text-[#C9A050] dark:bg-[#123831] dark:text-[#D8B060] flex items-center justify-center font-bold text-lg border border-[#C9A050]/30 shrink-0">
+                            <span x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? '🍹' : '🍽️'"></span>
                         </div>
-                        <button @click="openCreateModal = false" class="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </button>
+                        <div class="min-w-0">
+                            <h2 class="text-base sm:text-lg font-black text-gray-900 dark:text-[#F5F3EF] truncate" 
+                                x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Add Master Beverage' : 'Add New Culinary Dish'"></h2>
+                            <p class="text-xs text-gray-400 dark:text-[#8FA8A3] truncate" 
+                               x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Configure a drink in the master catalog for menus & subscriptions' : 'Add a culinary dish to Menu catalog or POS buffet counter'"></p>
+                        </div>
                     </div>
+                    <button type="button" @click="openCreateModal = false" class="p-2 text-gray-400 hover:text-gray-700 dark:text-[#8FA8A3] dark:hover:text-[#F5F3EF] rounded-xl hover:bg-gray-100 dark:hover:bg-[#123831] transition-colors shrink-0 cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
 
-                    <!-- Add Form -->
-                    <form method="POST" action="{{ route('foods.store') }}" enctype="multipart/form-data" class="space-y-4">
-                        @csrf
+                <!-- 2. Form Body (Scrollable with custom-scrollbar) -->
+                <form method="POST" action="{{ route('foods.store') }}" enctype="multipart/form-data" class="flex flex-col flex-1 overflow-hidden" x-data="{ showAdvanced: false }">
+                    @csrf
 
-                        <!-- Name & Category Type -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="px-6 py-5 overflow-y-auto custom-scrollbar flex-1 space-y-4.5">
+                        <!-- Row 1: Name & Category Type -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                             <div class="sm:col-span-2">
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Beverage Name *' : 'Meal / Dish Name *'"></label>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Beverage Name *' : 'Meal / Dish Name *'"></label>
                                 <input type="text" name="name" x-model="currentFood.name" required 
                                        :placeholder="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'e.g. Coca-Cola, Highland Water, Fresh Lime Juice' : 'e.g. Kaju Maluwa (Cashew Curry), Ceylon Chicken Curry, Basmati Rice'" 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
+                                       class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 text-xs sm:text-sm font-semibold text-gray-900 dark:text-[#F5F3EF] transition-all">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5">Category Type *</label>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Category *</label>
                                 <select name="type" x-model="currentFood.type" required 
-                                        class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <optgroup label="Daily Buffet Counters">
-                                        <option value="Rice & Carbs">🍚 Rice & Carbs (Basmati, Red Rice, Hoppers, Rotti)</option>
-                                        <option value="Curries & Meats">🍛 Curries & Meats (Chicken, Kaju Maluwa, Pork, Fish, Dhal)</option>
-                                        <option value="Veggies & Sambols">🥗 Veggies & Sambols (Pol Sambol, Katta Sambol, Moju)</option>
+                                        class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 text-xs sm:text-sm font-semibold text-gray-900 dark:text-[#F5F3EF] transition-all">
+                                    <optgroup label="Buffet Counter Dishes">
+                                        <option value="Rice & Carbs">Rice & Carbs</option>
+                                        <option value="Curries & Meats">Curries & Meats</option>
+                                        <option value="Veggies & Sambols">Veggies & Sambols</option>
                                     </optgroup>
-                                    <optgroup label="Drinks & Liquids">
-                                        <option value="Beverages">🍹 Beverages (Soft Drinks, Water, Fresh Juices)</option>
+                                    <optgroup label="Beverages & Refreshments">
+                                        <option value="Beverages">Beverages & Drinks</option>
                                     </optgroup>
-                                    <optgroup label="Daily Meal Menus">
-                                        <option value="Breakfast">Breakfast 🍳 (Morning Menu)</option>
-                                        <option value="Lunch">Lunch ☀️ (Mid-day Special)</option>
-                                        <option value="Dinner">Dinner 🌙 (Evening Course)</option>
-                                        <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu</option>
-                                        <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu</option>
-                                        <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu</option>
-                                        <option value="English breakfast Menu">English breakfast Menu</option>
+                                    <optgroup label="Daily Scheduled Menus">
+                                        <option value="Breakfast">Breakfast Menu</option>
+                                        <option value="Lunch">Lunch Menu</option>
+                                        <option value="Dinner">Dinner Menu</option>
+                                        <option value="English breakfast Menu">English Breakfast</option>
                                     </optgroup>
                                 </select>
                             </div>
                         </div>
 
-                        <!-- Portion Size, Brand, Volume & Channel -->
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-3.5 bg-amber-50/40 rounded-2xl border border-amber-200/60">
-                            <div>
-                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Portion Size</label>
-                                <input type="text" name="portion_size" x-model="currentFood.portion_size" placeholder="e.g. 1 Portion, 10 Pcs, 1 Can" 
-                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                        <!-- Row 2: Specifications Card (Context-Aware between Beverage & Food) -->
+                        <div class="p-4 bg-gray-50/80 dark:bg-[#081A17] rounded-2xl border border-gray-200/70 dark:border-[#163832]">
+                            <!-- BEVERAGE SPECIFICATIONS -->
+                            <div x-show="currentFood.type === 'Beverage' || currentFood.type === 'Beverages'" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Brand / Supplier</label>
+                                    <input type="text" name="brand" x-model="currentFood.brand" placeholder="e.g. Coca-Cola, Highland" 
+                                           class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Volume (ml)</label>
+                                    <input type="number" min="0" step="1" name="volume_ml" x-model="currentFood.volume_ml" placeholder="e.g. 330, 500" 
+                                           class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Portion / Packaging</label>
+                                    <input type="text" name="portion_size" x-model="currentFood.portion_size" placeholder="e.g. 330ml Can, 500ml Bottle" 
+                                           class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Sales Channel</label>
+                                    <select name="channel" x-model="currentFood.channel" 
+                                            class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                        <option value="all">Everywhere (POS & App)</option>
+                                        <option value="pos">POS Buffet Only</option>
+                                        <option value="app">Mobile App Only</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Brand / Supplier</label>
-                                <input type="text" name="brand" x-model="currentFood.brand" placeholder="e.g. Coca-Cola, Highland, Elephant House" 
-                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Volume (ml)</label>
-                                <input type="number" min="0" step="1" name="volume_ml" x-model="currentFood.volume_ml" placeholder="e.g. 330, 500, 750" 
-                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Sales Channel</label>
-                                <select name="channel" x-model="currentFood.channel" 
-                                        class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <option value="all">Everywhere (POS & App)</option>
-                                    <option value="pos">POS Buffet Only (Counter)</option>
-                                    <option value="app">Mobile App Only</option>
-                                </select>
+
+                            <!-- FOOD / MEAL SPECIFICATIONS -->
+                            <div x-show="currentFood.type !== 'Beverage' && currentFood.type !== 'Beverages'" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Portion Size / Serving Unit</label>
+                                    <input type="text" name="portion_size" x-model="currentFood.portion_size" placeholder="e.g. 1 Portion, Per 100g, 10 Pcs, Regular" 
+                                           class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Sales Channel</label>
+                                    <select name="channel" x-model="currentFood.channel" 
+                                            class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                        <option value="all">Everywhere (POS & App)</option>
+                                        <option value="pos">POS Buffet Only (Counter)</option>
+                                        <option value="app">Mobile Delivery App Only</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Price & Prep / Temperature & Calories -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <!-- Row 3: Price, Prep Time, Calories -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5">Price (Rs.) *</label>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Price (Rs.) *</label>
                                 <div class="relative">
-                                    <span class="absolute left-3.5 top-3 text-xs font-bold text-gray-400">Rs.</span>
+                                    <span class="absolute left-3.5 top-2.5 text-xs font-black text-gray-400 dark:text-[#8FA8A3]">Rs.</span>
                                     <input type="number" step="0.01" min="0" name="price" x-model="currentFood.price" required placeholder="250.00" 
-                                           class="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-bold text-[#C9A050] transition-all focus:ring-0">
+                                           class="w-full pl-10 pr-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 text-xs sm:text-sm font-black text-[#C9A050] dark:text-[#D8B060] transition-all">
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Service Style' : 'Prep Time'"></label>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Serving Style' : 'Prep Time'"></label>
                                 <input type="text" name="prep_time" x-model="currentFood.prep_time" 
-                                       :placeholder="currentFood.type === 'Beverage' ? 'Ready to Serve' : 'e.g. 15 min'" 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
+                                       :placeholder="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Ready to Serve' : 'e.g. 15 min'" 
+                                       class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 dark:text-[#F5F3EF] transition-all">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5">Calories (kcal)</label>
-                                <input type="number" min="0" name="calories" x-model="currentFood.calories" placeholder="e.g. 140" 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Calories (kcal)</label>
+                                <input type="number" min="0" name="calories" x-model="currentFood.calories" placeholder="e.g. 450" 
+                                       class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 dark:text-[#F5F3EF] transition-all">
                             </div>
                         </div>
 
-                        <!-- Volume/Servings & Temperature/Difficulty & Rating -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Volume / Bottle Size' : 'Servings'"></label>
-                                <input type="text" name="servings" x-model="currentFood.servings" 
-                                       :placeholder="currentFood.type === 'Beverage' ? 'e.g. 330 ml can, 500 ml' : 'e.g. 1 person'" 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Chill / Temperature' : 'Difficulty'"></label>
-                                <select name="difficulty" x-model="currentFood.difficulty" class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
-                                    <template x-if="currentFood.type === 'Beverage'">
-                                        <optgroup label="Beverage Temperature">
-                                            <option value="Chilled">Chilled ❄️</option>
-                                            <option value="Cold">Cold 🧊</option>
-                                            <option value="Fresh Pressed">Fresh Pressed 🍊</option>
-                                            <option value="Ambient">Ambient / Room Temp 💧</option>
-                                            <option value="Hot">Hot ☕</option>
-                                        </optgroup>
-                                    </template>
-                                    <template x-if="currentFood.type !== 'Beverage'">
-                                        <optgroup label="Culinary Complexity">
-                                            <option value="Easy">Easy</option>
-                                            <option value="Medium">Medium</option>
-                                            <option value="Chef Special">Chef Special</option>
-                                        </optgroup>
-                                    </template>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5">Rating (1 - 5)</label>
-                                <input type="number" step="0.1" min="1" max="5" name="rating" x-model="currentFood.rating" 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
-                            </div>
-                        </div>
-
-                        <!-- Description -->
+                        <!-- Row 4: Description -->
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Beverage Notes & Description' : 'Description'"></label>
-                            <textarea name="description" x-model="currentFood.description" rows="3" 
-                                      :placeholder="currentFood.type === 'Beverage' ? 'Describe the drink flavour, ingredients, notes (e.g. 100% natural Valencia orange juice)...' : 'Describe the ingredients, taste, spices and specialty of this dish...'" 
-                                      class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 transition-all focus:ring-0"></textarea>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Description & Culinary Notes</label>
+                            <textarea name="description" x-model="currentFood.description" rows="2" 
+                                      :placeholder="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Describe the drink flavour, notes, or serving temperature...' : 'Describe the ingredients, spices, taste profile, and preparation style...'" 
+                                      class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 dark:text-[#F5F3EF] transition-all"></textarea>
                         </div>
 
-                        <!-- Available Days Checkboxes -->
+                        <!-- Row 5: Available Days Toggle Chips -->
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1.5">Available Service Days</label>
-                            <div class="grid grid-cols-4 sm:grid-cols-7 gap-2">
+                            <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Available Service Days</label>
+                            <div class="grid grid-cols-7 gap-1.5 sm:gap-2">
                                 @foreach(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as $day)
-                                    <label class="flex items-center justify-center p-2 rounded-xl border border-gray-200 hover:border-[#C9A050] bg-gray-50/80 cursor-pointer text-xs font-bold text-gray-700 select-none">
+                                    <label class="cursor-pointer select-none">
                                         <input type="checkbox" name="available_days[]" value="{{ $day }}" 
                                                :checked="currentFood.available_days && currentFood.available_days.includes('{{ $day }}')" 
-                                               class="mr-1.5 rounded text-[#C9A050] focus:ring-0">
-                                        {{ $day }}
+                                               class="sr-only peer">
+                                        <div class="py-2 text-center text-xs font-bold rounded-xl border transition-all duration-150
+                                                    peer-checked:bg-[#0A2E2A] peer-checked:text-[#C9A050] peer-checked:border-[#0A2E2A] dark:peer-checked:bg-[#C9A050] dark:peer-checked:text-[#061513] dark:peer-checked:border-[#C9A050]
+                                                    bg-gray-50/80 text-gray-600 border-gray-200 hover:border-gray-300 dark:bg-[#081A17] dark:text-[#8FA8A3] dark:border-[#163832]">
+                                            {{ $day }}
+                                        </div>
                                     </label>
                                 @endforeach
                             </div>
                         </div>
 
-                        <!-- Dish Photo (Local File Upload) -->
+                        <!-- Row 6: Item Photo Upload & Live Preview -->
                         <div>
                             <div class="flex items-center justify-between mb-1.5">
-                                <label class="block text-xs font-bold text-gray-700" x-text="currentFood.type === 'Beverage' ? 'Beverage Photo (Upload File) *' : 'Dish Photo (Upload File) *'"></label>
-                                <button type="button" @click="imageMode = (imageMode === 'url' ? 'file' : 'url')" class="text-[11px] text-[#C9A050] hover:underline font-bold">
-                                    <span x-text="imageMode === 'url' ? 'Use Local Upload' : 'Or Use Image URL'"></span>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9]" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Beverage Photo' : 'Dish Photo'"></label>
+                                <button type="button" @click="imageMode = (imageMode === 'url' ? 'file' : 'url')" class="text-xs text-[#C9A050] hover:underline font-bold cursor-pointer">
+                                    <span x-text="imageMode === 'url' ? 'Switch to Local File Upload' : 'Or Paste Web Image URL'"></span>
                                 </button>
                             </div>
 
-                            <!-- Local File Upload Box (Default) -->
+                            <!-- File Mode -->
                             <div x-show="imageMode === 'file'">
-                                <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-200 hover:border-[#C9A050] bg-gray-50/80 rounded-2xl p-4 transition-all duration-200 group">
+                                <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-200 dark:border-[#163832] hover:border-[#C9A050] bg-gray-50/60 dark:bg-[#081A17] rounded-2xl p-4 transition-all duration-200 group">
                                     <input type="file" name="image" accept="image/*" @change="handleImagePreview($event)" 
                                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                                     
                                     <template x-if="!previewImage">
                                         <div class="flex flex-col items-center text-center">
-                                            <div class="w-11 h-11 rounded-2xl bg-[#C9A050]/15 text-[#0A2E2A] flex items-center justify-center text-xl mb-1.5 group-hover:scale-110 transition-transform">
+                                            <div class="w-10 h-10 rounded-xl bg-[#C9A050]/15 text-[#0A2E2A] dark:text-[#D8B060] flex items-center justify-center text-lg mb-1 group-hover:scale-110 transition-transform">
                                                 📷
                                             </div>
-                                            <p class="text-xs font-bold text-gray-800">
+                                            <p class="text-xs font-bold text-gray-800 dark:text-[#F5F3EF]">
                                                 <span class="text-[#C9A050] underline">Click to choose image</span> or drag here
                                             </p>
-                                            <p class="text-[10px] text-gray-400 mt-0.5">Saves directly to local storage (PNG, JPG, WEBP max 5MB)</p>
+                                            <p class="text-[10px] text-gray-400 mt-0.5">PNG, JPG, WEBP max 5MB</p>
                                         </div>
                                     </template>
 
-                                    <!-- Live Image Preview Inside Upload Container -->
                                     <template x-if="previewImage">
                                         <div class="flex items-center space-x-3 w-full">
                                             <img :src="previewImage" class="w-14 h-14 object-cover rounded-xl shadow-xs border border-gray-200 shrink-0" alt="Preview">
                                             <div class="min-w-0 flex-1">
-                                                <p class="text-xs font-bold text-gray-900 truncate">Photo Selected</p>
+                                                <p class="text-xs font-bold text-gray-900 dark:text-[#F5F3EF] truncate">Photo Selected</p>
                                                 <p class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5">
-                                                    <span>✓</span> Ready to save to server
+                                                    <span>✓</span> Ready to upload
                                                 </p>
                                                 <span class="text-[10px] text-[#C9A050] font-bold mt-0.5 inline-block">Click to replace photo</span>
                                             </div>
@@ -1034,14 +1025,14 @@
                                 </div>
                             </div>
 
-                            <!-- Alternative URL Mode -->
+                            <!-- URL Mode -->
                             <div x-show="imageMode === 'url'" x-transition>
                                 <input type="url" name="image_url" x-model="currentFood.image_url" 
                                        @input="previewImage = $event.target.value"
                                        placeholder="https://images.unsplash.com/..." 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 transition-all focus:ring-0">
+                                       class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 dark:text-[#F5F3EF] transition-all">
                                 <template x-if="previewImage">
-                                    <div class="mt-2.5 flex items-center space-x-3 p-2 bg-gray-50 rounded-xl border border-gray-100">
+                                    <div class="mt-2.5 flex items-center space-x-3 p-2 bg-gray-50 dark:bg-[#081A17] rounded-xl border border-gray-100 dark:border-[#163832]">
                                         <img :src="previewImage" class="w-12 h-12 object-cover rounded-lg shadow-xs" alt="Preview">
                                         <p class="text-[11px] text-gray-500 font-medium">URL Image Preview</p>
                                     </div>
@@ -1049,17 +1040,59 @@
                             </div>
                         </div>
 
-                        <!-- Submit Buttons -->
-                        <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-end space-x-3">
-                            <button type="button" @click="openCreateModal = false" class="px-5 py-3 rounded-2xl border border-gray-200 text-gray-600 font-bold text-xs hover:bg-gray-100 transition-all cursor-pointer">
-                                Cancel
+                        <!-- Optional Advanced Attributes (Collapsed by Default) -->
+                        <div class="pt-1">
+                            <button type="button" @click="showAdvanced = !showAdvanced" 
+                                    class="text-[11px] font-bold text-gray-500 hover:text-[#C9A050] flex items-center gap-1 transition-colors cursor-pointer">
+                                <span x-text="showAdvanced ? '− Hide Culinary Details' : '+ Advanced Culinary Attributes (Complexity, Rating, Servings)'"></span>
                             </button>
-                            <button type="submit" class="px-6 py-3.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black text-xs sm:text-sm rounded-2xl shadow-lg shadow-[#C9A050]/25 transition-all cursor-pointer">
-                                <span x-text="currentFood.type === 'Beverage' ? 'Save & Publish Beverage' : 'Save & Publish Dish'"></span>
-                            </button>
+
+                            <div x-show="showAdvanced" x-transition class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 bg-gray-50/50 dark:bg-[#081A17]/60 rounded-2xl border border-gray-100 dark:border-[#163832]">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-600 dark:text-[#D1DCD9] mb-1">Servings Note</label>
+                                    <input type="text" name="servings" x-model="currentFood.servings" placeholder="e.g. 1 person" 
+                                           class="w-full px-3 py-1.5 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-medium">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-600 dark:text-[#D1DCD9] mb-1">Difficulty / Complexity</label>
+                                    <select name="difficulty" x-model="currentFood.difficulty" 
+                                            class="w-full px-3 py-1.5 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-medium">
+                                        <option value="Easy">Easy</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Chef Special">Chef Special</option>
+                                        <option value="Chilled">Chilled</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-600 dark:text-[#D1DCD9] mb-1">Display Rating (1 - 5)</label>
+                                    <input type="number" step="0.1" min="1" max="5" name="rating" x-model="currentFood.rating" 
+                                           class="w-full px-3 py-1.5 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-medium">
+                                </div>
+                            </div>
+
+                            <!-- Hidden inputs when advanced is closed to ensure default values submit -->
+                            <template x-if="!showAdvanced">
+                                <div>
+                                    <input type="hidden" name="servings" :value="currentFood.servings || '1 person'">
+                                    <input type="hidden" name="difficulty" :value="currentFood.difficulty || 'Easy'">
+                                    <input type="hidden" name="rating" :value="currentFood.rating || '4.8'">
+                                </div>
+                            </template>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- 3. Sticky / Fixed Modal Footer -->
+                    <div class="px-6 py-4 border-t border-gray-100 dark:border-[#163832] bg-gray-50/90 dark:bg-[#081A17] flex items-center justify-end space-x-3 shrink-0">
+                        <button type="button" @click="openCreateModal = false" 
+                                class="px-4.5 py-2.5 rounded-xl border border-gray-200 dark:border-[#163832] text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100 dark:hover:bg-[#123831] font-bold text-xs transition-all cursor-pointer">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="px-5 py-2.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black text-xs rounded-xl shadow-md shadow-[#C9A050]/20 transition-all cursor-pointer">
+                            <span x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Save & Publish Beverage' : 'Save & Publish Dish'"></span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -1068,214 +1101,206 @@
         <!-- ========================================== -->
         <div x-show="openEditModal" 
              x-cloak 
-             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs overflow-y-auto"
-             x-transition:enter="transition ease-out duration-300"
+             class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs"
+             @keydown.escape.window="openEditModal = false"
+             x-transition:enter="transition ease-out duration-200"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave="transition ease-in duration-150"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0">
 
-            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-2xl overflow-hidden my-8 border border-gray-100"
+            <div class="bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-2xl max-h-[92vh] flex flex-col border border-gray-200/80 dark:border-[#163832] overflow-hidden"
                  @click.away="openEditModal = false"
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-                 x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+                 x-transition:enter="transition ease-out duration-250"
+                 x-transition:enter-start="opacity-0 scale-[0.98] translate-y-2"
+                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-[0.98] translate-y-2">
 
-                <div class="p-6 sm:p-8">
-                    <!-- Modal Header -->
-                    <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-6">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-2xl bg-[#0A2E2A] text-[#C9A050] flex items-center justify-center font-bold text-xl border border-[#C9A050]/30 shadow-xs">
-                                <span x-text="currentFood.type === 'Beverage' ? '🍹' : '✏️'"></span>
-                            </div>
-                            <div>
-                                <h2 class="text-xl font-extrabold text-gray-900" x-text="currentFood.type === 'Beverage' ? 'Edit Beverage Profile' : 'Edit Dish Details'"></h2>
-                                <p class="text-xs text-gray-400" x-text="currentFood.type === 'Beverage' ? 'Update drink volume, pricing in LKR, serving style or image' : 'Update meal attributes, pricing, or ingredients'"></p>
-                            </div>
+                <!-- 1. Sticky / Fixed Header -->
+                <div class="px-6 py-4.5 border-b border-gray-100 dark:border-[#163832] flex items-center justify-between shrink-0 bg-white/95 dark:bg-[#071916]/95 backdrop-blur-md">
+                    <div class="flex items-center space-x-3 min-w-0">
+                        <div class="w-10 h-10 rounded-2xl bg-[#0A2E2A] text-[#C9A050] dark:bg-[#123831] dark:text-[#D8B060] flex items-center justify-center font-bold text-lg border border-[#C9A050]/30 shrink-0">
+                            <span x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? '🍹' : '✏️'"></span>
                         </div>
-                        <button @click="openEditModal = false" class="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </button>
+                        <div class="min-w-0">
+                            <h2 class="text-base sm:text-lg font-black text-gray-900 dark:text-[#F5F3EF] truncate" 
+                                x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Edit Beverage Profile' : 'Edit Dish Details'"></h2>
+                            <p class="text-xs text-gray-400 dark:text-[#8FA8A3] truncate" 
+                               x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Update drink volume, pricing in LKR, serving style or image' : 'Update meal attributes, pricing, or catalog placement'"></p>
+                        </div>
                     </div>
+                    <button type="button" @click="openEditModal = false" class="p-2 text-gray-400 hover:text-gray-700 dark:text-[#8FA8A3] dark:hover:text-[#F5F3EF] rounded-xl hover:bg-gray-100 dark:hover:bg-[#123831] transition-colors shrink-0 cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
 
-                    <!-- Edit Form -->
-                    <form method="POST" :action="'/foods/' + currentFood.id" enctype="multipart/form-data" class="space-y-4">
-                        @csrf
-                        @method('PUT')
+                <!-- 2. Form Body (Scrollable with custom-scrollbar) -->
+                <form method="POST" :action="'/foods/' + currentFood.id" enctype="multipart/form-data" class="flex flex-col flex-1 overflow-hidden" x-data="{ showAdvanced: false }">
+                    @csrf
+                    @method('PUT')
 
-                        <!-- Name & Category Type -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="px-6 py-5 overflow-y-auto custom-scrollbar flex-1 space-y-4.5">
+                        <!-- Row 1: Name & Category Type -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                             <div class="sm:col-span-2">
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Beverage Name *' : 'Meal / Dish Name *'"></label>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Beverage Name *' : 'Meal / Dish Name *'"></label>
                                 <input type="text" name="name" x-model="currentFood.name" required 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
+                                       class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 text-xs sm:text-sm font-semibold text-gray-900 dark:text-[#F5F3EF] transition-all">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5">Category Type *</label>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Category *</label>
                                 <select name="type" x-model="currentFood.type" required 
-                                        class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <optgroup label="Daily Buffet Counters">
-                                        <option value="Rice & Carbs">🍚 Rice & Carbs (Basmati, Red Rice, Hoppers, Rotti)</option>
-                                        <option value="Curries & Meats">🍛 Curries & Meats (Chicken, Kaju Maluwa, Pork, Fish, Dhal)</option>
-                                        <option value="Veggies & Sambols">🥗 Veggies & Sambols (Pol Sambol, Katta Sambol, Moju)</option>
+                                        class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 text-xs sm:text-sm font-semibold text-gray-900 dark:text-[#F5F3EF] transition-all">
+                                    <optgroup label="Buffet Counter Dishes">
+                                        <option value="Rice & Carbs">Rice & Carbs</option>
+                                        <option value="Curries & Meats">Curries & Meats</option>
+                                        <option value="Veggies & Sambols">Veggies & Sambols</option>
                                     </optgroup>
-                                    <optgroup label="Drinks & Liquids">
-                                        <option value="Beverages">🍹 Beverages (Soft Drinks, Water, Fresh Juices)</option>
+                                    <optgroup label="Beverages & Refreshments">
+                                        <option value="Beverages">Beverages & Drinks</option>
                                     </optgroup>
-                                    <optgroup label="Daily Meal Menus">
-                                        <option value="Breakfast">Breakfast 🍳 (Morning Menu)</option>
-                                        <option value="Lunch">Lunch ☀️ (Mid-day Special)</option>
-                                        <option value="Dinner">Dinner 🌙 (Evening Course)</option>
-                                        <option value="Sri Lankan Style Breakfast Menu">Sri Lankan Style Breakfast Menu</option>
-                                        <option value="Sri Lankan Style Lunch Menu">Sri Lankan Style Lunch Menu</option>
-                                        <option value="Sri Lankan Style Dinner Menu">Sri Lankan Style Dinner Menu</option>
-                                        <option value="English breakfast Menu">English breakfast Menu</option>
+                                    <optgroup label="Daily Scheduled Menus">
+                                        <option value="Breakfast">Breakfast Menu</option>
+                                        <option value="Lunch">Lunch Menu</option>
+                                        <option value="Dinner">Dinner Menu</option>
+                                        <option value="English breakfast Menu">English Breakfast</option>
                                     </optgroup>
                                 </select>
                             </div>
                         </div>
 
-                        <!-- Portion Size, Brand, Volume & Channel -->
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-3.5 bg-amber-50/40 rounded-2xl border border-amber-200/60">
-                            <div>
-                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Portion Size</label>
-                                <input type="text" name="portion_size" x-model="currentFood.portion_size" placeholder="e.g. 1 Portion, 10 Pcs, 1 Can" 
-                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
+                        <!-- Row 2: Specifications Card (Context-Aware between Beverage & Food) -->
+                        <div class="p-4 bg-gray-50/80 dark:bg-[#081A17] rounded-2xl border border-gray-200/70 dark:border-[#163832]">
+                            <!-- BEVERAGE SPECIFICATIONS -->
+                            <div x-show="currentFood.type === 'Beverage' || currentFood.type === 'Beverages'" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Brand / Supplier</label>
+                                    <input type="text" name="brand" x-model="currentFood.brand" placeholder="e.g. Coca-Cola, Highland" 
+                                           class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Volume (ml)</label>
+                                    <input type="number" min="0" step="1" name="volume_ml" x-model="currentFood.volume_ml" placeholder="e.g. 330, 500" 
+                                           class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Portion / Packaging</label>
+                                    <input type="text" name="portion_size" x-model="currentFood.portion_size" placeholder="e.g. 330ml Can, 500ml Bottle" 
+                                           class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Sales Channel</label>
+                                    <select name="channel" x-model="currentFood.channel" 
+                                            class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                        <option value="all">Everywhere (POS & App)</option>
+                                        <option value="pos">POS Buffet Only</option>
+                                        <option value="app">Mobile App Only</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Brand / Supplier</label>
-                                <input type="text" name="brand" x-model="currentFood.brand" placeholder="e.g. Coca-Cola, Highland, Elephant House" 
-                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Volume (ml)</label>
-                                <input type="number" min="0" step="1" name="volume_ml" x-model="currentFood.volume_ml" placeholder="e.g. 330, 500, 750" 
-                                       class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-gray-700 mb-1">Sales Channel</label>
-                                <select name="channel" x-model="currentFood.channel" 
-                                        class="w-full px-3 py-2 bg-white rounded-xl border border-gray-200 focus:border-[#C9A050] text-xs font-semibold text-gray-800 transition-all focus:ring-0">
-                                    <option value="all">Everywhere (POS & App)</option>
-                                    <option value="pos">POS Buffet Only (Counter)</option>
-                                    <option value="app">Mobile App Only</option>
-                                </select>
+
+                            <!-- FOOD / MEAL SPECIFICATIONS -->
+                            <div x-show="currentFood.type !== 'Beverage' && currentFood.type !== 'Beverages'" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Portion Size / Serving Unit</label>
+                                    <input type="text" name="portion_size" x-model="currentFood.portion_size" placeholder="e.g. 1 Portion, Per 100g, 10 Pcs, Regular" 
+                                           class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-[#D1DCD9] mb-1">Sales Channel</label>
+                                    <select name="channel" x-model="currentFood.channel" 
+                                            class="w-full px-3 py-2 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs font-semibold text-gray-800 dark:text-[#F5F3EF] transition-all">
+                                        <option value="all">Everywhere (POS & App)</option>
+                                        <option value="pos">POS Buffet Only (Counter)</option>
+                                        <option value="app">Mobile Delivery App Only</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Price & Prep / Service & Calories -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <!-- Row 3: Price, Prep Time, Calories -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5">Price (Rs.) *</label>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Price (Rs.) *</label>
                                 <div class="relative">
-                                    <span class="absolute left-3.5 top-3 text-xs font-bold text-gray-400">Rs.</span>
-                                    <input type="number" step="0.01" min="0" name="price" x-model="currentFood.price" required 
-                                           class="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-bold text-[#C9A050] transition-all focus:ring-0">
+                                    <span class="absolute left-3.5 top-2.5 text-xs font-black text-gray-400 dark:text-[#8FA8A3]">Rs.</span>
+                                    <input type="number" step="0.01" min="0" name="price" x-model="currentFood.price" required placeholder="250.00" 
+                                           class="w-full pl-10 pr-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] focus:ring-2 focus:ring-[#C9A050]/20 text-xs sm:text-sm font-black text-[#C9A050] dark:text-[#D8B060] transition-all">
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Service Style' : 'Prep Time'"></label>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Serving Style' : 'Prep Time'"></label>
                                 <input type="text" name="prep_time" x-model="currentFood.prep_time" 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
+                                       class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 dark:text-[#F5F3EF] transition-all">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5">Calories (kcal)</label>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Calories (kcal)</label>
                                 <input type="number" min="0" name="calories" x-model="currentFood.calories" 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
+                                       class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 dark:text-[#F5F3EF] transition-all">
                             </div>
                         </div>
 
-                        <!-- Servings/Volume & Temperature/Difficulty & Rating -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Volume / Bottle Size' : 'Servings'"></label>
-                                <input type="text" name="servings" x-model="currentFood.servings" 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Chill / Temperature' : 'Difficulty'"></label>
-                                <select name="difficulty" x-model="currentFood.difficulty" class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
-                                    <template x-if="currentFood.type === 'Beverage'">
-                                        <optgroup label="Beverage Temperature">
-                                            <option value="Chilled">Chilled ❄️</option>
-                                            <option value="Cold">Cold 🧊</option>
-                                            <option value="Fresh Pressed">Fresh Pressed 🍊</option>
-                                            <option value="Ambient">Ambient / Room Temp 💧</option>
-                                            <option value="Hot">Hot ☕</option>
-                                        </optgroup>
-                                    </template>
-                                    <template x-if="currentFood.type !== 'Beverage'">
-                                        <optgroup label="Culinary Complexity">
-                                            <option value="Easy">Easy</option>
-                                            <option value="Medium">Medium</option>
-                                            <option value="Chef Special">Chef Special</option>
-                                        </optgroup>
-                                    </template>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1.5">Rating (1 - 5)</label>
-                                <input type="number" step="0.1" min="1" max="5" name="rating" x-model="currentFood.rating" 
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-sm font-medium text-gray-800 transition-all focus:ring-0">
-                            </div>
-                        </div>
-
-                        <!-- Description -->
+                        <!-- Row 4: Description -->
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1.5" x-text="currentFood.type === 'Beverage' ? 'Beverage Notes & Description' : 'Description'"></label>
-                            <textarea name="description" x-model="currentFood.description" rows="3" 
-                                      class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 transition-all focus:ring-0"></textarea>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Description & Culinary Notes</label>
+                            <textarea name="description" x-model="currentFood.description" rows="2" 
+                                      class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 dark:text-[#F5F3EF] transition-all"></textarea>
                         </div>
 
-                        <!-- Available Days Checkboxes -->
+                        <!-- Row 5: Available Days Toggle Chips -->
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1.5">Available Service Days</label>
-                            <div class="grid grid-cols-4 sm:grid-cols-7 gap-2">
+                            <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9] mb-1.5">Available Service Days</label>
+                            <div class="grid grid-cols-7 gap-1.5 sm:gap-2">
                                 @foreach(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as $day)
-                                    <label class="flex items-center justify-center p-2 rounded-xl border border-gray-200 hover:border-[#C9A050] bg-gray-50/80 cursor-pointer text-xs font-bold text-gray-700 select-none">
+                                    <label class="cursor-pointer select-none">
                                         <input type="checkbox" name="available_days[]" value="{{ $day }}" 
                                                :checked="currentFood.available_days && currentFood.available_days.includes('{{ $day }}')" 
-                                               class="mr-1.5 rounded text-[#C9A050] focus:ring-0">
-                                        {{ $day }}
+                                               class="sr-only peer">
+                                        <div class="py-2 text-center text-xs font-bold rounded-xl border transition-all duration-150
+                                                    peer-checked:bg-[#0A2E2A] peer-checked:text-[#C9A050] peer-checked:border-[#0A2E2A] dark:peer-checked:bg-[#C9A050] dark:peer-checked:text-[#061513] dark:peer-checked:border-[#C9A050]
+                                                    bg-gray-50/80 text-gray-600 border-gray-200 hover:border-gray-300 dark:bg-[#081A17] dark:text-[#8FA8A3] dark:border-[#163832]">
+                                            {{ $day }}
+                                        </div>
                                     </label>
                                 @endforeach
                             </div>
                         </div>
 
-                        <!-- Dish Photo (Local File Upload / Replace) -->
+                        <!-- Row 6: Item Photo Upload / Replace & Live Preview -->
                         <div>
                             <div class="flex items-center justify-between mb-1.5">
-                                <label class="block text-xs font-bold text-gray-700" x-text="currentFood.type === 'Beverage' ? 'Beverage Photo (Upload File)' : 'Dish Photo (Upload File)'"></label>
-                                <button type="button" @click="imageMode = (imageMode === 'url' ? 'file' : 'url')" class="text-[11px] text-[#C9A050] hover:underline font-bold">
-                                    <span x-text="imageMode === 'url' ? 'Use Local Upload' : 'Or Use Image URL'"></span>
+                                <label class="block text-xs font-bold text-gray-700 dark:text-[#D1DCD9]" x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Beverage Photo (Upload File)' : 'Dish Photo (Upload File)'"></label>
+                                <button type="button" @click="imageMode = (imageMode === 'url' ? 'file' : 'url')" class="text-xs text-[#C9A050] hover:underline font-bold cursor-pointer">
+                                    <span x-text="imageMode === 'url' ? 'Switch to Local File Upload' : 'Or Paste Web Image URL'"></span>
                                 </button>
                             </div>
 
-                            <!-- Local File Upload Box -->
+                            <!-- File Mode -->
                             <div x-show="imageMode === 'file'">
-                                <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-200 hover:border-[#C9A050] bg-gray-50/80 rounded-2xl p-4 transition-all duration-200 group">
+                                <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-200 dark:border-[#163832] hover:border-[#C9A050] bg-gray-50/60 dark:bg-[#081A17] rounded-2xl p-4 transition-all duration-200 group">
                                     <input type="file" name="image" accept="image/*" @change="handleImagePreview($event)" 
                                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                                     
                                     <template x-if="!previewImage">
                                         <div class="flex flex-col items-center text-center">
-                                            <div class="w-11 h-11 rounded-2xl bg-[#C9A050]/15 text-[#0A2E2A] flex items-center justify-center text-xl mb-1.5 group-hover:scale-110 transition-transform">
+                                            <div class="w-10 h-10 rounded-xl bg-[#C9A050]/15 text-[#0A2E2A] dark:text-[#D8B060] flex items-center justify-center text-lg mb-1 group-hover:scale-110 transition-transform">
                                                 📷
                                             </div>
-                                            <p class="text-xs font-bold text-gray-800">
+                                            <p class="text-xs font-bold text-gray-800 dark:text-[#F5F3EF]">
                                                 <span class="text-[#C9A050] underline">Click to choose replacement image</span>
                                             </p>
                                             <p class="text-[10px] text-gray-400 mt-0.5">Saves to local storage (PNG, JPG, WEBP max 5MB)</p>
                                         </div>
                                     </template>
 
-                                    <!-- Live Current / Selected Image Preview -->
                                     <template x-if="previewImage">
                                         <div class="flex items-center space-x-3 w-full">
                                             <img :src="previewImage" class="w-14 h-14 object-cover rounded-xl shadow-xs border border-gray-200 shrink-0" alt="Preview">
                                             <div class="min-w-0 flex-1">
-                                                <p class="text-xs font-bold text-gray-900 truncate">Current Dish Photo</p>
+                                                <p class="text-xs font-bold text-gray-900 dark:text-[#F5F3EF] truncate">Current Item Photo</p>
                                                 <p class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5">
                                                     <span>✓</span> Active on web & mobile apps
                                                 </p>
@@ -1286,13 +1311,13 @@
                                 </div>
                             </div>
 
-                            <!-- Alternative URL Mode -->
+                            <!-- URL Mode -->
                             <div x-show="imageMode === 'url'" x-transition>
                                 <input type="url" name="image_url" x-model="currentFood.image_url" 
                                        @input="previewImage = $event.target.value"
-                                       class="w-full px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200 focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 transition-all focus:ring-0">
+                                       class="w-full px-3.5 py-2.5 bg-gray-50/80 dark:bg-[#081A17] rounded-xl border border-gray-200 dark:border-[#163832] focus:border-[#C9A050] text-xs sm:text-sm font-medium text-gray-800 dark:text-[#F5F3EF] transition-all">
                                 <template x-if="previewImage">
-                                    <div class="mt-2.5 flex items-center space-x-3 p-2 bg-gray-50 rounded-xl border border-gray-100">
+                                    <div class="mt-2.5 flex items-center space-x-3 p-2 bg-gray-50 dark:bg-[#081A17] rounded-xl border border-gray-100 dark:border-[#163832]">
                                         <img :src="previewImage" class="w-12 h-12 object-cover rounded-lg shadow-xs" alt="Preview">
                                         <p class="text-[11px] text-gray-500 font-medium">URL Image Preview</p>
                                     </div>
@@ -1300,17 +1325,59 @@
                             </div>
                         </div>
 
-                        <!-- Submit Buttons -->
-                        <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-end space-x-3">
-                            <button type="button" @click="openEditModal = false" class="px-5 py-3 rounded-2xl border border-gray-200 text-gray-600 font-bold text-xs hover:bg-gray-100 transition-all cursor-pointer">
-                                Cancel
+                        <!-- Optional Advanced Attributes (Collapsed by Default) -->
+                        <div class="pt-1">
+                            <button type="button" @click="showAdvanced = !showAdvanced" 
+                                    class="text-[11px] font-bold text-gray-500 hover:text-[#C9A050] flex items-center gap-1 transition-colors cursor-pointer">
+                                <span x-text="showAdvanced ? '− Hide Culinary Details' : '+ Advanced Culinary Attributes (Complexity, Rating, Servings)'"></span>
                             </button>
-                            <button type="submit" class="px-6 py-3.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black text-xs sm:text-sm rounded-2xl shadow-lg shadow-[#C9A050]/25 transition-all cursor-pointer">
-                                <span x-text="currentFood.type === 'Beverage' ? 'Update Beverage' : 'Update Dish Profile'"></span>
-                            </button>
+
+                            <div x-show="showAdvanced" x-transition class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 bg-gray-50/50 dark:bg-[#081A17]/60 rounded-2xl border border-gray-100 dark:border-[#163832]">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-600 dark:text-[#D1DCD9] mb-1">Servings Note</label>
+                                    <input type="text" name="servings" x-model="currentFood.servings" placeholder="e.g. 1 person" 
+                                           class="w-full px-3 py-1.5 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-medium">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-600 dark:text-[#D1DCD9] mb-1">Difficulty / Complexity</label>
+                                    <select name="difficulty" x-model="currentFood.difficulty" 
+                                            class="w-full px-3 py-1.5 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-medium">
+                                        <option value="Easy">Easy</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Chef Special">Chef Special</option>
+                                        <option value="Chilled">Chilled</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-600 dark:text-[#D1DCD9] mb-1">Display Rating (1 - 5)</label>
+                                    <input type="number" step="0.1" min="1" max="5" name="rating" x-model="currentFood.rating" 
+                                           class="w-full px-3 py-1.5 bg-white dark:bg-[#0C2420] rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-medium">
+                                </div>
+                            </div>
+
+                            <!-- Hidden inputs when advanced is closed to ensure default values submit -->
+                            <template x-if="!showAdvanced">
+                                <div>
+                                    <input type="hidden" name="servings" :value="currentFood.servings || '1 person'">
+                                    <input type="hidden" name="difficulty" :value="currentFood.difficulty || 'Easy'">
+                                    <input type="hidden" name="rating" :value="currentFood.rating || '4.8'">
+                                </div>
+                            </template>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- 3. Sticky / Fixed Modal Footer -->
+                    <div class="px-6 py-4 border-t border-gray-100 dark:border-[#163832] bg-gray-50/90 dark:bg-[#081A17] flex items-center justify-end space-x-3 shrink-0">
+                        <button type="button" @click="openEditModal = false" 
+                                class="px-4.5 py-2.5 rounded-xl border border-gray-200 dark:border-[#163832] text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100 dark:hover:bg-[#123831] font-bold text-xs transition-all cursor-pointer">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="px-5 py-2.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black text-xs rounded-xl shadow-md shadow-[#C9A050]/20 transition-all cursor-pointer">
+                            <span x-text="currentFood.type === 'Beverage' || currentFood.type === 'Beverages' ? 'Update Beverage' : 'Update Dish Profile'"></span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -1327,23 +1394,23 @@
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0">
 
-            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden p-6 sm:p-7 border border-gray-100"
+            <div class="bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-md overflow-hidden p-6 sm:p-7 border border-gray-100 dark:border-[#163832]"
                  @click.away="openDeleteModal = false">
-                <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center text-xl font-bold mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center text-xl font-bold mb-4 border border-red-200 dark:border-red-900/40">
                     ⚠️
                 </div>
-                <h3 class="text-lg font-black text-gray-900 mb-1" x-text="'Delete ' + (deleteType === 'beverage' ? 'Beverage' : 'Meal') + '?'"></h3>
-                <p class="text-xs sm:text-sm text-gray-500 mb-6">
-                    Are you sure you want to remove <strong class="text-gray-800" x-text="deleteName"></strong> from the catalog? This will permanently delete this <span x-text="deleteType === 'beverage' ? 'beverage item' : 'dish and its ratings'"></span>.
+                <h3 class="text-lg font-black text-gray-900 dark:text-[#F5F3EF] mb-1" x-text="'Delete ' + (deleteType === 'beverage' ? 'Beverage' : 'Meal') + '?'"></h3>
+                <p class="text-xs sm:text-sm text-gray-500 dark:text-[#8FA8A3] mb-6">
+                    Are you sure you want to remove <strong class="text-gray-800 dark:text-[#D1DCD9]" x-text="deleteName"></strong> from the catalog? This will permanently delete this <span x-text="deleteType === 'beverage' ? 'beverage item' : 'dish and its ratings'"></span>.
                 </p>
 
                 <form method="POST" :action="'/foods/' + deleteId" class="flex items-center justify-end space-x-3">
                     @csrf
                     @method('DELETE')
-                    <button type="button" @click="openDeleteModal = false" class="px-4 py-2.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-600 hover:bg-gray-50">
+                    <button type="button" @click="openDeleteModal = false" class="px-4 py-2.5 rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-bold text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-50 dark:hover:bg-[#123831] transition-all cursor-pointer">
                         Cancel
                     </button>
-                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-md shadow-red-500/20">
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-md shadow-red-500/20 transition-all cursor-pointer">
                         <span x-text="'Yes, Delete ' + (deleteType === 'beverage' ? 'Beverage' : 'Meal')"></span>
                     </button>
                 </form>
@@ -1355,91 +1422,97 @@
         <!-- ========================================== -->
         <div x-show="openImportModal" 
              x-cloak 
-             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs overflow-y-auto"
-             x-transition:enter="transition ease-out duration-300"
+             class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs"
+             @keydown.escape.window="openImportModal = false"
+             x-transition:enter="transition ease-out duration-200"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave="transition ease-in duration-150"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0">
 
-            <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-xl overflow-hidden my-8 border border-gray-100"
+            <div class="bg-white dark:bg-[#071916] rounded-3xl shadow-2xl w-full max-w-xl max-h-[92vh] flex flex-col border border-gray-200/80 dark:border-[#163832] overflow-hidden"
                  @click.away="openImportModal = false"
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-                 x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+                 x-transition:enter="transition ease-out duration-250"
+                 x-transition:enter-start="opacity-0 scale-[0.98] translate-y-2"
+                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-[0.98] translate-y-2"
+                 x-data="{ uploadFileName: '' }">
 
-                <div class="p-6 sm:p-8" x-data="{ uploadFileName: '' }">
-                    <!-- Modal Header -->
-                    <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-5">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-2xl bg-emerald-700 text-white flex items-center justify-center font-bold text-xl shadow-xs">
-                                📊
-                            </div>
-                            <div>
-                                <h2 class="text-xl font-extrabold text-gray-900">Bulk Import Buffet & Beverages</h2>
-                                <p class="text-xs text-gray-400">Upload an Excel (.xlsx) or CSV file with buffet dishes & drinks</p>
-                            </div>
+                <!-- 1. Sticky / Fixed Header -->
+                <div class="px-6 py-4.5 border-b border-gray-100 dark:border-[#163832] flex items-center justify-between shrink-0 bg-white/95 dark:bg-[#071916]/95 backdrop-blur-md">
+                    <div class="flex items-center space-x-3 min-w-0">
+                        <div class="w-10 h-10 rounded-2xl bg-emerald-700 text-white flex items-center justify-center font-bold text-lg shadow-xs shrink-0">
+                            📊
                         </div>
-                        <button @click="openImportModal = false" class="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </button>
-                    </div>
-
-                    <!-- Step 1: Download Templates -->
-                    <div class="mb-5 p-4 rounded-2xl bg-[#0A2E2A]/5 border border-[#0A2E2A]/15">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-black uppercase tracking-wider text-[#0A2E2A]">Step 1: Download Sample Template</span>
-                            <span class="text-[10px] font-bold text-[#C9A050]">23 Pre-filled SL Dishes</span>
-                        </div>
-                        <p class="text-xs text-gray-600 mb-3 leading-relaxed">
-                            Use our pre-formatted spreadsheet with Sri Lankan buffet dishes (Basmati, Kaju Maluwa, Chicken Curry, Pol Sambol, Moju) and beverages with brands & ML volume.
-                        </p>
-                        <div class="flex items-center flex-wrap gap-2">
-                            <a href="{{ route('foods.template', ['format' => 'xlsx']) }}" 
-                               class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs inline-flex items-center space-x-1.5 transition-colors">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                <span>Download Excel (.xlsx)</span>
-                            </a>
-                            <a href="{{ route('foods.template', ['format' => 'csv']) }}" 
-                               class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl border border-gray-300 inline-flex items-center space-x-1.5 transition-colors">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                <span>Download CSV (.csv)</span>
-                            </a>
+                        <div class="min-w-0">
+                            <h2 class="text-base sm:text-lg font-black text-gray-900 dark:text-[#F5F3EF] truncate">Bulk Import Buffet & Beverages</h2>
+                            <p class="text-xs text-gray-400 dark:text-[#8FA8A3] truncate">Upload an Excel (.xlsx) or CSV file with buffet dishes & drinks</p>
                         </div>
                     </div>
+                    <button type="button" @click="openImportModal = false" class="p-2 text-gray-400 hover:text-gray-700 dark:text-[#8FA8A3] dark:hover:text-[#F5F3EF] rounded-xl hover:bg-gray-100 dark:hover:bg-[#123831] transition-colors shrink-0 cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
 
-                    <!-- Step 2: Upload File Form -->
-                    <form method="POST" action="{{ route('foods.import') }}" enctype="multipart/form-data" class="space-y-4">
-                        @csrf
+                <!-- 2. Form Body (Scrollable with custom-scrollbar) -->
+                <form method="POST" action="{{ route('foods.import') }}" enctype="multipart/form-data" class="flex flex-col flex-1 overflow-hidden">
+                    @csrf
 
+                    <div class="px-6 py-5 overflow-y-auto custom-scrollbar flex-1 space-y-4">
+                        <!-- Step 1: Download Templates -->
+                        <div class="p-4 rounded-2xl bg-[#0A2E2A]/5 dark:bg-[#091F1B] border border-[#0A2E2A]/15 dark:border-[#163832]">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-black uppercase tracking-wider text-[#0A2E2A] dark:text-[#D8B060]">Step 1: Download Sample Template</span>
+                                <span class="text-[10px] font-bold text-[#C9A050]">23 Pre-filled Dishes</span>
+                            </div>
+                            <p class="text-xs text-gray-600 dark:text-[#8FA8A3] mb-3 leading-relaxed">
+                                Use our pre-formatted spreadsheet with Sri Lankan buffet dishes (Basmati, Kaju Maluwa, Chicken Curry, Pol Sambol) and beverages with brands & ML volume.
+                            </p>
+                            <div class="flex items-center flex-wrap gap-2">
+                                <a href="{{ route('foods.template', ['format' => 'xlsx']) }}" 
+                                   class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs inline-flex items-center space-x-1.5 transition-colors">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    <span>Download Excel (.xlsx)</span>
+                                </a>
+                                <a href="{{ route('foods.template', ['format' => 'csv']) }}" 
+                                   class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-[#123831] dark:text-[#D8B060] dark:border-[#1E4940] text-xs font-bold rounded-xl border border-gray-300 inline-flex items-center space-x-1.5 transition-colors">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    <span>Download CSV (.csv)</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Upload File Form -->
                         <div>
-                            <label class="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">Step 2: Upload Completed File</label>
-                            <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-emerald-600 bg-gray-50/80 rounded-2xl p-6 transition-all duration-200 text-center cursor-pointer">
+                            <label class="block text-xs font-black uppercase tracking-wider text-gray-700 dark:text-[#D1DCD9] mb-2">Step 2: Upload Completed File</label>
+                            <div class="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-[#163832] hover:border-emerald-600 bg-gray-50/80 dark:bg-[#081A17] rounded-2xl p-5 transition-all duration-200 text-center cursor-pointer">
                                 <input type="file" name="file" accept=".xlsx,.xls,.csv,text/csv" required 
                                        @change="uploadFileName = $event.target.files[0] ? $event.target.files[0].name : ''"
                                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
 
                                 <template x-if="!uploadFileName">
                                     <div>
-                                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-2xl mx-auto mb-2">
+                                        <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-[#123831] text-emerald-700 dark:text-[#34D399] flex items-center justify-center text-xl mx-auto mb-1.5">
                                             📁
                                         </div>
-                                        <p class="text-xs font-bold text-gray-800">
-                                            <span class="text-emerald-700 underline">Click to choose spreadsheet</span> or drag and drop here
+                                        <p class="text-xs font-bold text-gray-800 dark:text-[#F5F3EF]">
+                                            <span class="text-emerald-700 dark:text-[#34D399] underline">Click to choose spreadsheet</span> or drag here
                                         </p>
-                                        <p class="text-[11px] text-gray-400 mt-1">Supports .xlsx, .xls, and .csv files (max 10MB)</p>
+                                        <p class="text-[10px] text-gray-400 mt-0.5">Supports .xlsx, .xls, and .csv files (max 10MB)</p>
                                     </div>
                                 </template>
 
                                 <template x-if="uploadFileName">
-                                    <div class="flex items-center space-x-3 text-left w-full p-2 bg-emerald-50 rounded-xl border border-emerald-200">
-                                        <div class="w-9 h-9 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                                    <div class="flex items-center space-x-3 text-left w-full p-2.5 bg-emerald-50 dark:bg-[#123831] rounded-xl border border-emerald-200 dark:border-[#1E4940]">
+                                        <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
                                             ✓
                                         </div>
                                         <div class="min-w-0 flex-1">
-                                            <p class="text-xs font-bold text-gray-900 truncate" x-text="uploadFileName"></p>
-                                            <p class="text-[10px] text-emerald-700 font-semibold">Ready to import items</p>
+                                            <p class="text-xs font-bold text-gray-900 dark:text-[#F5F3EF] truncate" x-text="uploadFileName"></p>
+                                            <p class="text-[10px] text-emerald-700 dark:text-[#34D399] font-semibold">Ready to import items</p>
                                         </div>
                                     </div>
                                 </template>
@@ -1447,23 +1520,23 @@
                         </div>
 
                         <!-- Column Specification Hint -->
-                        <div class="p-3 bg-gray-50 rounded-xl text-[11px] text-gray-500 font-medium space-y-1">
-                            <p class="font-bold text-gray-700">Supported columns:</p>
-                            <p class="font-mono text-[10px] text-emerald-800">Name | Category | Price_LKR | Portion_Size | Brand | Volume_ML | Channel | Description | Calories</p>
+                        <div class="p-3 bg-gray-50 dark:bg-[#081A17] rounded-xl text-[11px] text-gray-500 dark:text-[#8FA8A3] font-medium space-y-1 border border-gray-100 dark:border-[#163832]">
+                            <p class="font-bold text-gray-700 dark:text-[#D1DCD9]">Supported columns:</p>
+                            <p class="font-mono text-[10px] text-emerald-800 dark:text-[#34D399]">Name | Category | Price_LKR | Portion_Size | Brand | Volume_ML | Channel | Description</p>
                             <p class="text-[10px] text-gray-400">Note: Items with Channel = <strong>pos</strong> are exclusively available on the POS Buffet Counter.</p>
                         </div>
+                    </div>
 
-                        <!-- Submit Buttons -->
-                        <div class="pt-3 border-t border-gray-100 flex items-center justify-end space-x-3">
-                            <button type="button" @click="openImportModal = false" class="px-5 py-3 rounded-2xl border border-gray-200 text-gray-600 font-bold text-xs hover:bg-gray-100 transition-all cursor-pointer">
-                                Cancel
-                            </button>
-                            <button type="submit" class="px-6 py-3 bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs sm:text-sm rounded-2xl shadow-lg shadow-emerald-900/20 transition-all cursor-pointer">
-                                Upload & Import Items
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <!-- 3. Sticky / Fixed Modal Footer -->
+                    <div class="px-6 py-4 border-t border-gray-100 dark:border-[#163832] bg-gray-50/90 dark:bg-[#081A17] flex items-center justify-end space-x-3 shrink-0">
+                        <button type="button" @click="openImportModal = false" class="px-4.5 py-2.5 rounded-xl border border-gray-200 dark:border-[#163832] text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100 dark:hover:bg-[#123831] font-bold text-xs transition-all cursor-pointer">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs rounded-xl shadow-md shadow-emerald-900/20 transition-all cursor-pointer">
+                            Upload & Import Items
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 

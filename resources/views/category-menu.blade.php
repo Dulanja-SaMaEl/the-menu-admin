@@ -64,40 +64,40 @@
                 style="display: none;"
             >
                 <div 
-                    class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden transform transition-all my-8 border border-gray-100"
-                    x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+                    class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden transform transition-all border border-gray-100"
+                    x-transition:enter="transition ease-out duration-250"
+                    x-transition:enter-start="opacity-0 scale-95 translate-y-2"
                     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                     @click.away="openModal = false"
                 >
-                    <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] border-b border-[#C9A050]/20 px-8 py-6 flex items-center justify-between">
+                    <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] border-b border-[#C9A050]/20 px-6 py-4.5 flex items-center justify-between shrink-0">
                         <div>
-                            <h3 class="text-lg font-black text-white" x-text="selectedItem?.name || 'Dish Details'"></h3>
+                            <h3 class="text-base sm:text-lg font-black text-white" x-text="selectedItem?.name || 'Dish Details'"></h3>
                             <p class="text-xs text-white/70 mt-0.5">Quick Culinary Overview</p>
                         </div>
-                        <button type="button" @click="openModal = false" class="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors">
+                        <button type="button" @click="openModal = false" class="p-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors cursor-pointer">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                     </div>
 
-                    <div class="p-6 sm:p-8">
-                        <div class="flex flex-col items-center text-center mb-6">
+                    <div class="p-6 overflow-y-auto flex-1">
+                        <div class="flex flex-col items-center text-center mb-4">
                             <template x-if="selectedItem?.image_url">
-                                <img :src="selectedItem?.image_url" class="w-32 h-32 rounded-2xl object-cover mb-4 shadow-md border border-gray-100">
+                                <img :src="selectedItem?.image_url" class="w-28 h-28 rounded-2xl object-cover mb-4 shadow-md border border-gray-100">
                             </template>
                             <template x-if="!selectedItem?.image_url">
-                                <div class="text-6xl mb-4">🍽️</div>
+                                <div class="text-5xl mb-4">🍽️</div>
                             </template>
-                            <h2 class="text-2xl font-black text-[#0A2E2A]" x-text="selectedItem?.name"></h2>
-                            <p class="text-gray-500 text-sm mt-1 max-w-md" x-text="selectedItem?.description || 'Authentic gourmet recipe crafted fresh.'"></p>
-                            <p class="text-3xl font-black text-[#0A2E2A] mt-4" x-text="'Rs. ' + parseFloat(selectedItem?.price || 0).toFixed(2)"></p>
+                            <h2 class="text-xl font-black text-[#0A2E2A]" x-text="selectedItem?.name"></h2>
+                            <p class="text-gray-500 text-xs sm:text-sm mt-1 max-w-md" x-text="selectedItem?.description || 'Authentic gourmet recipe crafted fresh.'"></p>
+                            <p class="text-2xl font-black text-[#0A2E2A] mt-3" x-text="'Rs. ' + parseFloat(selectedItem?.price || 0).toFixed(2)"></p>
                         </div>
 
-                        <div class="mt-8 flex flex-col sm:flex-row gap-3">
-                            <button @click="openModal = false" class="sm:flex-1 py-3.5 rounded-2xl font-bold text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors">
+                        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                            <button @click="openModal = false" class="sm:flex-1 py-3 rounded-xl font-bold text-xs text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer">
                                 Close
                             </button>
-                            <a :href="'{{ route('foods.index') }}'" class="sm:flex-2 py-3.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black rounded-2xl shadow-lg shadow-[#C9A050]/25 transition-all duration-300 hover:scale-[1.02] text-sm text-center flex items-center justify-center">
+                            <a :href="'{{ route('foods.index') }}'" class="sm:flex-2 py-3 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black rounded-xl shadow-md shadow-[#C9A050]/20 transition-all text-xs text-center flex items-center justify-center cursor-pointer">
                                 Manage in Menu Catalog
                             </a>
                         </div>

@@ -422,7 +422,7 @@
                 <div class="fixed inset-0 bg-gray-950/70 backdrop-blur-md" @click="closeSlipModal()"></div>
 
                 <!-- Modal Window -->
-                <div class="relative bg-white rounded-[2.5rem] shadow-2xl shadow-[#0A2E2A]/25 max-w-2xl w-full overflow-hidden transform transition-all border border-gray-100"
+                <div class="relative bg-white rounded-3xl shadow-2xl shadow-[#0A2E2A]/25 max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden transform transition-all border border-gray-100"
                      x-show="slipModalOpen"
                      x-transition:enter="transition ease-out duration-300"
                      x-transition:enter-start="opacity-0 scale-95 translate-y-4"
@@ -432,26 +432,26 @@
                      x-transition:leave-end="opacity-0 scale-95 translate-y-4">
 
                     <!-- Modal Header -->
-                    <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] px-8 py-6 flex items-center justify-between border-b border-[#C9A050]/20">
+                    <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] px-6 sm:px-8 py-5 flex items-center justify-between border-b border-[#C9A050]/20 shrink-0">
                         <div class="flex items-center space-x-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-[#C9A050] border border-[#b88f3f] flex items-center justify-center text-[#0A2E2A] shadow-md shrink-0">
+                            <div class="w-11 h-11 rounded-2xl bg-[#C9A050] border border-[#b88f3f] flex items-center justify-center text-[#0A2E2A] shadow-md shrink-0">
                                 <svg class="w-6 h-6 text-[#0A2E2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                             </div>
                             <div>
-                                <h3 class="text-xl font-black text-white tracking-tight flex items-center gap-2">
+                                <h3 class="text-lg sm:text-xl font-black text-white tracking-tight flex items-center gap-2">
                                     <span>Bank Transfer Receipt</span>
                                     <span class="text-xs font-bold text-[#C9A050] bg-white/10 px-2 py-0.5 rounded-lg font-mono" x-text="activeOrder?.code"></span>
                                 </h3>
                                 <p class="text-xs text-emerald-100 font-medium" x-text="activeOrder?.customer + ' · ' + activeOrder?.amount"></p>
                             </div>
                         </div>
-                        <button type="button" @click="closeSlipModal()" class="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors cursor-pointer">
+                        <button type="button" @click="closeSlipModal()" class="p-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors cursor-pointer">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                     </div>
 
                     <!-- Modal Body -->
-                    <div class="p-6 sm:p-8 space-y-6 max-h-[calc(85vh-160px)] overflow-y-auto">
+                    <div class="p-6 sm:p-8 space-y-6 overflow-y-auto flex-1 custom-scrollbar">
                         <!-- Full Slip Image Preview -->
                         <div class="rounded-2xl border border-gray-200 bg-gray-50/60 p-2 flex items-center justify-center overflow-hidden shadow-inner">
                             <img :src="activeSlip" class="w-full max-h-[50vh] object-contain rounded-xl hover:scale-[1.01] transition-transform" alt="Bank Transfer Slip Full Preview">

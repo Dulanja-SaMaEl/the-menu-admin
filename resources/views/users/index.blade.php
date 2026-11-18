@@ -188,7 +188,7 @@
 
                 <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm" @click="showModal = false"></div>
 
-                <div class="relative bg-white rounded-[2.5rem] shadow-2xl max-w-lg w-full overflow-hidden transform transition-all border border-gray-100"
+                <div class="relative bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden transform transition-all border border-gray-100"
                      x-show="showModal"
                      x-transition:enter="transition ease-out duration-300"
                      x-transition:enter-start="opacity-0 scale-95 translate-y-4"
@@ -197,72 +197,74 @@
                      x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                      x-transition:leave-end="opacity-0 scale-95 translate-y-4">
 
-                    <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] border-b border-[#C9A050]/20 px-8 py-6 flex items-center justify-between">
+                    <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] border-b border-[#C9A050]/20 px-6 sm:px-8 py-5 flex items-center justify-between shrink-0">
                         <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
+                            <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
                                 <svg class="w-5 h-5 text-[#C9A050]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-black text-white" x-text="isEditing ? 'Edit User' : 'Add New User'"></h3>
+                                <h3 class="text-base sm:text-lg font-black text-white" x-text="isEditing ? 'Edit User' : 'Add New User'"></h3>
                                 <p class="text-xs text-white/70 mt-0.5">Staff credentials and permissions</p>
                             </div>
                         </div>
-                        <button @click="showModal = false" class="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors">
+                        <button @click="showModal = false" class="p-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors cursor-pointer">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                     </div>
 
-                    <form method="POST" :action="formAction" class="p-8 space-y-5">
+                    <form method="POST" :action="formAction" class="flex flex-col flex-1 min-h-0">
                         @csrf
                         <template x-if="isEditing">
                             <input type="hidden" name="_method" value="PUT">
                         </template>
 
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Full Name</label>
-                            <input type="text" name="name" x-model="userData.name" required
-                                class="w-full px-5 py-3.5 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm @error('name') border-red-300 ring-1 ring-red-200 @enderror"
-                                placeholder="Enter full name">
+                        <div class="p-6 sm:p-8 space-y-4 sm:space-y-5 overflow-y-auto flex-1 custom-scrollbar">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Full Name</label>
+                                <input type="text" name="name" x-model="userData.name" required
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm @error('name') border-red-300 ring-1 ring-red-200 @enderror"
+                                    placeholder="Enter full name">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Email Address</label>
+                                <input type="email" name="email" x-model="userData.email" required
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm @error('email') border-red-300 ring-1 ring-red-200 @enderror"
+                                    placeholder="Enter email address">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Role</label>
+                                <select name="role" x-model="userData.role" required
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm @error('role') border-red-300 ring-1 ring-red-200 @enderror">
+                                    <option value="Super Admin">Super Admin</option>
+                                    <option value="System Admin">System Admin</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Chef">Chef</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Password</label>
+                                <input type="password" name="password" x-model="userData.password" :required="!isEditing"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm @error('password') border-red-300 ring-1 ring-red-200 @enderror"
+                                    placeholder="Enter password (min 8 characters)">
+                                <template x-if="isEditing">
+                                    <p class="mt-1.5 text-xs text-gray-400">Leave blank to keep current password.</p>
+                                </template>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Confirm Password</label>
+                                <input type="password" name="password_confirmation" x-model="userData.password_confirmation" :required="!isEditing"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm"
+                                    placeholder="Confirm password">
+                            </div>
                         </div>
 
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Email Address</label>
-                            <input type="email" name="email" x-model="userData.email" required
-                                class="w-full px-5 py-3.5 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm @error('email') border-red-300 ring-1 ring-red-200 @enderror"
-                                placeholder="Enter email address">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Role</label>
-                            <select name="role" x-model="userData.role" required
-                                class="w-full px-5 py-3.5 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm @error('role') border-red-300 ring-1 ring-red-200 @enderror">
-                                <option value="Super Admin">Super Admin</option>
-                                <option value="System Admin">System Admin</option>
-                                <option value="HR">HR</option>
-                                <option value="Chef">Chef</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Password</label>
-                            <input type="password" name="password" x-model="userData.password" :required="!isEditing"
-                                class="w-full px-5 py-3.5 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm @error('password') border-red-300 ring-1 ring-red-200 @enderror"
-                                placeholder="Enter password (min 8 characters)">
-                            <template x-if="isEditing">
-                                <p class="mt-1.5 text-xs text-gray-400">Leave blank to keep the current password.</p>
-                            </template>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Confirm Password</label>
-                            <input type="password" name="password_confirmation" x-model="userData.password_confirmation" :required="!isEditing"
-                                class="w-full px-5 py-3.5 rounded-2xl border border-gray-200 focus:border-[#C9A050] focus:ring-4 focus:ring-[#C9A050]/15 outline-none transition-all duration-200 text-sm"
-                                placeholder="Confirm password">
-                        </div>
-
-                        <div class="flex space-x-4 pt-3">
-                            <button type="button" @click="showModal = false" class="flex-1 px-6 py-3.5 rounded-2xl font-bold text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors">Cancel</button>
-                            <button type="submit" class="flex-1 px-6 py-3.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black rounded-2xl shadow-lg shadow-[#C9A050]/25 transition-all duration-300 hover:scale-[1.02] text-sm" x-text="isEditing ? 'Save Changes' : 'Create User'"></button>
+                        <div class="px-6 sm:px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end space-x-3 shrink-0">
+                            <button type="button" @click="showModal = false" class="px-5 py-2.5 rounded-xl font-bold text-xs text-gray-600 bg-white border border-gray-200 hover:bg-gray-100 transition-colors cursor-pointer">Cancel</button>
+                            <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] font-black rounded-xl shadow-md shadow-[#C9A050]/20 transition-all text-xs cursor-pointer" x-text="isEditing ? 'Save Changes' : 'Create User'"></button>
                         </div>
                     </form>
                 </div>

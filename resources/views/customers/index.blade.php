@@ -389,7 +389,7 @@
 
                 <div class="fixed inset-0 bg-gray-950/70 backdrop-blur-md" @click="closeDetailModal()"></div>
 
-                <div class="relative bg-white rounded-[2.5rem] shadow-2xl shadow-[#0A2E2A]/25 max-w-lg w-full overflow-hidden transform transition-all border border-gray-100"
+                <div class="relative bg-white rounded-3xl shadow-2xl shadow-[#0A2E2A]/25 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden transform transition-all border border-gray-100"
                      x-show="detailModalOpen"
                      x-transition:enter="transition ease-out duration-300"
                      x-transition:enter-start="opacity-0 scale-95 translate-y-4"
@@ -398,22 +398,22 @@
                      x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                      x-transition:leave-end="opacity-0 scale-95 translate-y-4">
 
-                    <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] px-8 py-6 flex items-center justify-between border-b border-[#C9A050]/20">
+                    <div class="bg-gradient-to-r from-[#0A2E2A] via-[#0D3833] to-[#0A2E2A] px-6 sm:px-8 py-5 flex items-center justify-between border-b border-[#C9A050]/20 shrink-0">
                         <div class="flex items-center space-x-3.5">
-                            <div class="w-12 h-12 rounded-2xl bg-[#C9A050] border border-[#b88f3f] flex items-center justify-center text-[#0A2E2A] shadow-md shrink-0">
+                            <div class="w-11 h-11 rounded-2xl bg-[#C9A050] border border-[#b88f3f] flex items-center justify-center text-[#0A2E2A] shadow-md shrink-0">
                                 <svg class="w-6 h-6 text-[#0A2E2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                             </div>
                             <div>
-                                <h3 class="text-lg font-black text-white tracking-tight" x-text="activeCustomer?.name"></h3>
-                                <p class="text-xs text-[#C9A050] font-semibold tracking-wider uppercase">Customer Dossier</p>
+                                <h3 class="text-base sm:text-lg font-black text-white tracking-tight" x-text="activeCustomer?.name"></h3>
+                                <p class="text-[10px] sm:text-xs text-[#C9A050] font-semibold tracking-wider uppercase">Customer Dossier</p>
                             </div>
                         </div>
-                        <button type="button" @click="closeDetailModal()" class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                        <button type="button" @click="closeDetailModal()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                     </div>
 
-                    <div class="p-8 space-y-6 max-h-[75vh] overflow-y-auto">
+                    <div class="p-6 sm:p-8 space-y-6 overflow-y-auto flex-1 custom-scrollbar">
                         <!-- Key Stats Row -->
                         <div class="grid grid-cols-2 gap-4">
                             <div class="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
