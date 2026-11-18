@@ -23,7 +23,7 @@ class ReportController extends Controller
         }
 
         $activeTab = $request->input('tab', 'overview');
-        $validTabs = ['overview', 'orders', 'transactions', 'customers', 'drivers', 'events', 'meals'];
+        $validTabs = ['overview', 'pos', 'orders', 'transactions', 'customers', 'drivers', 'events', 'meals'];
         if (!in_array($activeTab, $validTabs)) {
             $activeTab = 'overview';
         }
@@ -604,7 +604,101 @@ class ReportController extends Controller
         ];
 
         // ==========================================
-        // 7. EXECUTIVE OVERVIEW CONSOLIDATION
+        // 7. POS COUNTER TERMINAL METRICS
+        // ==========================================
+        $posOrdersQuery = Order::query()->where(function ($q) {
+            $q->where('address', 'like', '%Walk-in%')
+              ->orWhere('address', 'like', '%Dine-In%')
+              ->orWhere('address', 'like', '%Counter%');
+        });
+        $applyDate($posOrdersQuery, 'created_at');
+
+        $posTotalOrders = (clone $posOrdersQuery)->count();
+        $posTotalRevenue = (float) (clone $posOrdersQuery)->whereNotIn('status', ['cancelled'])->sum('total_price');
+        $posAvgTicket = $posTotalOrders > 0 ? round($posTotalRevenue / $posTotalOrders, 2) : 0;
+
+        // Payment breakdown
+        $posCashOrders = (clone $posOrdersQuery)->where('payment_method', 'Cash');
+        $posCashRevenue = (float) (clone $posCashOrders)->sum('total_price');
+        $posCashCount = (clone $posCashOrders)->count();
+
+        $posCardOrders = (clone $posOrdersQuery)->where('payment_method', 'Card');
+        $posCardRevenue = (float) (clone $posCardOrders)->sum('total_price');
+        $posCardCount = (clone $posCardOrders)->count();
+
+        $posOnlineOrders = (clone $posOrdersQuery)->whereNotIn('payment_method', ['Cash', 'Card']);
+        $posOnlineRevenue = (float) (clone $posOnlineOrders)->sum('total_price');
+        $posOnlineCount = (clone $posOnlineOrders)->count();
+
+        // Order type breakdown
+        $posDineInOrders = (clone $posOrdersQuery)->where('address', 'like', '%Dine-In%');
+        $posDineInCount = (clone $posDineInOrders)->count();
+        $posDineInRevenue = (float) (clone $posDineInOrders)->sum('total_price');
+
+        $posTakeawayOrders = (clone $posOrdersQuery)->where('address', 'not like', '%Dine-In%');
+        $posTakeawayCount = (clone $posTakeawayOrders)->count();
+        $posTakeawayRevenue = (float) (clone $posTakeawayOrders)->sum('total_price');
+
+        // Top Selling POS Items
+        $posOrderIds = (clone $posOrdersQuery)->whereNotIn('status', ['cancelled'])->pluck('id');
+        $posItems = OrderItem::with('food')
+            ->whereIn('order_id', $posOrderIds)
+            ->get();
+
+        $posItemTracker = [];
+        foreach ($posItems as $pi) {
+            $fId = $pi->food_id ?: ($pi->food?->name ?? 'Item');
+            $fName = $pi->food?->name ?? 'POS Item #' . $pi->food_id;
+            $fCategory = $pi->food?->type ?? 'Buffet / Retail';
+            $fPortion = $pi->food?->portion_size ?? ($pi->food?->servings ?? '');
+            $fImage = $pi->food?->image_url ?? '';
+            $qty = (int) $pi->quantity;
+            $rev = (float) ($pi->price * $qty);
+
+            if (!isset($posItemTracker[$fId])) {
+                $posItemTracker[$fId] = [
+                    'id' => $fId,
+                    'name' => $fName,
+                    'category' => $fCategory,
+                    'portion_size' => $fPortion,
+                    'image_url' => $fImage,
+                    'quantity' => 0,
+                    'revenue' => 0.0,
+                ];
+            }
+            $posItemTracker[$fId]['quantity'] += $qty;
+            $posItemTracker[$fId]['revenue'] += $rev;
+        }
+        uasort($posItemTracker, fn($a, $b) => $b['quantity'] <=> $a['quantity']);
+        $topPosItems = array_slice($posItemTracker, 0, 10);
+
+        // Recent POS Counter Bills / Orders
+        $recentPosOrders = (clone $posOrdersQuery)
+            ->with(['items.food', 'user'])
+            ->latest('id')
+            ->take(30)
+            ->get();
+
+        $posStats = [
+            'total_revenue' => $posTotalRevenue,
+            'total_orders' => $posTotalOrders,
+            'avg_ticket' => $posAvgTicket,
+            'cash_revenue' => $posCashRevenue,
+            'cash_count' => $posCashCount,
+            'card_revenue' => $posCardRevenue,
+            'card_count' => $posCardCount,
+            'online_revenue' => $posOnlineRevenue,
+            'online_count' => $posOnlineCount,
+            'dine_in_count' => $posDineInCount,
+            'dine_in_revenue' => $posDineInRevenue,
+            'takeaway_count' => $posTakeawayCount,
+            'takeaway_revenue' => $posTakeawayRevenue,
+            'top_items' => $topPosItems,
+            'recent_orders' => $recentPosOrders,
+        ];
+
+        // ==========================================
+        // 8. EXECUTIVE OVERVIEW CONSOLIDATION
         // ==========================================
         $executiveOverview = [
             'gross_platform_volume' => $ordersRevenue + $totalEventsCost,
@@ -617,6 +711,8 @@ class ReportController extends Controller
             'active_drivers'        => $availableDrivers + $onDeliveryDrivers,
             'fleet_utilization'     => $fleetUtilization,
             'total_events'          => $totalEventsCount,
+            'pos_total_revenue'     => $posTotalRevenue,
+            'pos_total_orders'      => $posTotalOrders,
         ];
 
         return view('reports.index', compact(
@@ -632,7 +728,8 @@ class ReportController extends Controller
             'customersStats',
             'driversStats',
             'eventsStats',
-            'mealsStats'
+            'mealsStats',
+            'posStats'
         ));
     }
 
@@ -677,7 +774,7 @@ class ReportController extends Controller
 
         return response()->streamDownload(function () use ($tab, $range, $startDate, $endDate) {
             $handle = fopen('php://output', 'w');
-            fputcsv($handle, ['The Menu Luxury Operations - Executive Intelligence Report']);
+            fputcsv($handle, ['MENU Operations - Executive Intelligence Report']);
             fputcsv($handle, ['Export Timestamp', now()->toDateTimeString()]);
             fputcsv($handle, ['Module', ucfirst($tab)]);
             fputcsv($handle, ['Filter Range', $range]);
@@ -686,7 +783,53 @@ class ReportController extends Controller
             }
             fputcsv($handle, []);
 
-            if ($tab === 'orders') {
+            if ($tab === 'pos') {
+                fputcsv($handle, ['--- POS COUNTER SALES & TERMINAL TELEMETRY ---']);
+                $posQ = Order::query()->where(function ($q) {
+                    $q->where('address', 'like', '%Walk-in%')
+                      ->orWhere('address', 'like', '%Dine-In%')
+                      ->orWhere('address', 'like', '%Counter%');
+                });
+                if ($startDate && $endDate) {
+                    $posQ->whereBetween('created_at', [$startDate, $endDate]);
+                }
+                
+                $totalPosRev = (float) (clone $posQ)->whereNotIn('status', ['cancelled'])->sum('total_price');
+                $totalPosOrders = (clone $posQ)->count();
+                $avgPosTicket = $totalPosOrders > 0 ? round($totalPosRev / $totalPosOrders, 2) : 0;
+                $cashRev = (float) (clone $posQ)->where('payment_method', 'Cash')->sum('total_price');
+                $cardRev = (float) (clone $posQ)->where('payment_method', 'Card')->sum('total_price');
+
+                fputcsv($handle, ['Total Counter Sales (Rs.)', number_format($totalPosRev, 2, '.', '')]);
+                fputcsv($handle, ['Total Counter Bills', $totalPosOrders]);
+                fputcsv($handle, ['Average Ticket Size (Rs.)', number_format($avgPosTicket, 2, '.', '')]);
+                fputcsv($handle, ['Cash Sales (Rs.)', number_format($cashRev, 2, '.', '')]);
+                fputcsv($handle, ['Card Sales (Rs.)', number_format($cardRev, 2, '.', '')]);
+                fputcsv($handle, []);
+
+                fputcsv($handle, ['Receipt Number', 'Date', 'Time', 'Cashier', 'Order Type', 'Table', 'Customer', 'Payment Method', 'Items Count', 'Net Total (Rs.)', 'Payment Status']);
+                $orders = (clone $posQ)->with(['items', 'user'])->latest('id')->get();
+                foreach ($orders as $po) {
+                    $orderType = str_contains($po->address, 'Dine-In') ? 'Dine-In' : 'Takeaway';
+                    $table = '';
+                    if (preg_match('/Table\s*([A-Za-z0-9\-]+)/i', $po->address, $m)) {
+                        $table = $m[1];
+                    }
+                    fputcsv($handle, [
+                        $po->order_number ?: ('ORD-' . str_pad($po->id, 5, '0', STR_PAD_LEFT)),
+                        $po->created_at->format('Y-m-d'),
+                        $po->created_at->format('H:i'),
+                        $po->user->name ?? 'POS Cashier',
+                        $orderType,
+                        $table ?: 'N/A',
+                        $po->customer_name ?: 'Walk-in Customer',
+                        $po->payment_method ?: 'Cash',
+                        $po->items->sum('quantity'),
+                        number_format((float) $po->total_price, 2, '.', ''),
+                        ucfirst($po->payment_status ?: 'paid'),
+                    ]);
+                }
+            } elseif ($tab === 'orders') {
                 fputcsv($handle, ['Order Number', 'Client Name', 'Phone', 'Total Price (Rs.)', 'Status', 'Payment Method', 'Date']);
                 $q = Order::with('user')->latest();
                 if ($startDate && $endDate) {

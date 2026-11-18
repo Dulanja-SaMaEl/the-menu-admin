@@ -369,8 +369,35 @@
                     }
                 },
 
+                printReceipt(url) {
+                    if (!url) return;
+                    let frame = document.getElementById('posReceiptFrame');
+                    if (!frame) {
+                        frame = document.createElement('iframe');
+                        frame.id = 'posReceiptFrame';
+                        frame.style.position = 'fixed';
+                        frame.style.right = '0';
+                        frame.style.bottom = '0';
+                        frame.style.width = '0';
+                        frame.style.height = '0';
+                        frame.style.border = '0';
+                        frame.style.visibility = 'hidden';
+                        document.body.appendChild(frame);
+                    }
+
+                    frame.src = url;
+                    frame.onload = () => {
+                        try {
+                            frame.contentWindow.focus();
+                            frame.contentWindow.print();
+                        } catch (e) {
+                            console.error('In-page print failed:', e);
+                        }
+                    };
+                },
+
                 reprintReceipt(url) {
-                    window.open(url, '_blank');
+                    this.printReceipt(url);
                 },
 
                 // Checkout Flow
@@ -394,8 +421,6 @@
                         }
                     }
 
-                    // Open receipt window synchronously to bypass pop-up blockers
-                    const receiptWindow = window.open('', '_blank');
                     this.submitting = true;
 
                     const payload = {
@@ -429,12 +454,8 @@
                             throw new Error(data.message || 'Unable to complete sale transaction.');
                         }
 
-                        // Direct the pre-opened popup to thermal receipt
-                        if (receiptWindow) {
-                            receiptWindow.location.href = data.receipt_url;
-                        } else {
-                            window.open(data.receipt_url, '_blank');
-                        }
+                        // Print receipt in-page without navigating to another tab/window
+                        this.printReceipt(data.receipt_url);
 
                         // Update shift metrics
                         this.shiftSales += data.total_price;
@@ -457,9 +478,6 @@
                         this.clearCart(false);
 
                     } catch (error) {
-                        if (receiptWindow) {
-                            receiptWindow.close();
-                        }
                         alert('Checkout Error: ' + error.message);
                     } finally {
                         this.submitting = false;

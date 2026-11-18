@@ -68,7 +68,7 @@
                 <img src="{{ asset('images/logo.svg') }}" 
                      alt="Menu Logo" 
                      class="h-8 sm:h-9 w-auto object-contain logo-blend mix-blend-screen filter brightness-125" />
-                <span class="text-sm sm:text-base font-black tracking-wider uppercase text-white">The Menu</span>
+                <span class="text-sm sm:text-base font-black tracking-wider uppercase text-white">MENU</span>
             </div>
 
             <div class="h-5 w-px bg-white/15"></div>

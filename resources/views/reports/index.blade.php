@@ -215,6 +215,21 @@
                 <span class="text-[10px] px-2 py-0.5 rounded-full font-black transition-colors"
                       :class="activeTab === 'meals' ? 'bg-[#C9A050]/20 text-[#C9A050] dark:bg-[#061513]/25 dark:text-[#061513]' : 'bg-amber-50 text-amber-800 dark:bg-[#123831] dark:text-[#F59E0B] dark:border dark:border-[#1E4940]'">Top: {{ Str::limit($mealsStats['highest_selling']['name'] ?? 'Lunch', 10) }}</span>
             </button>
+
+            <!-- 8. POS & Buffet Counter Terminal -->
+            <button type="button" @click="switchTab('pos')"
+                    :data-active="activeTab === 'pos' ? 'true' : 'false'"
+                    :class="activeTab === 'pos' 
+                        ? 'active bg-[#0A2E2A] text-[#C9A050] dark:bg-[#C9A050] dark:text-[#061513] font-black shadow-md border-[#0A2E2A] dark:border-[#C9A050]' 
+                        : 'bg-white hover:bg-gray-50 text-gray-600 border-gray-200/80 dark:bg-[#081A17] dark:hover:bg-[#123831] dark:text-[#8FA8A3] dark:hover:text-[#F5F3EF] dark:border-[#163832] font-bold'"
+                    class="report-subtab flex items-center space-x-2.5 px-4.5 py-2.5 rounded-xl text-xs sm:text-sm tracking-tight transition-all duration-200 whitespace-nowrap cursor-pointer border shrink-0">
+                <svg class="w-4 h-4 transition-colors"
+                     :class="activeTab === 'pos' ? 'text-[#C9A050] dark:text-[#061513]' : 'text-gray-400 dark:text-[#8FA8A3]'"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                <span>POS & Buffet Terminal</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full font-black transition-colors"
+                      :class="activeTab === 'pos' ? 'bg-[#C9A050]/20 text-[#C9A050] dark:bg-[#061513]/25 dark:text-[#061513]' : 'bg-emerald-50 text-emerald-800 dark:bg-[#123831] dark:text-[#34D399] dark:border dark:border-[#1E4940]'">Rs. {{ number_format($posStats['total_revenue'], 0) }}</span>
+            </button>
         </div>
 
         <!-- ============================================================== -->
@@ -1613,6 +1628,358 @@
                     </div>
                 </div>
             @endif
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TAB 8: POS & BUFFET COUNTER TERMINAL -->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'pos'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" class="space-y-6">
+            <!-- 4 Master KPI Metric Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Total POS Revenue -->
+                <div class="report-kpi-card bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md p-6 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] hover:border-[#C9A050]/40 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="report-kpi-icon w-12 h-12 bg-emerald-50 text-emerald-700 dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#34D399] rounded-2xl flex items-center justify-center shadow-xs">
+                            <svg class="w-6 h-6 text-emerald-700 dark:text-[#34D399]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <span class="report-kpi-pill text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#34D399] px-2.5 py-1 rounded-full border border-emerald-200 dark:border-transparent">Counter Revenue</span>
+                    </div>
+                    <h3 class="report-kpi-value text-2xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Rs. {{ number_format($posStats['total_revenue'], 2) }}</h3>
+                    <p class="report-kpi-title text-xs text-gray-500 dark:text-[#8FA8A3] font-medium mt-1">Dine-In & Takeaway Net Total</p>
+                </div>
+
+                <!-- Total Counter Bills -->
+                <div class="report-kpi-card bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md p-6 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] hover:border-[#C9A050]/40 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="report-kpi-icon w-12 h-12 bg-[#0A2E2A]/10 text-[#0A2E2A] dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#D8B060] rounded-2xl flex items-center justify-center shadow-xs">
+                            <svg class="w-6 h-6 text-[#0A2E2A] dark:text-[#D8B060]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </div>
+                        <span class="report-kpi-pill text-[10px] font-black uppercase tracking-wider text-[#0A2E2A] bg-[#0A2E2A]/10 dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#D8B060] px-2.5 py-1 rounded-full border border-[#0A2E2A]/15">Tickets Issued</span>
+                    </div>
+                    <h3 class="report-kpi-value text-2xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">{{ number_format($posStats['total_orders']) }}</h3>
+                    <p class="report-kpi-title text-xs text-gray-500 dark:text-[#8FA8A3] font-medium mt-1">Completed Counter Transactions</p>
+                </div>
+
+                <!-- Average Ticket Size -->
+                <div class="report-kpi-card bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md p-6 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] hover:border-[#C9A050]/40 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="report-kpi-icon w-12 h-12 bg-amber-50 text-amber-700 dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#F59E0B] rounded-2xl flex items-center justify-center shadow-xs">
+                            <svg class="w-6 h-6 text-amber-700 dark:text-[#F59E0B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        </div>
+                        <span class="report-kpi-pill text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-50 dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#F59E0B] px-2.5 py-1 rounded-full border border-amber-200 dark:border-transparent">Average Ticket</span>
+                    </div>
+                    <h3 class="report-kpi-value text-2xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Rs. {{ number_format($posStats['avg_ticket'], 2) }}</h3>
+                    <p class="report-kpi-title text-xs text-gray-500 dark:text-[#8FA8A3] font-medium mt-1">Mean Guest Spend per Order</p>
+                </div>
+
+                <!-- Payment Channels Split -->
+                <div class="report-kpi-card bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md p-6 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] hover:border-[#C9A050]/40 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="report-kpi-icon w-12 h-12 bg-blue-50 text-blue-700 dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#60A5FA] rounded-2xl flex items-center justify-center shadow-xs">
+                            <svg class="w-6 h-6 text-blue-700 dark:text-[#60A5FA]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                        </div>
+                        <span class="report-kpi-pill text-[10px] font-black uppercase tracking-wider text-blue-800 bg-blue-50 dark:bg-[#123831] dark:border dark:border-[#1E4940] dark:text-[#60A5FA] px-2.5 py-1 rounded-full border border-blue-200 dark:border-transparent">Payment Split</span>
+                    </div>
+                    <h3 class="report-kpi-value text-xl font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">
+                        {{ $posStats['cash_count'] }} Cash / {{ $posStats['card_count'] }} Card
+                    </h3>
+                    <p class="report-kpi-title text-xs text-gray-500 dark:text-[#8FA8A3] font-medium mt-1">
+                        @if($posStats['online_count'] > 0) +{{ $posStats['online_count'] }} QR / Online @else 100% Counter Settled @endif
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2 Analytical Breakdown Panels -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Payment Methods Distribution -->
+                <div class="bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md p-6 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832]">
+                    <div class="flex items-center justify-between mb-5">
+                        <div>
+                            <h3 class="text-base font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Payment Channel Breakdown</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#8FA8A3]">Counter receipts by settlement method</p>
+                        </div>
+                        <span class="text-xs font-bold text-[#C9A050]">Rs. {{ number_format($posStats['total_revenue'], 0) }} Total</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        @php
+                            $totalPosRev = max(1, $posStats['total_revenue']);
+                            $cashPct = round(($posStats['cash_revenue'] / $totalPosRev) * 100, 1);
+                            $cardPct = round(($posStats['card_revenue'] / $totalPosRev) * 100, 1);
+                            $onlinePct = round(($posStats['online_revenue'] / $totalPosRev) * 100, 1);
+                        @endphp
+
+                        <!-- Cash -->
+                        <div>
+                            <div class="flex justify-between items-center text-xs mb-1.5 font-bold">
+                                <span class="flex items-center gap-2 text-gray-700 dark:text-[#F5F3EF]">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                    <span>Cash Tendered ({{ $posStats['cash_count'] }} bills)</span>
+                                </span>
+                                <span class="text-emerald-700 dark:text-[#34D399]">Rs. {{ number_format($posStats['cash_revenue'], 2) }} ({{ $cashPct }}%)</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-gray-100 dark:bg-[#123831] rounded-full overflow-hidden">
+                                <div class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: {{ $cashPct }}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Card -->
+                        <div>
+                            <div class="flex justify-between items-center text-xs mb-1.5 font-bold">
+                                <span class="flex items-center gap-2 text-gray-700 dark:text-[#F5F3EF]">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                                    <span>Credit / Debit Card ({{ $posStats['card_count'] }} bills)</span>
+                                </span>
+                                <span class="text-blue-700 dark:text-[#60A5FA]">Rs. {{ number_format($posStats['card_revenue'], 2) }} ({{ $cardPct }}%)</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-gray-100 dark:bg-[#123831] rounded-full overflow-hidden">
+                                <div class="h-full bg-blue-500 rounded-full transition-all duration-500" style="width: {{ $cardPct }}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Online / QR -->
+                        <div>
+                            <div class="flex justify-between items-center text-xs mb-1.5 font-bold">
+                                <span class="flex items-center gap-2 text-gray-700 dark:text-[#F5F3EF]">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#C9A050]"></span>
+                                    <span>Online Transfer / QR ({{ $posStats['online_count'] }} bills)</span>
+                                </span>
+                                <span class="text-[#C9A050]">Rs. {{ number_format($posStats['online_revenue'], 2) }} ({{ $onlinePct }}%)</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-gray-100 dark:bg-[#123831] rounded-full overflow-hidden">
+                                <div class="h-full bg-[#C9A050] rounded-full transition-all duration-500" style="width: {{ $onlinePct }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Type Distribution (Dine-In vs Takeaway) -->
+                <div class="bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md p-6 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832]">
+                    <div class="flex items-center justify-between mb-5">
+                        <div>
+                            <h3 class="text-base font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Order Type Distribution</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#8FA8A3]">Dine-In seating vs counter takeaway orders</p>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 dark:text-[#8FA8A3]">{{ $posStats['total_orders'] }} Total Tickets</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        @php
+                            $totalTickets = max(1, $posStats['total_orders']);
+                            $dineInPct = round(($posStats['dine_in_count'] / $totalTickets) * 100, 1);
+                            $takeawayPct = round(($posStats['takeaway_count'] / $totalTickets) * 100, 1);
+                        @endphp
+
+                        <!-- Dine-In -->
+                        <div>
+                            <div class="flex justify-between items-center text-xs mb-1.5 font-bold">
+                                <span class="flex items-center gap-2 text-gray-700 dark:text-[#F5F3EF]">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                                    <span>Dine-In Guests ({{ $posStats['dine_in_count'] }} orders)</span>
+                                </span>
+                                <span class="text-amber-700 dark:text-[#F59E0B]">Rs. {{ number_format($posStats['dine_in_revenue'], 2) }} ({{ $dineInPct }}%)</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-gray-100 dark:bg-[#123831] rounded-full overflow-hidden">
+                                <div class="h-full bg-amber-500 rounded-full transition-all duration-500" style="width: {{ $dineInPct }}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Takeaway -->
+                        <div>
+                            <div class="flex justify-between items-center text-xs mb-1.5 font-bold">
+                                <span class="flex items-center gap-2 text-gray-700 dark:text-[#F5F3EF]">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span>
+                                    <span>Takeaway / Parcel ({{ $posStats['takeaway_count'] }} orders)</span>
+                                </span>
+                                <span class="text-teal-700 dark:text-[#2DD4BF]">Rs. {{ number_format($posStats['takeaway_revenue'], 2) }} ({{ $takeawayPct }}%)</span>
+                            </div>
+                            <div class="w-full h-2.5 bg-gray-100 dark:bg-[#123831] rounded-full overflow-hidden">
+                                <div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: {{ $takeawayPct }}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 flex items-center justify-between text-xs text-gray-500 dark:text-[#8FA8A3] border-t border-gray-100 dark:border-[#163832]">
+                            <span>POS Terminal Station</span>
+                            <a href="{{ route('pos.index') }}" class="font-bold text-[#C9A050] hover:underline flex items-center gap-1">
+                                <span>Open POS Terminal</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top 10 Selling Buffet & Beverage Items -->
+            @if(count($posStats['top_items']) > 0)
+                <div class="bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 dark:border-[#163832] flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Top-Selling Buffet & Beverage Items</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#8FA8A3] mt-0.5">Highest volume dishes and refreshments ordered via POS counter</p>
+                        </div>
+                        <a href="{{ route('foods.index') }}" class="text-xs font-bold text-[#C9A050] hover:underline flex items-center gap-1">
+                            <span>Catalog Manager</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-gray-100 dark:border-[#163832] bg-gray-50/60 dark:bg-[#071916]">
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Rank</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Item Name & Details</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Category</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Units Dispensed</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Total Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100/80 dark:divide-[#163832]">
+                                @foreach($posStats['top_items'] as $idx => $item)
+                                    <tr class="hover:bg-[#C9A050]/[0.03] dark:hover:bg-[#C9A050]/[0.05] transition-colors">
+                                        <td class="py-4 px-6 text-xs font-black text-gray-400 dark:text-[#8FA8A3]">
+                                            #{{ $idx + 1 }}
+                                        </td>
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center space-x-3">
+                                                @if(!empty($item['image_url']))
+                                                    <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-10 h-10 rounded-xl object-cover shadow-xs border border-gray-200 shrink-0">
+                                                @else
+                                                    <div class="w-10 h-10 rounded-xl bg-[#0A2E2A] text-[#C9A050] flex items-center justify-center text-lg font-bold shrink-0">🍲</div>
+                                                @endif
+                                                <div>
+                                                    <p class="text-xs font-black text-gray-900 dark:text-[#F5F3EF]">{{ $item['name'] }}</p>
+                                                    @if(!empty($item['portion']))
+                                                        <p class="text-[10px] text-gray-400 dark:text-[#8FA8A3]">{{ $item['portion'] }}</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-xs text-gray-600 dark:text-[#8FA8A3]">
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-gray-100 dark:bg-[#123831] text-gray-700 dark:text-[#D8B060]">
+                                                {{ $item['category'] }}
+                                            </span>
+                                        </td>
+                                        <td class="py-4 px-6 text-xs font-black text-gray-900 dark:text-[#F5F3EF]">
+                                            {{ number_format($item['quantity']) }} portions
+                                        </td>
+                                        <td class="py-4 px-6 text-xs font-black text-[#C9A050]">
+                                            Rs. {{ number_format($item['revenue'], 2) }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Recent Counter Invoices Ledger -->
+            <div class="bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] overflow-hidden">
+                <div class="p-6 border-b border-gray-100 dark:border-[#163832] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h3 class="text-lg font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">Recent Counter Sales Ledger</h3>
+                        <p class="text-xs text-gray-500 dark:text-[#8FA8A3] mt-0.5">Itemized transaction audit trail with 1-click in-page thermal receipt reprint</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <a href="{{ route('reports.export', ['tab' => 'pos', 'range' => $range, 'from' => $fromDate, 'to' => $toDate]) }}" class="px-4 py-2 bg-[#0A2E2A] text-[#C9A050] dark:bg-[#C9A050] dark:text-[#061513] rounded-xl text-xs font-black shadow-xs hover:scale-105 transition-all flex items-center gap-1.5 shrink-0">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <span>Export POS CSV</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-100 dark:border-[#163832] bg-gray-50/60 dark:bg-[#071916]">
+                                <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Receipt #</th>
+                                <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Date & Time</th>
+                                <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Guest / Desk</th>
+                                <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Type</th>
+                                <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Items</th>
+                                <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Payment</th>
+                                <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Net Total</th>
+                                <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3] text-right">Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100/80 dark:divide-[#163832]">
+                            @forelse($posStats['recent_orders'] as $order)
+                                <tr class="hover:bg-[#C9A050]/[0.03] dark:hover:bg-[#C9A050]/[0.05] transition-colors">
+                                    <td class="py-4 px-6 text-xs font-black text-gray-900 dark:text-[#F5F3EF]">
+                                        #ORD-{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                    </td>
+                                    <td class="py-4 px-6 text-xs text-gray-600 dark:text-[#8FA8A3]">
+                                        {{ $order->created_at->format('M d, Y • h:i A') }}
+                                    </td>
+                                    <td class="py-4 px-6 text-xs font-bold text-gray-800 dark:text-[#F5F3EF]">
+                                        {{ $order->customer_name ?: ($order->user?->name ?: 'Walk-in Guest') }}
+                                        @if(stripos($order->address, 'Table') !== false)
+                                            <span class="block text-[10px] text-[#C9A050] font-normal">{{ $order->address }}</span>
+                                        @endif
+                                    </td>
+                                    <td class="py-4 px-6 text-xs">
+                                        @if(stripos($order->address, 'Takeaway') !== false)
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-teal-50 text-teal-700 dark:bg-[#123831] dark:text-[#2DD4BF]">Takeaway</span>
+                                        @else
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 dark:bg-[#123831] dark:text-[#F59E0B]">Dine-In</span>
+                                        @endif
+                                    </td>
+                                    <td class="py-4 px-6 text-xs text-gray-600 dark:text-[#8FA8A3]">
+                                        {{ $order->orderItems->count() }} item(s)
+                                    </td>
+                                    <td class="py-4 px-6 text-xs">
+                                        @if($order->payment_method === 'Cash')
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 dark:bg-[#123831] dark:text-[#34D399]">💵 Cash</span>
+                                        @elseif($order->payment_method === 'Card')
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 dark:bg-[#123831] dark:text-[#60A5FA]">💳 Card</span>
+                                        @else
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 dark:bg-[#123831] dark:text-[#C084FC]">📱 {{ $order->payment_method }}</span>
+                                        @endif
+                                    </td>
+                                    <td class="py-4 px-6 text-xs font-black text-[#C9A050]">
+                                        Rs. {{ number_format($order->total_price, 2) }}
+                                    </td>
+                                    <td class="py-4 px-6 text-right">
+                                        <button type="button" 
+                                                onclick="printReceiptInPage('{{ route('pos.receipt', $order->id) }}')"
+                                                class="px-3 py-1.5 bg-gray-100 hover:bg-[#C9A050] hover:text-[#0A2E2A] text-gray-700 dark:bg-[#123831] dark:text-[#D8B060] dark:hover:bg-[#C9A050] dark:hover:text-[#061513] rounded-lg text-xs font-bold transition-all shadow-2xs inline-flex items-center gap-1.5 cursor-pointer">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                                            <span>Receipt</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="py-12 text-center text-xs text-gray-400 dark:text-[#8FA8A3]">
+                                        No counter sales registered in the selected period.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- In-Page Hidden Receipt Iframe for Seamless Zero-Navigation Printing -->
+            <iframe id="reportReceiptFrame" style="position: absolute; width: 0; height: 0; border: none; visibility: hidden;"></iframe>
+            <script>
+                function printReceiptInPage(url) {
+                    const frame = document.getElementById('reportReceiptFrame');
+                    if (!frame) return;
+                    frame.src = url;
+                    frame.onload = function() {
+                        setTimeout(() => {
+                            try {
+                                frame.contentWindow.focus();
+                                frame.contentWindow.print();
+                            } catch (e) {
+                                console.error('In-page print error:', e);
+                            }
+                        }, 300);
+                    };
+                }
+            </script>
         </div>
         </div>
 
