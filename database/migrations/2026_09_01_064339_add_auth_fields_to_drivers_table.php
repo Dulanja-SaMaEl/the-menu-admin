@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('drivers', function (Blueprint $table) {
-            $table->string('password')->after('email')->nullable();
-            $table->rememberToken()->after('password');
+            if (!Schema::hasColumn('drivers', 'password')) {
+                $table->string('password')->after('email')->nullable();
+            }
+            if (!Schema::hasColumn('drivers', 'remember_token')) {
+                $table->rememberToken()->after('password');
+            }
         });
     }
 
@@ -23,7 +27,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('drivers', function (Blueprint $table) {
-            $table->dropColumn(['password', 'remember_token']);
+            $cols = [];
+            if (Schema::hasColumn('drivers', 'password')) $cols[] = 'password';
+            if (Schema::hasColumn('drivers', 'remember_token')) $cols[] = 'remember_token';
+            if (!empty($cols)) {
+                $table->dropColumn($cols);
+            }
         });
     }
 };

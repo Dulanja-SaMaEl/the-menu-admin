@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->foreignId('driver_id')
-                  ->nullable()
-                  ->after('user_id')
-                  ->constrained('drivers')
-                  ->nullOnDelete();
+            if (!Schema::hasColumn('events', 'driver_id')) {
+                $table->foreignId('driver_id')
+                      ->nullable()
+                      ->after('user_id')
+                      ->constrained('drivers')
+                      ->nullOnDelete();
+            }
         });
     }
 
@@ -26,8 +28,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->dropForeign(['driver_id']);
-            $table->dropColumn('driver_id');
+            if (Schema::hasColumn('events', 'driver_id')) {
+                $table->dropForeign(['driver_id']);
+                $table->dropColumn('driver_id');
+            }
         });
     }
 };
