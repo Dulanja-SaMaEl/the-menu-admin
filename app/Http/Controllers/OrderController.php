@@ -117,13 +117,85 @@ class OrderController extends Controller
         $areaFilter = $request->input('area', 'all'); // 'all' or specific area
         $driverStatusFilter = $request->input('driver_status', 'all'); // 'all', 'assigned', 'not_assigned'
 
+        $channelFilter = $request->input('channel', 'all'); // 'all', 'pos', 'app'
+        $modeFilter = $request->input('order_mode', 'all'); // 'all', 'dine_in', 'takeaway', 'delivery'
+        $paymentMethodFilter = $request->input('payment_method', 'all'); // 'all', 'cash', 'card', 'bank_transfer', 'online_transfer'
+        $sort = $request->input('sort', 'newest'); // 'newest', 'oldest', 'amount_desc', 'amount_asc'
+        $dateFilter = $request->input('date', 'all'); // 'all', 'today', 'yesterday', 'this_week', 'this_month', 'custom'
+        $fromDate = $request->input('from_date');
+        $toDate = $request->input('to_date');
+
+        $applyCommonFilters = function ($q) use ($channelFilter, $modeFilter, $paymentMethodFilter, $sort, $dateFilter, $fromDate, $toDate) {
+            // Channel filter (POS vs Mobile App)
+            if ($channelFilter === 'pos') {
+                $q->where('channel', 'pos');
+            } elseif ($channelFilter === 'app') {
+                $q->where('channel', 'app');
+            }
+
+            // Order Mode (Dine-In, Takeaway, Delivery)
+            if ($modeFilter !== 'all' && !empty($modeFilter)) {
+                $q->where('order_mode', strtolower($modeFilter));
+            }
+
+            // Payment Method
+            if ($paymentMethodFilter === 'cash') {
+                $q->where(function ($sub) {
+                    $sub->where('payment_method', 'like', '%cash%')
+                        ->orWhere('payment_method', 'like', '%cod%');
+                });
+            } elseif ($paymentMethodFilter === 'card') {
+                $q->where(function ($sub) {
+                    $sub->where('payment_method', 'like', '%card%')
+                        ->orWhere('payment_method', 'like', '%visa%')
+                        ->orWhere('payment_method', 'like', '%master%');
+                });
+            } elseif ($paymentMethodFilter === 'bank_transfer') {
+                $q->where(function ($sub) {
+                    $sub->where('payment_method', 'like', '%bank%')
+                        ->orWhereNotNull('bank_receipt_url');
+                });
+            } elseif ($paymentMethodFilter === 'online_transfer') {
+                $q->where(function ($sub) {
+                    $sub->where('payment_method', 'like', '%online%')
+                        ->orWhere('payment_method', 'like', '%qr%')
+                        ->orWhere('payment_method', 'like', '%transfer%');
+                })->where('payment_method', 'not like', '%bank%');
+            }
+
+            // Date Filters
+            if ($dateFilter === 'today') {
+                $q->whereDate('created_at', now()->toDateString());
+            } elseif ($dateFilter === 'yesterday') {
+                $q->whereDate('created_at', now()->subDay()->toDateString());
+            } elseif ($dateFilter === 'this_week') {
+                $q->where('created_at', '>=', now()->startOfWeek());
+            } elseif ($dateFilter === 'this_month') {
+                $q->where('created_at', '>=', now()->startOfMonth());
+            } elseif ($dateFilter === 'custom' && $fromDate && $toDate) {
+                $q->whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59']);
+            }
+
+            // Sorting
+            if ($sort === 'oldest') {
+                $q->oldest('created_at');
+            } elseif ($sort === 'amount_desc') {
+                $q->orderByDesc('total_price');
+            } elseif ($sort === 'amount_asc') {
+                $q->orderBy('total_price');
+            } else {
+                $q->latest('created_at');
+            }
+        };
+
         $todayStr = now()->toDateString();
         $tomorrowStr = now()->addDay()->toDateString();
 
         // Active Orders Query: STRICTLY EXCLUDES completed, delivered, and cancelled orders
         $query = \App\Models\Order::with(['user', 'driver', 'items.food'])
-            ->whereNotIn('status', ['completed', 'delivered', 'cancelled'])
-            ->latest();
+            ->whereNotIn('status', ['completed', 'delivered', 'cancelled']);
+
+        $applyCommonFilters($query);
 
         // Search by ID, Customer Name, Email, Phone, Address, Dish, or Driver
         if ($search) {
@@ -486,8 +558,9 @@ class OrderController extends Controller
         $historyStatusFilter = $request->input('history_status', 'all'); // 'all', 'delivered', 'completed', 'cancelled'
 
         $historyQuery = \App\Models\Order::with(['user', 'driver', 'items.food'])
-            ->whereIn('status', ['completed', 'delivered', 'cancelled'])
-            ->latest();
+            ->whereIn('status', ['completed', 'delivered', 'cancelled']);
+
+        $applyCommonFilters($historyQuery);
 
         if ($search) {
             $cleanSearch = ltrim(trim($search), '#');
@@ -536,7 +609,8 @@ class OrderController extends Controller
             'tomorrowKitchenPrep',
             'viewMode', 'mealFilter', 'mealCounts', 'paginatedMealDeliveries',
             'mealGroups', 'availableAreas', 'areaCounts', 'areaFilter', 'driverStatusFilter',
-            'historyOrders', 'historyCount', 'historyStats', 'historyStatusFilter'
+            'historyOrders', 'historyCount', 'historyStats', 'historyStatusFilter',
+            'channelFilter', 'modeFilter', 'paymentMethodFilter', 'sort', 'dateFilter', 'fromDate', 'toDate'
         ));
     }
 
@@ -1180,14 +1254,18 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        $orderCode = $order->order_number ?: ('#ORD-' . str_pad($order->id, 4, '0', STR_PAD_LEFT));
+
         // Free up the driver if assigned
         if ($order->driver) {
             $order->driver->update(['status' => 'available']);
-            \App\Events\DriverStatusUpdated::safeDispatch($order->driver);
+            try {
+                \App\Events\DriverStatusUpdated::safeDispatch($order->driver);
+            } catch (\Throwable $e) {}
         }
 
         $order->delete();
         
-        return redirect()->route('orders')->with('success', 'Order has been successfully deleted.');
+        return redirect()->back()->with('success', "Order {$orderCode} has been permanently deleted.");
     }
 }

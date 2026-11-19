@@ -53,6 +53,16 @@
         whatsappPhone: '',
         whatsAppRecipientName: '',
         whatsAppCopied: false,
+        deleteOrderModal: false,
+        deleteOrderTarget: null,
+        openDeleteModal(order) {
+            this.deleteOrderTarget = order;
+            this.deleteOrderModal = true;
+        },
+        closeDeleteModal() {
+            this.deleteOrderModal = false;
+            this.deleteOrderTarget = null;
+        },
         openWhatsAppManifest(text, phone = '', name = '') {
             this.whatsAppManifestText = text;
             this.whatsAppRecipientPhone = phone || '';
@@ -1007,51 +1017,145 @@
                             </a>
                         @endif
 
-                        <!-- Search Form -->
-                        <form method="GET" action="{{ url()->current() }}" class="relative w-full sm:w-80">
+                        <!-- Search & Sort Controls -->
+                        <form method="GET" action="{{ url()->current() }}" class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                             <input type="hidden" name="status" value="{{ $statusFilter }}">
                             <input type="hidden" name="schedule" value="{{ $scheduleFilter }}">
-                            <input
-                                type="text"
-                                name="search"
-                                value="{{ $search }}"
-                                placeholder="Search customer, ID, phone, dish..."
-                                @input.debounce.1500ms="$el.form.submit()"
-                                class="w-full pl-11 pr-4 py-3 text-xs sm:text-sm font-bold border border-gray-200 dark:border-[#163832] rounded-2xl focus:ring-2 focus:ring-[#C9A050] focus:border-[#C9A050] bg-gray-50/50 dark:bg-[#061513] focus:bg-white dark:focus:bg-[#081A17] text-gray-900 dark:text-[#F5F3EF] dark:placeholder-[#5E7A75] transition-all duration-200 shadow-inner"
-                            >
-                            <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="hidden" name="channel" value="{{ $channelFilter }}">
+                            <input type="hidden" name="order_mode" value="{{ $modeFilter }}">
+                            <input type="hidden" name="payment_method" value="{{ $paymentMethodFilter }}">
+                            <input type="hidden" name="date" value="{{ $dateFilter }}">
+                            @if($fromDate && $toDate)
+                                <input type="hidden" name="from_date" value="{{ $fromDate }}">
+                                <input type="hidden" name="to_date" value="{{ $toDate }}">
+                            @endif
+
+                            <div class="relative w-full sm:w-72">
+                                <input
+                                    type="text"
+                                    name="search"
+                                    value="{{ $search }}"
+                                    placeholder="Search customer, ID, phone, dish..."
+                                    @input.debounce.1500ms="$el.form.submit()"
+                                    class="w-full pl-11 pr-4 py-3 text-xs sm:text-sm font-bold border border-gray-200 dark:border-[#163832] rounded-2xl focus:ring-2 focus:ring-[#C9A050] focus:border-[#C9A050] bg-gray-50/50 dark:bg-[#061513] focus:bg-white dark:focus:bg-[#081A17] text-gray-900 dark:text-[#F5F3EF] dark:placeholder-[#5E7A75] transition-all duration-200 shadow-inner"
+                                >
+                                <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+
+                            <!-- Date-Wise Sorting Selector -->
+                            <select name="sort" onchange="this.form.submit()" 
+                                    class="py-3 px-3.5 bg-gray-50/80 dark:bg-[#061513] rounded-2xl border border-gray-200 dark:border-[#163832] text-xs font-bold text-gray-700 dark:text-[#F5F3EF] focus:border-[#C9A050] transition-all cursor-pointer shadow-inner">
+                                <option value="newest" {{ $sort === 'newest' ? 'selected' : '' }}>⏱️ Date: Newest First</option>
+                                <option value="oldest" {{ $sort === 'oldest' ? 'selected' : '' }}>⏳ Date: Oldest First</option>
+                                <option value="amount_desc" {{ $sort === 'amount_desc' ? 'selected' : '' }}>💰 Amount: High to Low</option>
+                                <option value="amount_asc" {{ $sort === 'amount_asc' ? 'selected' : '' }}>💵 Amount: Low to High</option>
+                            </select>
                         </form>
                     </div>
                 </div>
 
-                <!-- Dual Filter Bar: Status & Schedule -->
-                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-3 border-t border-gray-100 dark:border-[#163832]">
-                    <!-- Schedule Filter Pills -->
-                    <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1">
-                        <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-2 shrink-0">Schedule:</span>
-                        @foreach ([
-                            'all'       => 'All Dates',
-                            'today'     => '🔴 Today (' . $todayScheduledCount . ')',
-                            'tomorrow'  => '🟠 Tomorrow',
-                            'upcoming'  => '📅 Future Days',
-                            'immediate' => '⚡ Immediate Orders'
-                        ] as $sKey => $sLabel)
-                            <a href="{{ request()->fullUrlWithQuery(['schedule' => $sKey, 'page' => null]) }}"
-                                class="px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $scheduleFilter === $sKey ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md shadow-[#0A2E2A]/15 border border-[#0A2E2A] dark:bg-[#143D35] dark:border-[#C9A050]' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:bg-[#123831] dark:text-[#A3B8B3] dark:hover:bg-[#16433B] dark:hover:text-[#F5F3EF]' }}">
-                                {{ $sLabel }}
-                            </a>
-                        @endforeach
+                <!-- Multi-Axis Filter Bar: Channel, Order Mode, Payment Method, Schedule & Status -->
+                <div class="space-y-3 pt-3 border-t border-gray-100 dark:border-[#163832]">
+                    <!-- Channel & Order Mode Chips -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                        <!-- Channel Filter (POS vs Mobile App) -->
+                        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5">
+                            <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-1 shrink-0">Channel:</span>
+                            @foreach([
+                                'all' => '🏢 All Orders',
+                                'pos' => '🛒 POS Counter',
+                                'app' => '📱 Mobile App',
+                            ] as $chKey => $chLabel)
+                                <a href="{{ request()->fullUrlWithQuery(['channel' => $chKey, 'page' => null]) }}"
+                                   class="px-3 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $channelFilter === $chKey ? 'bg-[#0A2E2A] text-[#C9A050] border border-[#C9A050]/40 shadow-xs dark:bg-[#143D35]' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 dark:bg-[#123831] dark:text-[#A3B8B3]' }}">
+                                    {{ $chLabel }}
+                                </a>
+                            @endforeach
+                        </div>
+
+                        <!-- Order Mode Chips -->
+                        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5">
+                            <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-1 shrink-0">Mode:</span>
+                            @foreach([
+                                'all'       => 'All Modes',
+                                'dine_in'   => '🍽️ Dine-In',
+                                'takeaway'  => '🥡 Take Away',
+                                'delivery'  => '🛵 Delivery',
+                            ] as $moKey => $moLabel)
+                                <a href="{{ request()->fullUrlWithQuery(['order_mode' => $moKey, 'page' => null]) }}"
+                                   class="px-3 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $modeFilter === $moKey ? 'bg-[#0A2E2A] text-[#C9A050] border border-[#C9A050]/40 shadow-xs dark:bg-[#143D35]' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 dark:bg-[#123831] dark:text-[#A3B8B3]' }}">
+                                    {{ $moLabel }}
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
 
-                    <!-- Status Filter Pills (Active Orders Only) -->
-                    <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1">
-                        <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-2 shrink-0">Status:</span>
-                        @foreach (['all' => 'All Active', 'pending' => 'Pending', 'processing' => 'Processing', 'assigned' => 'Assigned'] as $key => $label)
-                            <a href="{{ request()->fullUrlWithQuery(['status' => $key, 'page' => null]) }}"
-                                class="px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $statusFilter === $key ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] dark:text-[#061513] font-black shadow-md shadow-[#C9A050]/20' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:bg-[#123831] dark:text-[#A3B8B3] dark:hover:bg-[#16433B] dark:hover:text-[#F5F3EF]' }}">
-                                {{ $label }}
-                            </a>
-                        @endforeach
+                    <!-- Payment Method & Date Presets -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                        <!-- Payment Method Chips -->
+                        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5">
+                            <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-1 shrink-0">Payment:</span>
+                            @foreach([
+                                'all'             => 'All Payments',
+                                'cash'            => '💵 Cash',
+                                'card'            => '💳 Card',
+                                'online_transfer' => '⚡ QR / Online',
+                                'bank_transfer'   => '🏦 Bank Transfer',
+                            ] as $mKey => $mLabel)
+                                <a href="{{ request()->fullUrlWithQuery(['payment_method' => $mKey, 'page' => null]) }}"
+                                   class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all whitespace-nowrap {{ $paymentMethodFilter === $mKey ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:text-amber-300 font-black' : 'bg-gray-100/80 text-gray-600 hover:bg-gray-200 dark:bg-[#123831] dark:text-[#8FA8A3]' }}">
+                                    {{ $mLabel }}
+                                </a>
+                            @endforeach
+                        </div>
+
+                        <!-- Date Presets -->
+                        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5">
+                            <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-1 shrink-0">Date:</span>
+                            @foreach([
+                                'all'        => 'All Dates',
+                                'today'      => 'Today',
+                                'yesterday'  => 'Yesterday',
+                                'this_week'  => 'This Week',
+                                'this_month' => 'This Month',
+                            ] as $dKey => $dLabel)
+                                <a href="{{ request()->fullUrlWithQuery(['date' => $dKey, 'page' => null]) }}"
+                                   class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all whitespace-nowrap {{ $dateFilter === $dKey ? 'bg-[#0A2E2A] text-[#C9A050] font-black dark:bg-[#143D35]' : 'bg-gray-100/80 text-gray-600 hover:bg-gray-200 dark:bg-[#123831] dark:text-[#8FA8A3]' }}">
+                                    {{ $dLabel }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Schedule & Status Filter Pills -->
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-2 border-t border-gray-100/80 dark:border-[#163832]">
+                        <!-- Schedule Filter Pills -->
+                        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1">
+                            <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-2 shrink-0">Schedule:</span>
+                            @foreach ([
+                                'all'       => 'All Dates',
+                                'today'     => '🔴 Today (' . $todayScheduledCount . ')',
+                                'tomorrow'  => '🟠 Tomorrow',
+                                'upcoming'  => '📅 Future Days',
+                                'immediate' => '⚡ Immediate Orders'
+                            ] as $sKey => $sLabel)
+                                <a href="{{ request()->fullUrlWithQuery(['schedule' => $sKey, 'page' => null]) }}"
+                                    class="px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $scheduleFilter === $sKey ? 'bg-[#0A2E2A] text-[#C9A050] shadow-md shadow-[#0A2E2A]/15 border border-[#0A2E2A] dark:bg-[#143D35] dark:border-[#C9A050]' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:bg-[#123831] dark:text-[#A3B8B3] dark:hover:bg-[#16433B] dark:hover:text-[#F5F3EF]' }}">
+                                    {{ $sLabel }}
+                                </a>
+                            @endforeach
+                        </div>
+
+                        <!-- Status Filter Pills (Active Orders Only) -->
+                        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1">
+                            <span class="text-[11px] font-black text-gray-400 dark:text-[#8FA8A3] uppercase tracking-widest mr-2 shrink-0">Status:</span>
+                            @foreach (['all' => 'All Active', 'pending' => 'Pending', 'processing' => 'Processing', 'assigned' => 'Assigned'] as $key => $label)
+                                <a href="{{ request()->fullUrlWithQuery(['status' => $key, 'page' => null]) }}"
+                                    class="px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap {{ $statusFilter === $key ? 'bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] dark:text-[#061513] font-black shadow-md shadow-[#C9A050]/20' : 'bg-gray-100/80 text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:bg-[#123831] dark:text-[#A3B8B3] dark:hover:bg-[#16433B] dark:hover:text-[#F5F3EF]' }}">
+                                    {{ $label }}
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1330,6 +1434,22 @@
                                                     class="p-2.5 text-gray-500 bg-gray-50 hover:bg-[#0A2E2A] hover:text-[#C9A050] rounded-xl transition-all duration-300 border border-gray-200/80 shadow-2xs hover:shadow-md hover:scale-105 cursor-pointer" 
                                                     title="View Complete Order Details">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                            </button>
+                                            <!-- Delete / Remove Test Order Button -->
+                                            <button type="button"
+                                                    id="delete-order-btn-{{ $order->id }}"
+                                                    @click="openDeleteModal({
+                                                        id: {{ $order->id }},
+                                                        code: '{{ $orderCode }}',
+                                                        customer: '{{ addslashes($cName) }}',
+                                                        amount: 'Rs. {{ number_format($order->total_price ?: $order->total_amount, 2) }}',
+                                                        channel: '{{ $order->channel_label }}',
+                                                        mode: '{{ $order->order_mode_label }}',
+                                                        deleteUrl: '{{ route('orders.destroy', $order->id) }}'
+                                                    })"
+                                                    class="p-2.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all duration-300 border border-gray-200/80 shadow-2xs hover:shadow-md hover:scale-105 cursor-pointer"
+                                                    title="Permanently remove order">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                             </button>
                                         </div>
 
@@ -2698,6 +2818,20 @@
                                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                                                                 Print Tax Invoice
                                                             </a>
+                                                            <button type="button" 
+                                                                    @click="selected = null; openDeleteModal({
+                                                                        id: {{ $mOrder->id }},
+                                                                        code: '{{ $vCode }}',
+                                                                        customer: '{{ addslashes($cName) }}',
+                                                                        amount: 'Rs. {{ number_format($mOrder->total_price ?: $mOrder->total_amount, 2) }}',
+                                                                        channel: '{{ $mOrder->channel_label }}',
+                                                                        mode: '{{ $mOrder->order_mode_label }}',
+                                                                        deleteUrl: '{{ route('orders.destroy', $mOrder->id) }}'
+                                                                    })"
+                                                                    class="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-2xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 cursor-pointer">
+                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                                Delete
+                                                            </button>
                                                             <button type="button" id="modal-footer-close-btn-{{ $mModalId }}" @click="selected = null" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-2xl text-xs font-bold transition-all duration-300 cursor-pointer">
                                                                 Close
                                                             </button>
@@ -3020,6 +3154,22 @@
                                                     title="View Historical Order Details">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                             </button>
+                                            <!-- Delete / Remove History Test Order Button -->
+                                            <button type="button" 
+                                                    id="history-delete-order-btn-{{ $hOrder->id }}"
+                                                    @click="openDeleteModal({
+                                                        id: {{ $hOrder->id }},
+                                                        code: '{{ $hOrderCode }}',
+                                                        customer: '{{ addslashes($hCName) }}',
+                                                        amount: 'Rs. {{ number_format($hOrder->total_price ?: $hOrder->total_amount, 2) }}',
+                                                        channel: '{{ $hOrder->channel_label }}',
+                                                        mode: '{{ $hOrder->order_mode_label }}',
+                                                        deleteUrl: '{{ route('orders.destroy', $hOrder->id) }}'
+                                                    })"
+                                                    class="p-2.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-2xl transition-all duration-300 border border-gray-200/80 dark:border-[#163832] shadow-xs hover:scale-105 cursor-pointer" 
+                                                    title="Permanently remove order">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            </button>
                                         </div>
 
                                         <!-- History Order Details Modal (Rendered directly inside loop) -->
@@ -3234,6 +3384,20 @@
                                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                                                                 Print Tax Invoice
                                                             </a>
+                                                            <button type="button" 
+                                                                    @click="selected = null; openDeleteModal({
+                                                                        id: {{ $hOrder->id }},
+                                                                        code: '{{ $vCode }}',
+                                                                        customer: '{{ addslashes($cName) }}',
+                                                                        amount: 'Rs. {{ number_format($hOrder->total_price ?: $hOrder->total_amount, 2) }}',
+                                                                        channel: '{{ $hOrder->channel_label }}',
+                                                                        mode: '{{ $hOrder->order_mode_label }}',
+                                                                        deleteUrl: '{{ route('orders.destroy', $hOrder->id) }}'
+                                                                    })"
+                                                                    class="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 cursor-pointer">
+                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                                Delete
+                                                            </button>
                                                             <button type="button" id="history-modal-close-btn-{{ $hOrder->id }}" @click="selected = null" class="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer">
                                                                 Close
                                                             </button>
@@ -3445,4 +3609,68 @@
     <form id="hiddenBulkForm" method="POST" action="{{ url('/orders/bulk-assign') }}" style="display: none;">
         @csrf
     </form>
+
+    <!-- =========================================================================
+         MODAL: PERMANENT ORDER DELETION CONFIRMATION
+         ========================================================================= -->
+    <template x-teleport="body">
+        <div x-show="deleteOrderModal"
+             x-cloak
+             class="fixed inset-0 z-[120] flex justify-center p-3 sm:p-6 overflow-y-auto bg-black/75 backdrop-blur-xs"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0">
+
+            <div class="m-auto bg-white dark:bg-[#071916] rounded-3xl shadow-2xl max-w-md w-full p-6 sm:p-7 border border-red-200/80 dark:border-red-900/40 overflow-hidden"
+                 @click.away="closeDeleteModal()">
+                
+                <div class="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center text-xl font-bold mb-4 border border-red-200 dark:border-red-900/40">
+                    ⚠️
+                </div>
+
+                <h3 class="text-lg font-black text-gray-900 dark:text-[#F5F3EF] mb-1">
+                    Permanently Delete Order?
+                </h3>
+                <p class="text-xs text-gray-500 dark:text-[#8FA8A3] mb-4">
+                    Are you sure you want to remove this order from records? This action cannot be undone and will delete all associated line items.
+                </p>
+
+                <!-- Summary Card of Order to be Deleted -->
+                <div class="bg-gray-50 dark:bg-[#081A17] p-3.5 rounded-2xl border border-gray-100 dark:border-[#163832] text-xs space-y-1.5 mb-6">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-400 font-bold uppercase text-[10px]">Order ID</span>
+                        <span class="font-mono font-black text-gray-900 dark:text-[#F5F3EF]" x-text="deleteOrderTarget?.code"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-400 font-bold uppercase text-[10px]">Customer</span>
+                        <span class="font-bold text-gray-900 dark:text-[#F5F3EF]" x-text="deleteOrderTarget?.customer"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-400 font-bold uppercase text-[10px]">Channel / Mode</span>
+                        <span class="font-bold text-[#C9A050]" x-text="(deleteOrderTarget?.channel || '') + ' • ' + (deleteOrderTarget?.mode || '')"></span>
+                    </div>
+                    <div class="flex items-center justify-between pt-1 border-t border-gray-200 dark:border-[#163832]">
+                        <span class="text-gray-400 font-bold uppercase text-[10px]">Total Amount</span>
+                        <span class="font-black text-rose-600 dark:text-rose-400 text-sm" x-text="deleteOrderTarget?.amount"></span>
+                    </div>
+                </div>
+
+                <form method="POST" :action="deleteOrderTarget?.deleteUrl" class="flex items-center justify-end space-x-3">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" @click="closeDeleteModal()" 
+                            class="px-4.5 py-2.5 rounded-xl border border-gray-200 dark:border-[#163832] text-xs font-bold text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100 dark:hover:bg-[#123831] transition-all cursor-pointer">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-black shadow-md shadow-red-600/20 transition-all cursor-pointer">
+                        Yes, Permanently Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </template>
 </x-app-layout>

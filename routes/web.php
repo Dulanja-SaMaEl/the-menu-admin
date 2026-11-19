@@ -100,6 +100,7 @@ Route::middleware(['auth', 'not_pos'])->group(function () {
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
         Route::post('/transactions/{order}/verify', [TransactionController::class, 'verifyPayment'])->name('transactions.verify');
         Route::post('/transactions/{order}/reject', [TransactionController::class, 'rejectPayment'])->name('transactions.reject');
+        Route::delete('/transactions/{order}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
         
         // Customers Management
         Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');

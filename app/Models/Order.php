@@ -28,6 +28,8 @@ class Order extends Model
         'user_id',
         'total_price',
         'status',
+        'channel',
+        'order_mode',
         'address',
         'payment_method',
         'payment_status',
@@ -52,6 +54,8 @@ class Order extends Model
 
     protected $appends = [
         'proof_photo_url',
+        'order_mode_label',
+        'channel_label',
     ];
 
     public function getProofPhotoUrlAttribute(): ?string
@@ -169,5 +173,46 @@ class Order extends Model
         }
 
         return null;
+    }
+
+    /**
+     * Order mode formatted label attribute.
+     */
+    public function getOrderModeLabelAttribute(): string
+    {
+        return match (strtolower($this->order_mode ?? 'delivery')) {
+            'dine_in'  => 'Dine-In',
+            'takeaway' => 'Take Away',
+            default    => 'Delivery',
+        };
+    }
+
+    /**
+     * Channel formatted label attribute.
+     */
+    public function getChannelLabelAttribute(): string
+    {
+        return strtolower($this->channel ?? 'app') === 'pos' ? 'POS Counter' : 'Mobile App';
+    }
+
+    /**
+     * Scopes for channel & mode filtering
+     */
+    public function scopePos($query)
+    {
+        return $query->where('channel', 'pos');
+    }
+
+    public function scopeApp($query)
+    {
+        return $query->where('channel', 'app');
+    }
+
+    public function scopeMode($query, string $mode)
+    {
+        if ($mode !== 'all' && !empty($mode)) {
+            return $query->where('order_mode', strtolower($mode));
+        }
+        return $query;
     }
 }

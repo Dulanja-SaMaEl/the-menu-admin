@@ -202,6 +202,8 @@ class PosController extends Controller
                 'total_price' => $finalTotal,
                 'total_amount' => $finalTotal,
                 'status' => 'completed',
+                'channel' => 'pos',
+                'order_mode' => $orderType,
                 'payment_method' => $paymentMethod,
                 'payment_status' => 'paid',
                 'payment_reference' => Order::generateReference($userId),
