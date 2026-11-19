@@ -186,7 +186,7 @@ class PosController extends Controller
 
         // Persist order inside atomic transaction
         $orderId = DB::transaction(function () use (
-            $lines, $finalTotal, $userId, $paymentMethod, $resolvedCustomerName,
+            $lines, $finalTotal, $userId, $orderType, $paymentMethod, $resolvedCustomerName,
             $customerPhone, $address, $discountAmount, $metadata, $now
         ) {
             $nextSeq = (DB::table('orders')->max('id') ?? 0) + 1;
