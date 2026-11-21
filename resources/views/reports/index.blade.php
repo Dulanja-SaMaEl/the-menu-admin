@@ -1410,33 +1410,96 @@
                 </div>
             </div>
 
-            <!-- Channel Breakdown Comparison Cards -->
+            <!-- Channel Breakdown Comparison Cards (with Gross vs Net & Discount Clarity) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <div class="p-6 bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-emerald-500/30">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400">🛒 POS Terminal Items</span>
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300">Counter & Retail</span>
+                <div class="p-6 bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-emerald-500/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400">🛒 POS Terminal Items</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300">Counter & Retail</span>
+                        </div>
+                        <div class="flex items-baseline space-x-2">
+                            <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF]">Rs. {{ number_format($mealsStats['pos_total_revenue'], 2) }}</p>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Gross Menu</span>
+                        </div>
+                        <p class="text-xs font-bold text-gray-500 dark:text-[#8FA8A3] mt-1">{{ number_format($mealsStats['pos_total_quantity']) }} items sold across Dine-In & Takeaway</p>
                     </div>
-                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF]">Rs. {{ number_format($mealsStats['pos_total_revenue'], 2) }}</p>
-                    <p class="text-xs font-bold text-gray-500 dark:text-[#8FA8A3] mt-1">{{ number_format($mealsStats['pos_total_quantity']) }} items sold across Dine-In & Takeaway</p>
+
+                    <!-- Gross vs Net & Discount Breakdown -->
+                    <div class="mt-4 pt-3 border-t border-gray-100 dark:border-[#163832] flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-[11px] font-bold text-gray-400">Discounts:</span>
+                            <span class="text-xs font-bold {{ ($mealsStats['pos_discounts'] ?? 0) > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-gray-400' }}">
+                                {{ ($mealsStats['pos_discounts'] ?? 0) > 0 ? '-Rs. ' . number_format($mealsStats['pos_discounts'], 2) : 'Rs. 0.00' }}
+                            </span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-[11px] font-bold text-gray-400">Net Collected:</span>
+                            <span class="text-xs font-black text-emerald-700 dark:text-[#34D399]">
+                                Rs. {{ number_format($mealsStats['pos_net_revenue'] ?? $mealsStats['pos_total_revenue'], 2) }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="p-6 bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-amber-500/30">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">📱 Mobile App Meals</span>
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">Scheduled Delivery</span>
+                <div class="p-6 bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-amber-500/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">📱 Mobile App Meals</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">Scheduled Delivery</span>
+                        </div>
+                        <div class="flex items-baseline space-x-2">
+                            <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF]">Rs. {{ number_format($mealsStats['app_total_revenue'], 2) }}</p>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Gross Menu</span>
+                        </div>
+                        <p class="text-xs font-bold text-gray-500 dark:text-[#8FA8A3] mt-1">{{ number_format($mealsStats['app_total_quantity']) }} portions dispatched to customers</p>
                     </div>
-                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF]">Rs. {{ number_format($mealsStats['app_total_revenue'], 2) }}</p>
-                    <p class="text-xs font-bold text-gray-500 dark:text-[#8FA8A3] mt-1">{{ number_format($mealsStats['app_total_quantity']) }} portions dispatched to customers</p>
+
+                    <!-- Gross vs Net & Discount Breakdown -->
+                    <div class="mt-4 pt-3 border-t border-gray-100 dark:border-[#163832] flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-[11px] font-bold text-gray-400">Discounts:</span>
+                            <span class="text-xs font-bold {{ ($mealsStats['app_discounts'] ?? 0) > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-gray-400' }}">
+                                {{ ($mealsStats['app_discounts'] ?? 0) > 0 ? '-Rs. ' . number_format($mealsStats['app_discounts'], 2) : 'Rs. 0.00' }}
+                            </span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-[11px] font-bold text-gray-400">Net Collected:</span>
+                            <span class="text-xs font-black text-amber-700 dark:text-amber-400">
+                                Rs. {{ number_format($mealsStats['app_net_revenue'] ?? $mealsStats['app_total_revenue'], 2) }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="p-6 bg-gradient-to-br from-[#0A2E2A] to-[#123831] text-white rounded-[2.5rem] shadow-xl border border-[#C9A050]/40">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-black uppercase tracking-wider text-[#C9A050]">🌟 Total Gross Volume</span>
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-[#C9A050]/20 text-[#C9A050]">All Sources</span>
+                <div class="p-6 bg-gradient-to-br from-[#0A2E2A] to-[#123831] text-white rounded-[2.5rem] shadow-xl border border-[#C9A050]/40 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="text-xs font-black uppercase tracking-wider text-[#C9A050]">🌟 Total Menu Volume</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-[#C9A050]/20 text-[#C9A050]">All Sources</span>
+                        </div>
+                        <div class="flex items-baseline space-x-2">
+                            <p class="text-2xl sm:text-3xl font-black text-white">Rs. {{ number_format($mealsStats['total_revenue'], 2) }}</p>
+                            <span class="text-[10px] font-bold text-[#C9A050] uppercase tracking-wider">Gross Volume</span>
+                        </div>
+                        <p class="text-xs font-bold text-gray-300 mt-1">{{ number_format($mealsStats['total_quantity']) }} total meals & items in window</p>
                     </div>
-                    <p class="text-2xl sm:text-3xl font-black text-white">Rs. {{ number_format($mealsStats['total_revenue'], 2) }}</p>
-                    <p class="text-xs font-bold text-gray-300 mt-1">{{ number_format($mealsStats['total_quantity']) }} total meals & items in window</p>
+
+                    <!-- Gross vs Net & Discount Breakdown -->
+                    <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-[11px] font-bold text-gray-300">Total Discounts:</span>
+                            <span class="text-xs font-bold text-amber-300">
+                                {{ ($mealsStats['total_discounts'] ?? 0) > 0 ? '-Rs. ' . number_format($mealsStats['total_discounts'], 2) : 'Rs. 0.00' }}
+                            </span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-[11px] font-bold text-gray-300">Net Cash Inflow:</span>
+                            <span class="text-xs font-black text-[#C9A050]">
+                                Rs. {{ number_format($mealsStats['total_net_revenue'] ?? $mealsStats['total_revenue'], 2) }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1708,8 +1771,18 @@
                             </div>
                             <p class="text-xs text-gray-500 dark:text-[#8FA8A3] mt-0.5">Top-selling Dine-In and Takeaway items, beverages, and counter specials</p>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-xs font-black text-emerald-600 dark:text-emerald-400">Total: Rs. {{ number_format($mealsStats['pos_total_revenue'], 2) }}</span>
+                        <div class="flex items-center flex-wrap gap-3">
+                            <div class="text-right">
+                                <div class="flex items-center justify-end space-x-2 text-xs">
+                                    <span class="text-gray-500 dark:text-[#8FA8A3] font-bold">Gross Menu: <strong class="text-gray-900 dark:text-[#F5F3EF]">Rs. {{ number_format($mealsStats['pos_total_revenue'], 2) }}</strong></span>
+                                    @if(($mealsStats['pos_discounts'] ?? 0) > 0)
+                                        <span class="text-amber-600 dark:text-amber-400 font-bold">· Discounts: -Rs. {{ number_format($mealsStats['pos_discounts'], 2) }}</span>
+                                    @endif
+                                </div>
+                                <div class="text-xs font-black text-emerald-700 dark:text-[#34D399]">
+                                    Net Collected Cash: Rs. {{ number_format($mealsStats['pos_net_revenue'] ?? $mealsStats['pos_total_revenue'], 2) }}
+                                </div>
+                            </div>
                             <a href="{{ route('reports.export.excel', ['range' => $range, 'from' => $fromDate, 'to' => $toDate, 'channel' => 'pos']) }}" 
                                class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-black hover:bg-emerald-500 transition-all flex items-center gap-1.5 shadow-sm">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -1777,8 +1850,18 @@
                             </div>
                             <p class="text-xs text-gray-500 dark:text-[#8FA8A3] mt-0.5">Top culinary creations ordered via Customer App subscriptions and on-demand dispatches</p>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-xs font-black text-[#C9A050]">Total: Rs. {{ number_format($mealsStats['app_total_revenue'], 2) }}</span>
+                        <div class="flex items-center flex-wrap gap-3">
+                            <div class="text-right">
+                                <div class="flex items-center justify-end space-x-2 text-xs">
+                                    <span class="text-gray-500 dark:text-[#8FA8A3] font-bold">Gross Menu: <strong class="text-gray-900 dark:text-[#F5F3EF]">Rs. {{ number_format($mealsStats['app_total_revenue'], 2) }}</strong></span>
+                                    @if(($mealsStats['app_discounts'] ?? 0) > 0)
+                                        <span class="text-amber-600 dark:text-amber-400 font-bold">· Discounts: -Rs. {{ number_format($mealsStats['app_discounts'], 2) }}</span>
+                                    @endif
+                                </div>
+                                <div class="text-xs font-black text-amber-700 dark:text-amber-400">
+                                    Net Collected Cash: Rs. {{ number_format($mealsStats['app_net_revenue'] ?? $mealsStats['app_total_revenue'], 2) }}
+                                </div>
+                            </div>
                             <a href="{{ route('reports.export.excel', ['range' => $range, 'from' => $fromDate, 'to' => $toDate, 'channel' => 'app']) }}" 
                                class="px-4 py-2 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] rounded-xl text-xs font-black hover:opacity-90 transition-all flex items-center gap-1.5 shadow-sm">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>

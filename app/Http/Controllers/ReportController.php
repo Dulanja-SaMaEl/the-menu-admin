@@ -693,6 +693,39 @@ class ReportController extends Controller
         $posTotalRevenue = (float) (clone $posOrdersQuery)->whereNotIn('status', ['cancelled'])->sum('total_price');
         $posAvgTicket = $posTotalOrders > 0 ? round($posTotalRevenue / $posTotalOrders, 2) : 0;
 
+        // Financial Reconciliation: Net Revenue vs Gross Menu Value & Cashier Discounts
+        $posOrdersInPeriod = (clone $posOrdersQuery)->whereNotIn('status', ['cancelled'])->get();
+        $posNetRevenue = (float) $posOrdersInPeriod->sum('total_price');
+        $posRecordedDiscounts = (float) $posOrdersInPeriod->sum('discount_amount');
+        $posVarianceDiscount = max(0.0, round($posTotalRev - $posNetRevenue, 2));
+        $posDiscounts = max($posRecordedDiscounts, $posVarianceDiscount);
+
+        $appOrdersInPeriod = Order::query()
+            ->where(function ($q) {
+                $q->where('channel', 'app')
+                  ->orWhere(function ($subQ) {
+                      $subQ->where(function ($sq) {
+                          $sq->where('channel', '!=', 'pos')->orWhereNull('channel');
+                      })->where('address', 'not like', '%Walk-in%')
+                        ->where('address', 'not like', '%Dine-In%')
+                        ->where('address', 'not like', '%Counter%');
+                  });
+            })
+            ->tap(fn($q) => $applyDate($q, 'created_at'))
+            ->whereNotIn('status', ['cancelled'])
+            ->get();
+        $appNetRevenue = (float) $appOrdersInPeriod->sum('total_price');
+        $appRecordedDiscounts = (float) $appOrdersInPeriod->sum('discount_amount');
+        $appVarianceDiscount = max(0.0, round($appTotalRev - $appNetRevenue, 2));
+        $appDiscounts = max($appRecordedDiscounts, $appVarianceDiscount);
+
+        $mealsStats['pos_net_revenue']   = $posNetRevenue;
+        $mealsStats['pos_discounts']     = $posDiscounts;
+        $mealsStats['app_net_revenue']   = $appNetRevenue;
+        $mealsStats['app_discounts']     = $appDiscounts;
+        $mealsStats['total_net_revenue'] = round($posNetRevenue + $appNetRevenue, 2);
+        $mealsStats['total_discounts']   = round($posDiscounts + $appDiscounts, 2);
+
         // Payment breakdown
         $posCashOrders = (clone $posOrdersQuery)->where('payment_method', 'Cash');
         $posCashRevenue = (float) (clone $posCashOrders)->sum('total_price');
