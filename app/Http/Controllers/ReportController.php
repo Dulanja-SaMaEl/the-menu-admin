@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MealAnalyticsExport;
 use App\Models\Driver;
 use App\Models\Event;
 use App\Models\Order;
@@ -9,6 +10,7 @@ use App\Models\OrderItem;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportController extends Controller
@@ -28,9 +30,10 @@ class ReportController extends Controller
             $activeTab = 'overview';
         }
 
-        $range = $request->input('range', 'all'); // all, today, 7d, 30d, this_month, custom
+        $range = $request->input('range', 'all'); // all, today, yesterday, 7d, 30d, this_month, custom
         $fromDate = $request->input('from');
         $toDate = $request->input('to');
+        $mealChannel = strtolower($request->input('meal_channel', 'all')); // all, pos, app
 
         // Resolve Date Boundaries
         $startDate = null;
@@ -39,6 +42,9 @@ class ReportController extends Controller
         if ($range === 'today') {
             $startDate = Carbon::today()->startOfDay();
             $endDate = Carbon::today()->endOfDay();
+        } elseif ($range === 'yesterday') {
+            $startDate = Carbon::yesterday()->startOfDay();
+            $endDate = Carbon::yesterday()->endOfDay();
         } elseif ($range === '7d') {
             $startDate = Carbon::now()->subDays(6)->startOfDay();
             $endDate = Carbon::now()->endOfDay();
@@ -254,7 +260,7 @@ class ReportController extends Controller
 
         // Daily / Monthly Aggregation of Bank Transfers in Selected Range
         $dailyBankTrend = (clone $txQuery)
-            ->selectRaw('DATE(created_at) as tx_date, count(*) as count, sum(total_price) as total_volume, sum(case when payment_status in ("verified", "paid") then total_price else 0 end) as verified_volume, sum(case when payment_status not in ("verified", "paid", "rejected") or payment_status is null then total_price else 0 end) as pending_volume')
+            ->selectRaw("DATE(created_at) as tx_date, count(*) as count, sum(total_price) as total_volume, sum(case when payment_status in ('verified', 'paid') then total_price else 0 end) as verified_volume, sum(case when payment_status not in ('verified', 'paid', 'rejected') or payment_status is null then total_price else 0 end) as pending_volume")
             ->groupBy('tx_date')
             ->orderBy('tx_date', 'desc')
             ->take(30)
@@ -593,14 +599,84 @@ class ReportController extends Controller
             ];
         }
 
+        // 5. Channel Separation: Separate POS Items vs Mobile App Items in Period
+        $posItemsInPeriod = $allOrderItemsInPeriod->filter(fn($i) => ($i->order?->channel === 'pos'));
+        $appItemsInPeriod = $allOrderItemsInPeriod->filter(fn($i) => ($i->order?->channel !== 'pos'));
+
+        // Track POS Dishes
+        $posDishTracker = [];
+        $posTotalQty = 0;
+        $posTotalRev = 0.0;
+        foreach ($posItemsInPeriod as $item) {
+            $food = $item->food;
+            $qty = (int)$item->quantity;
+            $rev = (float)($item->price * $qty);
+            $posTotalQty += $qty;
+            $posTotalRev += $rev;
+
+            $dishId = $item->food_id ?: ($food?->name ?? 'POS Item #' . $item->id);
+            if (!isset($posDishTracker[$dishId])) {
+                $posDishTracker[$dishId] = [
+                    'id' => $dishId,
+                    'name' => $food?->name ?? 'POS Item #' . $dishId,
+                    'category' => $food?->type ?? 'Buffet / Retail',
+                    'portion' => $food?->portion_size ?? ($food?->servings ?? 'Standard'),
+                    'image_url' => $food?->image_url ?? '',
+                    'quantity' => 0,
+                    'revenue' => 0.0,
+                ];
+            }
+            $posDishTracker[$dishId]['quantity'] += $qty;
+            $posDishTracker[$dishId]['revenue'] += $rev;
+        }
+        uasort($posDishTracker, fn($a, $b) => $b['quantity'] <=> $a['quantity']);
+        $posTopDishes = array_slice(array_values($posDishTracker), 0, 15);
+
+        // Track App Dishes
+        $appDishTracker = [];
+        $appTotalQty = 0;
+        $appTotalRev = 0.0;
+        foreach ($appItemsInPeriod as $item) {
+            $food = $item->food;
+            $qty = (int)$item->quantity;
+            $rev = (float)($item->price * $qty);
+            $appTotalQty += $qty;
+            $appTotalRev += $rev;
+
+            $dishId = $item->food_id ?: ($food?->name ?? 'App Dish #' . $item->id);
+            if (!isset($appDishTracker[$dishId])) {
+                $appDishTracker[$dishId] = [
+                    'id' => $dishId,
+                    'name' => $food?->name ?? 'App Dish #' . $dishId,
+                    'category' => $food?->type ?? 'Scheduled Meal',
+                    'meal_type' => \App\Http\Controllers\OrderController::normalizeMealType($item->meal_type, $food?->type),
+                    'portion' => $food?->portion_size ?? ($food?->servings ?? '1 person'),
+                    'image_url' => $food?->image_url ?? '',
+                    'quantity' => 0,
+                    'revenue' => 0.0,
+                ];
+            }
+            $appDishTracker[$dishId]['quantity'] += $qty;
+            $appDishTracker[$dishId]['revenue'] += $rev;
+        }
+        uasort($appDishTracker, fn($a, $b) => $b['quantity'] <=> $a['quantity']);
+        $appTopDishes = array_slice(array_values($appDishTracker), 0, 15);
+
         $mealsStats = [
-            'total_quantity' => $totalMealQuantity,
-            'total_revenue' => $totalMealRevenue,
-            'highest_selling' => $highestSellingMealType,
-            'category_ranking' => $categoryRanking,
-            'canonical_buckets' => $mealCanonicalBuckets,
-            'monthly_trend' => $monthlyTrend,
-            'top_dishes' => $topDishes,
+            'total_quantity'     => $totalMealQuantity,
+            'total_revenue'      => $totalMealRevenue,
+            'highest_selling'    => $highestSellingMealType,
+            'category_ranking'   => $categoryRanking,
+            'canonical_buckets'  => $mealCanonicalBuckets,
+            'monthly_trend'      => $monthlyTrend,
+            'top_dishes'         => $topDishes,
+            'selected_channel'   => $mealChannel,
+            'pos_total_quantity' => $posTotalQty,
+            'pos_total_revenue'  => $posTotalRev,
+            'pos_top_dishes'     => $posTopDishes,
+            'app_total_quantity' => $appTotalQty,
+            'app_total_revenue'  => $appTotalRev,
+            'app_top_dishes'     => $appTopDishes,
         ];
 
         // ==========================================
@@ -722,6 +798,7 @@ class ReportController extends Controller
             'toDate',
             'startDate',
             'endDate',
+            'mealChannel',
             'executiveOverview',
             'ordersStats',
             'transactionsStats',
@@ -731,6 +808,68 @@ class ReportController extends Controller
             'mealsStats',
             'posStats'
         ));
+    }
+
+    /**
+     * Export comprehensive multi-sheet color-coded Excel report (.xlsx).
+     */
+    public function exportExcel(Request $request)
+    {
+        if (auth()->user()?->role === 'Chef') {
+            abort(403, 'Unauthorized. Chefs are restricted from exporting analytics.');
+        }
+
+        $range = $request->input('range', 'all');
+        $fromDate = $request->input('from');
+        $toDate = $request->input('to');
+        $channel = strtolower($request->input('channel', 'all'));
+
+        $startDate = null;
+        $endDate = null;
+
+        if ($range === 'today') {
+            $startDate = Carbon::today()->startOfDay();
+            $endDate = Carbon::today()->endOfDay();
+        } elseif ($range === 'yesterday') {
+            $startDate = Carbon::yesterday()->startOfDay();
+            $endDate = Carbon::yesterday()->endOfDay();
+        } elseif ($range === '7d') {
+            $startDate = Carbon::now()->subDays(6)->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+        } elseif ($range === '30d') {
+            $startDate = Carbon::now()->subDays(29)->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+        } elseif ($range === 'this_month') {
+            $startDate = Carbon::now()->startOfMonth();
+            $endDate = Carbon::now()->endOfMonth();
+        } elseif ($range === 'custom') {
+            if (!empty($fromDate)) {
+                try {
+                    $startDate = Carbon::parse($fromDate)->startOfDay();
+                } catch (\Throwable $e) {
+                    $startDate = null;
+                }
+            }
+            if (!empty($toDate)) {
+                try {
+                    $endDate = Carbon::parse($toDate)->endOfDay();
+                } catch (\Throwable $e) {
+                    $endDate = null;
+                }
+            }
+        }
+
+        $dateSuffix = $range;
+        if ($startDate && $endDate) {
+            $dateSuffix = $startDate->format('Ymd') . '-' . $endDate->format('Ymd');
+        }
+        $channelSuffix = ($channel !== 'all') ? '_' . $channel : '';
+        $fileName = 'MENU_Meal_Analytics_' . $dateSuffix . $channelSuffix . '.xlsx';
+
+        return Excel::download(
+            new MealAnalyticsExport($startDate, $endDate, $range, $channel),
+            $fileName
+        );
     }
 
     /**

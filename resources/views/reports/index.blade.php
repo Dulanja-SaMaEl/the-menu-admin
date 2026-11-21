@@ -23,10 +23,15 @@
             </div>
             
             <div class="flex items-center gap-3 shrink-0 self-start sm:self-auto">
+                <a href="{{ route('reports.export.excel', ['range' => $range, 'from' => $fromDate, 'to' => $toDate, 'channel' => $mealChannel ?? 'all']) }}" 
+                   class="px-5 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-2xl text-xs sm:text-sm font-black flex items-center space-x-2 shadow-lg shadow-emerald-700/25 transition-all duration-300 hover:scale-[1.02]">
+                    <svg class="w-4 h-4 text-emerald-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Export Excel (.xlsx)</span>
+                </a>
                 <a :href="`{{ route('reports.export') }}?tab=${activeTab}&range={{ $range }}&from={{ $fromDate }}&to={{ $toDate }}`" 
                    class="px-5 py-3.5 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] hover:from-[#d8b05f] hover:to-[#C9A050] text-[#0A2E2A] rounded-2xl text-xs sm:text-sm font-black flex items-center space-x-2 shadow-lg shadow-[#C9A050]/25 transition-all duration-300 hover:scale-[1.02]">
                     <svg class="w-4 h-4 text-[#0A2E2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    <span>Export CSV Report</span>
+                    <span>Export CSV</span>
                 </a>
             </div>
         </div>
@@ -45,6 +50,7 @@
                         $ranges = [
                             'all'        => 'All Time',
                             'today'      => 'Today',
+                            'yesterday'  => 'Yesterday',
                             '7d'         => 'Last 7 Days',
                             '30d'        => 'Last 30 Days',
                             'this_month' => 'This Month',
@@ -52,7 +58,7 @@
                     @endphp
 
                     @foreach($ranges as $key => $label)
-                        <a href="{{ route('reports.index', ['tab' => $activeTab, 'range' => $key]) }}"
+                        <a href="{{ route('reports.index', ['tab' => $activeTab, 'range' => $key, 'meal_channel' => $mealChannel ?? 'all']) }}"
                            class="px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 {{ $range === $key ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#C9A050] dark:text-[#061513] shadow-md' : 'bg-gray-100 hover:bg-gray-200/70 text-gray-600 dark:bg-[#081A17] dark:text-[#8FA8A3] dark:hover:text-white dark:hover:bg-[#123831] dark:border dark:border-[#163832]' }}">
                             {{ $label }}
                         </a>
@@ -1374,6 +1380,66 @@
         <!-- TAB 7: MEAL-WISE PERFORMANCE & POPULARITY -->
         <!-- ============================================================== -->
         <div x-show="activeTab === 'meals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" class="space-y-6">
+            <!-- Meals Channel Selector & Excel Export Header -->
+            <div class="bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md p-5 rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-gray-200/70 dark:border-[#163832] flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3] mr-2">Meal Source:</span>
+                    <a href="{{ route('reports.index', ['tab' => 'meals', 'range' => $range, 'from' => $fromDate, 'to' => $toDate, 'meal_channel' => 'all']) }}"
+                       class="px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 {{ ($mealChannel ?? 'all') === 'all' ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#C9A050] dark:text-[#061513] shadow-md' : 'bg-gray-100 hover:bg-gray-200/70 text-gray-600 dark:bg-[#081A17] dark:text-[#8FA8A3] dark:hover:bg-[#123831]' }}">
+                        <span>🌐 All Channels</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] {{ ($mealChannel ?? 'all') === 'all' ? 'bg-[#C9A050]/20 text-[#C9A050] dark:bg-[#061513]/20 dark:text-[#061513]' : 'bg-gray-200 dark:bg-[#163832]' }}">{{ number_format($mealsStats['total_quantity']) }}</span>
+                    </a>
+                    <a href="{{ route('reports.index', ['tab' => 'meals', 'range' => $range, 'from' => $fromDate, 'to' => $toDate, 'meal_channel' => 'pos']) }}"
+                       class="px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 {{ ($mealChannel ?? 'all') === 'pos' ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#C9A050] dark:text-[#061513] shadow-md' : 'bg-gray-100 hover:bg-gray-200/70 text-gray-600 dark:bg-[#081A17] dark:text-[#8FA8A3] dark:hover:bg-[#123831]' }}">
+                        <span>🛒 POS Terminal Items</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] {{ ($mealChannel ?? 'all') === 'pos' ? 'bg-[#C9A050]/20 text-[#C9A050] dark:bg-[#061513]/20 dark:text-[#061513]' : 'bg-gray-200 dark:bg-[#163832]' }}">{{ number_format($mealsStats['pos_total_quantity']) }}</span>
+                    </a>
+                    <a href="{{ route('reports.index', ['tab' => 'meals', 'range' => $range, 'from' => $fromDate, 'to' => $toDate, 'meal_channel' => 'app']) }}"
+                       class="px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 {{ ($mealChannel ?? 'all') === 'app' ? 'bg-[#0A2E2A] text-[#C9A050] dark:bg-[#C9A050] dark:text-[#061513] shadow-md' : 'bg-gray-100 hover:bg-gray-200/70 text-gray-600 dark:bg-[#081A17] dark:text-[#8FA8A3] dark:hover:bg-[#123831]' }}">
+                        <span>📱 Mobile App Meals</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] {{ ($mealChannel ?? 'all') === 'app' ? 'bg-[#C9A050]/20 text-[#C9A050] dark:bg-[#061513]/20 dark:text-[#061513]' : 'bg-gray-200 dark:bg-[#163832]' }}">{{ number_format($mealsStats['app_total_quantity']) }}</span>
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('reports.export.excel', ['range' => $range, 'from' => $fromDate, 'to' => $toDate, 'channel' => $mealChannel ?? 'all']) }}"
+                       class="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-xl text-xs font-black shadow-md shadow-emerald-700/25 flex items-center gap-2 transition-all hover:scale-[1.02]">
+                        <svg class="w-4 h-4 text-emerald-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <span>Download Detailed Color Excel (.xlsx)</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Channel Breakdown Comparison Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="p-6 bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-emerald-500/30">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400">🛒 POS Terminal Items</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300">Counter & Retail</span>
+                    </div>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF]">Rs. {{ number_format($mealsStats['pos_total_revenue'], 2) }}</p>
+                    <p class="text-xs font-bold text-gray-500 dark:text-[#8FA8A3] mt-1">{{ number_format($mealsStats['pos_total_quantity']) }} items sold across Dine-In & Takeaway</p>
+                </div>
+
+                <div class="p-6 bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-amber-500/30">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">📱 Mobile App Meals</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">Scheduled Delivery</span>
+                    </div>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-[#F5F3EF]">Rs. {{ number_format($mealsStats['app_total_revenue'], 2) }}</p>
+                    <p class="text-xs font-bold text-gray-500 dark:text-[#8FA8A3] mt-1">{{ number_format($mealsStats['app_total_quantity']) }} portions dispatched to customers</p>
+                </div>
+
+                <div class="p-6 bg-gradient-to-br from-[#0A2E2A] to-[#123831] text-white rounded-[2.5rem] shadow-xl border border-[#C9A050]/40">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-black uppercase tracking-wider text-[#C9A050]">🌟 Total Gross Volume</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-[#C9A050]/20 text-[#C9A050]">All Sources</span>
+                    </div>
+                    <p class="text-2xl sm:text-3xl font-black text-white">Rs. {{ number_format($mealsStats['total_revenue'], 2) }}</p>
+                    <p class="text-xs font-bold text-gray-300 mt-1">{{ number_format($mealsStats['total_quantity']) }} total meals & items in window</p>
+                </div>
+            </div>
+
             <!-- 4 Luxury Category KPI Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 @php
@@ -1623,6 +1689,144 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
+
+            <!-- SEPARATED SECTION: POS Terminal Counter Items Performance -->
+            @if(($mealChannel ?? 'all') === 'all' || ($mealChannel ?? 'all') === 'pos')
+                <div class="bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-emerald-500/30 overflow-hidden">
+                    <div class="p-6 sm:p-8 border-b border-gray-100 dark:border-[#163832] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center space-x-3">
+                                <h3 class="text-lg font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">🛒 POS Terminal Counter Items Breakdown</h3>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                    POS Terminal Sales
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-[#8FA8A3] mt-0.5">Top-selling Dine-In and Takeaway items, beverages, and counter specials</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-black text-emerald-600 dark:text-emerald-400">Total: Rs. {{ number_format($mealsStats['pos_total_revenue'], 2) }}</span>
+                            <a href="{{ route('reports.export.excel', ['range' => $range, 'from' => $fromDate, 'to' => $toDate, 'channel' => 'pos']) }}" 
+                               class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-black hover:bg-emerald-500 transition-all flex items-center gap-1.5 shadow-sm">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <span>Export POS Sheet (.xlsx)</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-gray-100 dark:border-[#163832] bg-emerald-50/40 dark:bg-[#071916]">
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Rank</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Item / Beverage</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Category</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Portion / Spec</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Units Sold</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Gross Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100/80 dark:divide-[#163832]">
+                                @forelse($mealsStats['pos_top_dishes'] as $idx => $p)
+                                    <tr class="hover:bg-emerald-50/20 dark:hover:bg-[#123831]/20 transition-colors">
+                                        <td class="py-4 px-6 text-xs font-black text-gray-400 dark:text-[#8FA8A3]">#{{ $idx + 1 }}</td>
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center space-x-3">
+                                                @if(!empty($p['image_url']))
+                                                    <img src="{{ $p['image_url'] }}" alt="{{ $p['name'] }}" class="w-10 h-10 rounded-xl object-cover shadow-xs border border-gray-200 shrink-0">
+                                                @else
+                                                    <div class="w-10 h-10 rounded-xl bg-emerald-800 text-emerald-200 flex items-center justify-center text-lg font-bold shrink-0">🛒</div>
+                                                @endif
+                                                <p class="text-xs font-black text-gray-900 dark:text-[#F5F3EF]">{{ $p['name'] }}</p>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-xs">
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-gray-100 dark:bg-[#123831] text-gray-700 dark:text-[#D8B060]">
+                                                {{ $p['category'] }}
+                                            </span>
+                                        </td>
+                                        <td class="py-4 px-6 text-xs font-bold text-gray-600 dark:text-[#8FA8A3]">{{ $p['portion'] }}</td>
+                                        <td class="py-4 px-6 text-xs font-black text-gray-900 dark:text-[#F5F3EF]">{{ number_format($p['quantity']) }} sold</td>
+                                        <td class="py-4 px-6 text-xs font-black text-emerald-600 dark:text-emerald-400">Rs. {{ number_format($p['revenue'], 2) }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="py-8 text-center text-xs text-gray-400 dark:text-[#8FA8A3]">No POS terminal sales recorded in this period.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
+
+            <!-- SEPARATED SECTION: Mobile App Scheduled Meals Performance -->
+            @if(($mealChannel ?? 'all') === 'all' || ($mealChannel ?? 'all') === 'app')
+                <div class="bg-white/95 dark:bg-[#0A211E]/95 backdrop-blur-md rounded-[2.5rem] shadow-xl shadow-[#0A2E2A]/5 border border-amber-500/30 overflow-hidden">
+                    <div class="p-6 sm:p-8 border-b border-gray-100 dark:border-[#163832] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center space-x-3">
+                                <h3 class="text-lg font-black text-gray-900 dark:text-[#F5F3EF] tracking-tight">📱 Mobile App Scheduled Meals Breakdown</h3>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
+                                    App Deliveries
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-[#8FA8A3] mt-0.5">Top culinary creations ordered via Customer App subscriptions and on-demand dispatches</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-black text-[#C9A050]">Total: Rs. {{ number_format($mealsStats['app_total_revenue'], 2) }}</span>
+                            <a href="{{ route('reports.export.excel', ['range' => $range, 'from' => $fromDate, 'to' => $toDate, 'channel' => 'app']) }}" 
+                               class="px-4 py-2 bg-gradient-to-r from-[#C9A050] to-[#b88f3f] text-[#0A2E2A] rounded-xl text-xs font-black hover:opacity-90 transition-all flex items-center gap-1.5 shadow-sm">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <span>Export App Sheet (.xlsx)</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-gray-100 dark:border-[#163832] bg-amber-50/40 dark:bg-[#071916]">
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Rank</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Dish Name</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Meal Course</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Menu Category</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Portions Ordered</th>
+                                    <th class="py-4 px-6 text-[10px] font-black uppercase tracking-wider text-gray-400 dark:text-[#8FA8A3]">Gross Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100/80 dark:divide-[#163832]">
+                                @forelse($mealsStats['app_top_dishes'] as $idx => $a)
+                                    <tr class="hover:bg-amber-50/20 dark:hover:bg-[#123831]/20 transition-colors">
+                                        <td class="py-4 px-6 text-xs font-black text-gray-400 dark:text-[#8FA8A3]">#{{ $idx + 1 }}</td>
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center space-x-3">
+                                                @if(!empty($a['image_url']))
+                                                    <img src="{{ $a['image_url'] }}" alt="{{ $a['name'] }}" class="w-10 h-10 rounded-xl object-cover shadow-xs border border-gray-200 shrink-0">
+                                                @else
+                                                    <div class="w-10 h-10 rounded-xl bg-[#0A2E2A] text-[#C9A050] flex items-center justify-center text-lg font-bold shrink-0">📱</div>
+                                                @endif
+                                                <p class="text-xs font-black text-gray-900 dark:text-[#F5F3EF]">{{ $a['name'] }}</p>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-xs">
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#C9A050]/15 text-[#C9A050]">
+                                                {{ $a['meal_type'] }}
+                                            </span>
+                                        </td>
+                                        <td class="py-4 px-6 text-xs text-gray-600 dark:text-[#8FA8A3]">{{ $a['category'] }}</td>
+                                        <td class="py-4 px-6 text-xs font-black text-gray-900 dark:text-[#F5F3EF]">{{ number_format($a['quantity']) }} portions</td>
+                                        <td class="py-4 px-6 text-xs font-black text-[#C9A050]">Rs. {{ number_format($a['revenue'], 2) }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="py-8 text-center text-xs text-gray-400 dark:text-[#8FA8A3]">No Mobile App meal orders recorded in this period.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

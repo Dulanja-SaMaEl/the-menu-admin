@@ -109,6 +109,7 @@ Route::middleware(['auth', 'not_pos'])->group(function () {
         // Reports & Analytics Management
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
+        Route::get('/reports/export-excel', [ReportController::class, 'exportExcel'])->name('reports.export.excel');
         
         // History & Logs
         Route::get('/logs', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('logs.index');
