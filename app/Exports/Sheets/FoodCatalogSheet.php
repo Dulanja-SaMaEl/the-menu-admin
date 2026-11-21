@@ -140,10 +140,10 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
         $activeSortLabel = $sortLabels[$this->sort] ?? 'Alphabetical';
 
         $channelLabels = [
-            'pos'      => '🛒 POS Terminal & Buffet Counter Only',
-            'app'      => '📱 Customer Mobile App Only',
-            'beverage' => '🍹 Beverages & Drinks Only',
-            'all'      => '🌐 All Sales Channels (POS & Mobile App)',
+            'pos'      => 'POS Terminal & Buffet Counter Only',
+            'app'      => 'Customer Mobile App Only',
+            'beverage' => 'Beverages & Drinks Only',
+            'all'      => 'All Sales Channels (POS & Mobile App)',
         ];
         $activeChannelLabel = $channelLabels[$this->channel] ?? 'All Channels';
 
@@ -190,8 +190,8 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
             $totalCalories += $calories;
 
             $channelText = match ($f->channel) {
-                'pos' => '🛒 POS Only',
-                'app' => '📱 App Only',
+                'pos' => 'POS Only',
+                'app' => 'App Only',
                 default => 'Everywhere (POS & App)',
             };
 
@@ -221,7 +221,7 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
                 $calories > 0 ? $calories : '—',
                 $f->prep_time ?: '15 min',
                 $f->difficulty ?: 'Easy',
-                $f->rating ? number_format($f->rating, 1) . ' ★' : '—',
+                $f->rating ? number_format($f->rating, 1) . ' / 5.0' : '—',
                 $daysText,
                 $ingredientsText,
                 $f->description ?: '',
@@ -275,11 +275,11 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
                 'font' => [
                     'bold' => true,
                     'size' => 15,
-                    'color' => ['rgb' => 'C9A050'], // Gold
+                    'color' => ['argb' => 'FFC9A050'], // Gold
                 ],
                 'fill' => [
                     'fillType' => Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => '0A2E2A'], // Dark Emerald
+                    'startColor' => ['argb' => 'FF0A2E2A'], // Dark Emerald
                 ],
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_LEFT,
@@ -293,11 +293,11 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
                 'font' => [
                     'bold' => true,
                     'size' => 10,
-                    'color' => ['rgb' => 'E6F2F0'],
+                    'color' => ['argb' => 'FFE6F2F0'],
                 ],
                 'fill' => [
                     'fillType' => Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => '0D3A35'],
+                    'startColor' => ['argb' => 'FF0D3A35'],
                 ],
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_LEFT,
@@ -310,11 +310,11 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
                 'font' => [
                     'size' => 9,
                     'italic' => true,
-                    'color' => ['rgb' => 'A3C2BD'],
+                    'color' => ['argb' => 'FFA3C2BD'],
                 ],
                 'fill' => [
                     'fillType' => Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => '0D3A35'],
+                    'startColor' => ['argb' => 'FF0D3A35'],
                 ],
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_LEFT,
@@ -327,11 +327,11 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
                 'font' => [
                     'bold' => true,
                     'size' => 10,
-                    'color' => ['rgb' => 'FFFFFF'],
+                    'color' => ['argb' => 'FFFFFFFF'],
                 ],
                 'fill' => [
                     'fillType' => Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => '0A2E2A'],
+                    'startColor' => ['argb' => 'FF0A2E2A'],
                 ],
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -341,7 +341,7 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
                 'borders' => [
                     'bottom' => [
                         'borderStyle' => Border::BORDER_MEDIUM,
-                        'color' => ['rgb' => 'C9A050'],
+                        'color' => ['argb' => 'FFC9A050'],
                     ],
                 ],
             ],
@@ -355,15 +355,15 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
             $sheet->getStyle("J" . ($hRow + 1) . ":M{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
             // Currency formatting for Price column (I)
-            $sheet->getStyle("I" . ($hRow + 1) . ":I{$lastRow}")->getNumberFormat()->setFormatCode('Rs. #,##0.00');
-            $sheet->getStyle("I" . ($hRow + 1) . ":I{$lastRow}")->getFont()->setBold(true)->getColor()->setRGB('0A2E2A');
+            $sheet->getStyle("I" . ($hRow + 1) . ":I{$lastRow}")->getNumberFormat()->setFormatCode('[$Rs. ]#,##0.00');
+            $sheet->getStyle("I" . ($hRow + 1) . ":I{$lastRow}")->getFont()->setBold(true)->getColor()->setARGB('FF0A2E2A');
 
             // Zebra Striping & Thin Borders
             for ($r = $hRow + 1; $r <= $lastRow; $r++) {
                 if ($r % 2 === 0) {
-                    $sheet->getStyle("A{$r}:P{$r}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FBFBF9');
+                    $sheet->getStyle("A{$r}:P{$r}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFBFBF9');
                 }
-                $sheet->getStyle("A{$r}:P{$r}")->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN)->getColor()->setRGB('E5E7EB');
+                $sheet->getStyle("A{$r}:P{$r}")->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN)->getColor()->setARGB('FFE5E7EB');
             }
         }
 
@@ -373,27 +373,30 @@ class FoodCatalogSheet implements FromArray, WithTitle, WithStyles, ShouldAutoSi
                 'font' => [
                     'bold' => true,
                     'size' => 10,
-                    'color' => ['rgb' => '0A2E2A'],
+                    'color' => ['argb' => 'FF0A2E2A'],
                 ],
                 'fill' => [
                     'fillType' => Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => 'FBF5E8'], // Soft Gold Tint
+                    'startColor' => ['argb' => 'FFFBF5E8'], // Soft Gold Tint
                 ],
                 'borders' => [
                     'top' => [
                         'borderStyle' => Border::BORDER_DOUBLE,
-                        'color' => ['rgb' => 'C9A050'],
+                        'color' => ['argb' => 'FFC9A050'],
                     ],
                     'bottom' => [
                         'borderStyle' => Border::BORDER_DOUBLE,
-                        'color' => ['rgb' => 'C9A050'],
+                        'color' => ['argb' => 'FFC9A050'],
                     ],
                 ],
             ]);
 
-            $sheet->getStyle("I{$sumRow}")->getNumberFormat()->setFormatCode('Rs. #,##0.00');
-            $sheet->getStyle("I{$sumRow}")->getFont()->getColor()->setRGB('C9A050');
+            $sheet->getStyle("I{$sumRow}")->getNumberFormat()->setFormatCode('[$Rs. ]#,##0.00');
+            $sheet->getStyle("I{$sumRow}")->getFont()->getColor()->setARGB('FFC9A050');
         }
+
+        // Freeze panes so header row stays pinned
+        $sheet->freezePane('A' . ($hRow + 1));
 
         return $styles;
     }
