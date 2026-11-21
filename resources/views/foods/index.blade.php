@@ -4,6 +4,10 @@
         openEditModal: false,
         openDeleteModal: false,
         openImportModal: false,
+        openExportModal: false,
+        exportChannel: 'all',
+        exportSort: 'name',
+        exportType: 'all',
         viewMode: 'table',
         currentFood: {
             id: '',
@@ -182,6 +186,15 @@
 
             <!-- Primary Actions -->
             <div class="flex items-center flex-wrap gap-2.5">
+                <!-- Excel Export Button -->
+                <button type="button" @click="openExportModal = true" 
+                        class="px-5 py-3.5 bg-white dark:bg-[#081A17] hover:bg-emerald-50 dark:hover:bg-[#123831] text-[#0A2E2A] dark:text-[#34D399] border border-emerald-600/30 dark:border-emerald-500/30 font-black text-xs sm:text-sm rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex items-center space-x-2 active:scale-95 cursor-pointer">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-700 dark:text-[#34D399]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span>Export Items (Excel)</span>
+                </button>
+
                 <!-- Excel / CSV Bulk Importer Button -->
                 <button type="button" @click="openImportModal = true" 
                         class="px-5 py-3.5 bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs sm:text-sm rounded-2xl shadow-lg shadow-emerald-800/20 transition-all duration-300 flex items-center space-x-2 active:scale-95 cursor-pointer">
@@ -322,10 +335,10 @@
             </div>
 
             <!-- Search & Sort Controls -->
-            <form method="GET" action="{{ url()->current() }}" class="flex items-center space-x-2 w-full md:w-auto">
+            <form method="GET" action="{{ url()->current() }}" class="flex items-center flex-wrap gap-2 w-full md:w-auto">
                 <input type="hidden" name="type" value="{{ $activeType }}">
                 
-                <div class="relative flex-1 md:w-64">
+                <div class="relative flex-1 min-w-[180px] md:w-60">
                     <input type="text" 
                            name="search" 
                            value="{{ $search }}" 
@@ -340,11 +353,23 @@
                     @endif
                 </div>
 
-                <select name="sort" onchange="this.form.submit()" class="py-2.5 px-3.5 bg-gray-50/80 dark:bg-[#061513] rounded-2xl border border-gray-200 dark:border-[#163832] text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#F5F3EF] focus:border-[#C9A050] transition-all cursor-pointer">
-                    <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
+                <!-- Channel Selector -->
+                <select name="channel" onchange="this.form.submit()" class="py-2.5 px-3 bg-gray-50/80 dark:bg-[#061513] rounded-2xl border border-gray-200 dark:border-[#163832] text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#F5F3EF] focus:border-[#C9A050] transition-all cursor-pointer">
+                    <option value="all" {{ request('channel', 'all') == 'all' ? 'selected' : '' }}>All Channels ({{ $totalCount }})</option>
+                    <option value="pos" {{ request('channel') == 'pos' ? 'selected' : '' }}>🛒 POS Buffet ({{ $posCount ?? 0 }})</option>
+                    <option value="app" {{ request('channel') == 'app' ? 'selected' : '' }}>📱 App Meals ({{ $appCount ?? 0 }})</option>
+                </select>
+
+                <!-- Sorting Selector -->
+                <select name="sort" onchange="this.form.submit()" class="py-2.5 px-3 bg-gray-50/80 dark:bg-[#061513] rounded-2xl border border-gray-200 dark:border-[#163832] text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#F5F3EF] focus:border-[#C9A050] transition-all cursor-pointer">
+                    <option value="newest" {{ request('sort', 'newest') == 'newest' ? 'selected' : '' }}>Newest</option>
                     <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name (A-Z)</option>
+                    <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Name (Z-A)</option>
                     <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
                     <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                    <option value="category" {{ request('sort') == 'category' ? 'selected' : '' }}>Category / Type</option>
+                    <option value="channel" {{ request('sort') == 'channel' ? 'selected' : '' }}>Channel (POS First)</option>
+                    <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest</option>
                 </select>
             </form>
         </div>
@@ -1547,6 +1572,201 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+        </template>
+
+        <!-- ========================================================================= -->
+        <!-- EXCEL CATALOG EXPORTER MODAL (POS vs APP SEPARATION & MULTI-SORT)         -->
+        <!-- ========================================================================= -->
+        <template x-teleport="body">
+        <div x-show="openExportModal" 
+             x-cloak
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+            
+            <div @click.away="openExportModal = false"
+                 x-show="openExportModal"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-95 translate-y-3"
+                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-95 translate-y-3"
+                 class="bg-white dark:bg-[#061513] w-full max-w-xl rounded-3xl shadow-2xl border border-gray-200 dark:border-[#163832] overflow-hidden max-h-[90vh] flex flex-col">
+                
+                <!-- 1. Sticky Header -->
+                <div class="px-6 py-5 border-b border-gray-100 dark:border-[#163832] flex items-center justify-between bg-gradient-to-r from-emerald-50/60 via-white to-amber-50/40 dark:from-[#081A17] dark:via-[#061513] dark:to-[#0A221E] shrink-0">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-2xl bg-[#0A2E2A] text-[#C9A050] flex items-center justify-center text-lg font-bold shadow-md shadow-[#0A2E2A]/20">
+                            📊
+                        </div>
+                        <div>
+                            <h3 class="text-base sm:text-lg font-black text-gray-900 dark:text-[#F5F3EF] leading-tight">Export Culinary & Beverage Catalog</h3>
+                            <p class="text-xs text-gray-500 dark:text-[#8FA8A3] font-medium">Download styled Excel (.xlsx) workbook with POS & APP channel separation</p>
+                        </div>
+                    </div>
+                    <button type="button" @click="openExportModal = false" class="text-gray-400 hover:text-gray-600 dark:text-[#8FA8A3] dark:hover:text-[#F5F3EF] p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#123831] transition-colors cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- 2. Scrollable Body -->
+                <div class="p-6 overflow-y-auto space-y-5 flex-1">
+                    
+                    <!-- Channel Selection -->
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-wider text-gray-700 dark:text-[#D1DCD9] mb-2.5">
+                            Step 1: Choose Sales Channel
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <!-- All Channels Option -->
+                            <button type="button" 
+                                    @click="exportChannel = 'all'"
+                                    :class="exportChannel === 'all' 
+                                        ? 'border-[#0A2E2A] bg-emerald-50/80 dark:bg-[#0A2E2A]/30 dark:border-[#C9A050] ring-2 ring-[#0A2E2A]/20 dark:ring-[#C9A050]/20' 
+                                        : 'border-gray-200 dark:border-[#163832] bg-white dark:bg-[#081A17] hover:border-gray-300'"
+                                    class="p-3.5 rounded-2xl border text-left transition-all duration-200 flex items-start space-x-3 cursor-pointer">
+                                <span class="text-2xl shrink-0 mt-0.5">📑</span>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-xs font-black text-gray-900 dark:text-[#F5F3EF]">All Channels</p>
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-[#0A2E2A]/10 text-[#0A2E2A] dark:bg-[#C9A050]/20 dark:text-[#C9A050]">4 Sheets</span>
+                                    </div>
+                                    <p class="text-[11px] text-gray-500 dark:text-[#8FA8A3] mt-0.5 leading-snug">Multi-sheet workbook: All items, POS items, App meals & beverages</p>
+                                </div>
+                            </button>
+
+                            <!-- POS Only Option -->
+                            <button type="button" 
+                                    @click="exportChannel = 'pos'"
+                                    :class="exportChannel === 'pos' 
+                                        ? 'border-emerald-600 bg-emerald-50/80 dark:bg-emerald-950/30 dark:border-emerald-500 ring-2 ring-emerald-600/20' 
+                                        : 'border-gray-200 dark:border-[#163832] bg-white dark:bg-[#081A17] hover:border-gray-300'"
+                                    class="p-3.5 rounded-2xl border text-left transition-all duration-200 flex items-start space-x-3 cursor-pointer">
+                                <span class="text-2xl shrink-0 mt-0.5">🛒</span>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-xs font-black text-gray-900 dark:text-[#F5F3EF]">POS Counter Items</p>
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">POS Retail</span>
+                                    </div>
+                                    <p class="text-[11px] text-gray-500 dark:text-[#8FA8A3] mt-0.5 leading-snug">Daily buffet lines, cash register items, and counter snacks</p>
+                                </div>
+                            </button>
+
+                            <!-- App Meals Only Option -->
+                            <button type="button" 
+                                    @click="exportChannel = 'app'"
+                                    :class="exportChannel === 'app' 
+                                        ? 'border-indigo-600 bg-indigo-50/80 dark:bg-indigo-950/30 dark:border-indigo-400 ring-2 ring-indigo-600/20' 
+                                        : 'border-gray-200 dark:border-[#163832] bg-white dark:bg-[#081A17] hover:border-gray-300'"
+                                    class="p-3.5 rounded-2xl border text-left transition-all duration-200 flex items-start space-x-3 cursor-pointer">
+                                <span class="text-2xl shrink-0 mt-0.5">📱</span>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-xs font-black text-gray-900 dark:text-[#F5F3EF]">Mobile App Meals</p>
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300">App Delivery</span>
+                                    </div>
+                                    <p class="text-[11px] text-gray-500 dark:text-[#8FA8A3] mt-0.5 leading-snug">Curated dishes, meal subscriptions, and home deliveries</p>
+                                </div>
+                            </button>
+
+                            <!-- Beverages Only Option -->
+                            <button type="button" 
+                                    @click="exportChannel = 'beverage'"
+                                    :class="exportChannel === 'beverage' 
+                                        ? 'border-amber-600 bg-amber-50/80 dark:bg-amber-950/30 dark:border-amber-400 ring-2 ring-amber-600/20' 
+                                        : 'border-gray-200 dark:border-[#163832] bg-white dark:bg-[#081A17] hover:border-gray-300'"
+                                    class="p-3.5 rounded-2xl border text-left transition-all duration-200 flex items-start space-x-3 cursor-pointer">
+                                <span class="text-2xl shrink-0 mt-0.5">🍹</span>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-xs font-black text-gray-900 dark:text-[#F5F3EF]">Beverages Only</p>
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">Drinks</span>
+                                    </div>
+                                    <p class="text-[11px] text-gray-500 dark:text-[#8FA8A3] mt-0.5 leading-snug">Soft drinks, canned beverages, bottled water, and juices</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sorting Method Selector -->
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-wider text-gray-700 dark:text-[#D1DCD9] mb-2">
+                            Step 2: Choose Sorting Method
+                        </label>
+                        <select x-model="exportSort" class="w-full py-3 px-4 bg-gray-50 dark:bg-[#081A17] rounded-2xl border border-gray-200 dark:border-[#163832] text-xs sm:text-sm font-bold text-gray-800 dark:text-[#F5F3EF] focus:border-[#C9A050] transition-all cursor-pointer">
+                            <option value="name">🔤 Name (A to Z)</option>
+                            <option value="name_desc">🔡 Name (Z to A)</option>
+                            <option value="price_asc">💵 Price: Low to High</option>
+                            <option value="price_desc">💰 Price: High to Low</option>
+                            <option value="category">🍱 Category / Meal Type</option>
+                            <option value="channel">🏪 Channel (POS Buffet First)</option>
+                            <option value="newest">🕒 Newest Added First</option>
+                            <option value="oldest">⏳ Oldest Added First</option>
+                            <option value="calories_asc">🥗 Calories: Low to High (Diet Friendly)</option>
+                            <option value="calories_desc">⚡ Calories: High to Low</option>
+                            <option value="rating">⭐ Customer Rating (Highest First)</option>
+                        </select>
+                    </div>
+
+                    <!-- Category Filter (Optional) -->
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-wider text-gray-700 dark:text-[#D1DCD9] mb-2">
+                            Step 3: Category Scope (Optional)
+                        </label>
+                        <select x-model="exportType" class="w-full py-3 px-4 bg-gray-50 dark:bg-[#081A17] rounded-2xl border border-gray-200 dark:border-[#163832] text-xs sm:text-sm font-bold text-gray-800 dark:text-[#F5F3EF] focus:border-[#C9A050] transition-all cursor-pointer">
+                            <option value="all">🌐 All Categories (Complete Menu)</option>
+                            <option value="Breakfast">🍳 Sri Lankan Breakfast</option>
+                            <option value="Lunch">🍛 Sri Lankan Lunch</option>
+                            <option value="Dinner">🌙 Sri Lankan Dinner</option>
+                            <option value="Rice & Carbs">🍚 Rice & Carbs</option>
+                            <option value="Curries & Meats">🍗 Curries & Meats</option>
+                            <option value="Veggies & Sambols">🥗 Veggies & Sambols</option>
+                            <option value="Beverage">🍹 Beverages & Drinks</option>
+                        </select>
+                    </div>
+
+                    <!-- Filename & Detail Info Callout -->
+                    <div class="p-4 bg-emerald-50/70 dark:bg-[#081A17] rounded-2xl border border-emerald-200/80 dark:border-[#163832] space-y-2">
+                        <div class="flex items-center space-x-2 text-xs font-black text-[#0A2E2A] dark:text-[#34D399]">
+                            <svg class="w-4 h-4 text-emerald-700 dark:text-[#34D399]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span>Target Export File:</span>
+                        </div>
+                        <p class="font-mono text-xs font-bold text-emerald-900 dark:text-[#F5F3EF] break-all bg-white dark:bg-[#061513] p-2.5 rounded-xl border border-emerald-200 dark:border-[#1E4940]"
+                           x-text="'MENU_Catalog_' + (exportChannel === 'pos' ? 'POS_Items' : (exportChannel === 'app' ? 'Mobile_App_Items' : (exportChannel === 'beverage' ? 'Beverages' : 'All_Items'))) + '_Sorted_by_' + exportSort + '_' + new Date().toISOString().split('T')[0] + '.xlsx'">
+                        </p>
+                        <p class="text-[11px] text-gray-500 dark:text-[#8FA8A3]">
+                            Includes luxury formatting, category badges, formatted prices in LKR, calorie counts, service days, and ingredients summary.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- 3. Sticky Footer -->
+                <div class="px-6 py-4 border-t border-gray-100 dark:border-[#163832] bg-gray-50/90 dark:bg-[#081A17] flex items-center justify-end space-x-3 shrink-0">
+                    <button type="button" @click="openExportModal = false" class="px-5 py-2.5 rounded-xl border border-gray-200 dark:border-[#163832] text-gray-600 dark:text-[#8FA8A3] hover:bg-gray-100 dark:hover:bg-[#123831] font-bold text-xs transition-all cursor-pointer">
+                        Cancel
+                    </button>
+                    <a :href="'{{ route('foods.export') }}?channel=' + exportChannel + '&sort=' + exportSort + '&type=' + exportType" 
+                       @click="setTimeout(() => { openExportModal = false; }, 600)"
+                       class="px-6 py-2.5 bg-gradient-to-r from-emerald-700 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 text-white font-black text-xs rounded-xl shadow-md shadow-emerald-900/20 transition-all flex items-center space-x-2 cursor-pointer active:scale-95">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        <span>Download Excel (.xlsx)</span>
+                    </a>
+                </div>
+
             </div>
         </div>
         </template>

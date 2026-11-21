@@ -48,6 +48,7 @@ Route::middleware(['auth', 'not_pos'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     
     // Food & Menu Management (Full CRUD - Accessible by Kitchen/Chef)
+    Route::get('/foods/export', [FoodController::class, 'exportItems'])->name('foods.export');
     Route::get('/foods/template', [FoodController::class, 'downloadTemplate'])->name('foods.template');
     Route::post('/foods/import', [FoodController::class, 'importItems'])->name('foods.import');
     Route::get('/foods', [FoodController::class, 'index'])->name('foods.index');

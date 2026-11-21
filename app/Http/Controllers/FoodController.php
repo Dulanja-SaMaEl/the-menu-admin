@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\FoodCatalogExport;
 use App\Models\Food;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FoodController extends Controller
 {
@@ -121,11 +124,19 @@ class FoodController extends Controller
         // Sort
         $sort = $request->query('sort', 'newest');
         if ($sort === 'price_asc') {
-            $query->orderBy('price', 'asc');
+            $query->orderBy('price', 'asc')->orderBy('name', 'asc');
         } elseif ($sort === 'price_desc') {
-            $query->orderBy('price', 'desc');
-        } elseif ($sort === 'name') {
+            $query->orderBy('price', 'desc')->orderBy('name', 'asc');
+        } elseif ($sort === 'name' || $sort === 'name_asc') {
             $query->orderBy('name', 'asc');
+        } elseif ($sort === 'name_desc') {
+            $query->orderBy('name', 'desc');
+        } elseif ($sort === 'category') {
+            $query->orderBy('type', 'asc')->orderBy('name', 'asc');
+        } elseif ($sort === 'channel') {
+            $query->orderByRaw("CASE WHEN channel = 'pos' THEN 1 WHEN channel = 'all' THEN 2 ELSE 3 END")->orderBy('name', 'asc');
+        } elseif ($sort === 'oldest') {
+            $query->oldest('id');
         } else {
             $query->latest('id');
         }
@@ -274,13 +285,60 @@ class FoodController extends Controller
         $ingredientsCount = \App\Models\Ingredient::count();
         $avgPrice = round((float) (Food::avg('price') ?: 0), 2);
 
+        $posCount = Food::where('channel', 'pos')->orWhere('channel', 'all')->count();
+        $appCount = Food::where('channel', 'app')->orWhere('channel', 'all')->orWhereNull('channel')->count();
+        $activeChannel = strtolower($request->query('channel', 'all'));
+
         $foods = $query->paginate(12)->withQueryString();
         $beverages = Food::where('type', 'Beverage')->orWhere('type', 'like', '%beverage%')->latest('id')->paginate(12)->withQueryString();
 
         return view('foods.index', compact(
             'foods', 'totalCount', 'breakfastCount', 'lunchCount',
-            'dinnerCount', 'englishBreakfastCount', 'ingredientsCount', 'beverageCount', 'avgPrice', 'activeType', 'search', 'sort', 'beverages'
+            'dinnerCount', 'englishBreakfastCount', 'ingredientsCount', 'beverageCount', 'avgPrice', 'activeType', 'search', 'sort', 'beverages',
+            'posCount', 'appCount', 'activeChannel'
         ));
+    }
+
+    /**
+     * Export culinary & beverage catalog items to Excel (.xlsx) with channel separation & sorting.
+     */
+    public function exportItems(Request $request)
+    {
+        $channel = strtolower($request->query('channel', 'all'));
+        $sort = strtolower($request->query('sort', 'name'));
+        $type = $request->query('type', 'all');
+
+        $channelLabels = [
+            'pos'      => 'POS_Items',
+            'app'      => 'Mobile_App_Items',
+            'beverage' => 'Beverages',
+            'all'      => 'All_Items',
+        ];
+        $whatTitle = $channelLabels[$channel] ?? 'Catalog_Items';
+
+        $sortLabels = [
+            'name'          => 'Sorted_by_Name',
+            'name_asc'      => 'Sorted_by_Name',
+            'name_desc'     => 'Sorted_by_Name_Desc',
+            'price_asc'     => 'Sorted_by_Price_Low_High',
+            'price_desc'    => 'Sorted_by_Price_High_Low',
+            'category'      => 'Sorted_by_Category',
+            'channel'       => 'Sorted_by_Channel',
+            'newest'        => 'Sorted_by_Newest',
+            'oldest'        => 'Sorted_by_Oldest',
+            'calories_asc'  => 'Sorted_by_Calories_Low_High',
+            'calories_desc' => 'Sorted_by_Calories_High_Low',
+            'rating'        => 'Sorted_by_Rating',
+        ];
+        $sortTitle = $sortLabels[$sort] ?? 'Sorted';
+        $dateTitle = Carbon::today()->format('Y-m-d');
+
+        $filename = "MENU_Catalog_{$whatTitle}_{$sortTitle}_{$dateTitle}.xlsx";
+
+        return Excel::download(
+            new FoodCatalogExport($channel, $sort, $type),
+            $filename
+        );
     }
 
     /**
@@ -289,7 +347,7 @@ class FoodController extends Controller
     public function downloadTemplate(Request $request)
     {
         $format = strtolower($request->query('format', 'xlsx'));
-        $filename = 'the_menu_buffet_and_beverage_template.' . ($format === 'csv' ? 'csv' : 'xlsx');
+        $filename = 'menu_buffet_and_beverage_template.' . ($format === 'csv' ? 'csv' : 'xlsx');
 
         if ($format === 'csv') {
             return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\FoodItemsTemplateExport, $filename, \Maatwebsite\Excel\Excel::CSV);
