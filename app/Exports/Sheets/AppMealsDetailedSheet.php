@@ -46,9 +46,14 @@ class AppMealsDetailedSheet implements FromArray, WithTitle, WithStyles, ShouldA
 
         $dateLabel = 'All Dates';
         if ($this->startDate && $this->endDate) {
-            $dateLabel = $this->startDate->format('Y-m-d') . ' to ' . $this->endDate->format('Y-m-d');
+            if ($this->startDate->toDateString() === $this->endDate->toDateString()) {
+                $dayLabel = $this->startDate->isToday() ? 'Today' : ($this->startDate->isYesterday() ? 'Yesterday' : $this->startDate->format('l'));
+                $dateLabel = $this->startDate->format('F d, Y') . " ({$dayLabel})";
+            } else {
+                $dateLabel = $this->startDate->format('M d, Y') . ' to ' . $this->endDate->format('M d, Y');
+            }
         } elseif ($this->startDate) {
-            $dateLabel = 'From ' . $this->startDate->format('Y-m-d');
+            $dateLabel = 'From ' . $this->startDate->format('M d, Y');
         }
 
         $items = OrderItem::with(['food', 'order.user', 'order.driver'])

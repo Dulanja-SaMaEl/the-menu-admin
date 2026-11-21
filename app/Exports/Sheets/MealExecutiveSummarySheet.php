@@ -56,7 +56,12 @@ class MealExecutiveSummarySheet implements FromArray, WithTitle, WithStyles, Sho
         // Date Label Description
         $dateLabel = 'All Historical Records';
         if ($this->startDate && $this->endDate) {
-            $dateLabel = $this->startDate->format('M d, Y') . ' to ' . $this->endDate->format('M d, Y');
+            if ($this->startDate->toDateString() === $this->endDate->toDateString()) {
+                $dayLabel = $this->startDate->isToday() ? 'Today' : ($this->startDate->isYesterday() ? 'Yesterday' : $this->startDate->format('l'));
+                $dateLabel = $this->startDate->format('F d, Y') . " ({$dayLabel})";
+            } else {
+                $dateLabel = $this->startDate->format('M d, Y') . ' to ' . $this->endDate->format('M d, Y');
+            }
         } elseif ($this->startDate) {
             $dateLabel = 'From ' . $this->startDate->format('M d, Y') . ' onwards';
         }

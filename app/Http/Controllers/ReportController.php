@@ -811,6 +811,36 @@ class ReportController extends Controller
     }
 
     /**
+     * Resolve a clean, human-readable date descriptor for exported filenames.
+     */
+    private function resolveExportDateTitle(string $range, ?Carbon $startDate, ?Carbon $endDate): string
+    {
+        if ($range === 'today') {
+            return 'Today_' . Carbon::today()->format('Y-m-d');
+        }
+        if ($range === 'yesterday') {
+            return 'Yesterday_' . Carbon::yesterday()->format('Y-m-d');
+        }
+        if ($range === '7d') {
+            return 'Last_7_Days_(' . Carbon::now()->subDays(6)->format('Y-m-d') . '_to_' . Carbon::now()->format('Y-m-d') . ')';
+        }
+        if ($range === '30d') {
+            return 'Last_30_Days_(' . Carbon::now()->subDays(29)->format('Y-m-d') . '_to_' . Carbon::now()->format('Y-m-d') . ')';
+        }
+        if ($range === 'this_month') {
+            return 'This_Month_' . Carbon::now()->format('F_Y');
+        }
+        if ($startDate && $endDate) {
+            if ($startDate->toDateString() === $endDate->toDateString()) {
+                $dayTag = $startDate->isToday() ? '_Today' : ($startDate->isYesterday() ? '_Yesterday' : '');
+                return 'Date_' . $startDate->format('Y-m-d') . $dayTag;
+            }
+            return 'Period_(' . $startDate->format('Y-m-d') . '_to_' . $endDate->format('Y-m-d') . ')';
+        }
+        return 'All_Time_(Generated_' . now()->format('Y-m-d') . ')';
+    }
+
+    /**
      * Export comprehensive multi-sheet color-coded Excel report (.xlsx).
      */
     public function exportExcel(Request $request)
@@ -819,10 +849,11 @@ class ReportController extends Controller
             abort(403, 'Unauthorized. Chefs are restricted from exporting analytics.');
         }
 
+        $tab = $request->input('tab', 'meals');
         $range = $request->input('range', 'all');
         $fromDate = $request->input('from');
         $toDate = $request->input('to');
-        $channel = strtolower($request->input('channel', 'all'));
+        $channel = strtolower($request->input('channel', ($tab === 'pos' ? 'pos' : 'all')));
 
         $startDate = null;
         $endDate = null;
@@ -859,12 +890,16 @@ class ReportController extends Controller
             }
         }
 
-        $dateSuffix = $range;
-        if ($startDate && $endDate) {
-            $dateSuffix = $startDate->format('Ymd') . '-' . $endDate->format('Ymd');
+        // Descriptive 'What' title
+        $whatTitle = 'Meals_Analytics_Consolidated';
+        if ($channel === 'pos') {
+            $whatTitle = 'POS_Terminal_Counter_Sales';
+        } elseif ($channel === 'app') {
+            $whatTitle = 'Mobile_App_Meal_Deliveries';
         }
-        $channelSuffix = ($channel !== 'all') ? '_' . $channel : '';
-        $fileName = 'MENU_Meal_Analytics_' . $dateSuffix . $channelSuffix . '.xlsx';
+
+        $dateTitle = $this->resolveExportDateTitle($range, $startDate, $endDate);
+        $fileName = "MENU_{$whatTitle}_{$dateTitle}.xlsx";
 
         return Excel::download(
             new MealAnalyticsExport($startDate, $endDate, $range, $channel),
@@ -885,7 +920,6 @@ class ReportController extends Controller
         $range = $request->input('range', 'all');
         $fromDate = $request->input('from');
         $toDate = $request->input('to');
-        $filename = "menu_report_{$tab}_{$range}_" . now()->format('Ymd_His') . ".csv";
 
         // Date boundaries
         $startDate = null;
@@ -893,6 +927,9 @@ class ReportController extends Controller
         if ($range === 'today') {
             $startDate = Carbon::today()->startOfDay();
             $endDate = Carbon::today()->endOfDay();
+        } elseif ($range === 'yesterday') {
+            $startDate = Carbon::yesterday()->startOfDay();
+            $endDate = Carbon::yesterday()->endOfDay();
         } elseif ($range === '7d') {
             $startDate = Carbon::now()->subDays(6)->startOfDay();
             $endDate = Carbon::now()->endOfDay();
@@ -910,6 +947,20 @@ class ReportController extends Controller
                 try { $endDate = Carbon::parse($toDate)->endOfDay(); } catch (\Throwable $e) {}
             }
         }
+
+        $tabTitles = [
+            'overview'     => 'Executive_Overview',
+            'pos'          => 'POS_Counter_Sales',
+            'orders'       => 'Orders_Ledger',
+            'transactions' => 'Financial_Transactions',
+            'customers'    => 'Customers_Directory',
+            'drivers'      => 'Fleet_Drivers_Logistics',
+            'events'       => 'Banquet_Events',
+            'meals'        => 'Meals_Performance',
+        ];
+        $whatTitle = $tabTitles[$tab] ?? ucfirst($tab);
+        $dateTitle = $this->resolveExportDateTitle($range, $startDate, $endDate);
+        $filename = "MENU_{$whatTitle}_{$dateTitle}.csv";
 
         return response()->streamDownload(function () use ($tab, $range, $startDate, $endDate) {
             $handle = fopen('php://output', 'w');
