@@ -796,48 +796,35 @@
                 </div>
             </div>
 
-            <!-- Bottom Checkout Section: Totals, Discounts, Tender & Action -->
-            <div class="shrink-0 p-3.5 sm:p-4 bg-[#061815] border-t border-[#143B33] space-y-3">
+            <!-- Bottom Checkout Section: Totals, Discounts, Tender & Action (Condensed) -->
+            <div class="shrink-0 p-2.5 sm:p-3 bg-[#061815] border-t border-[#143B33] space-y-2">
                 
-                <!-- Financial Breakdown -->
-                <div class="space-y-1 text-xs text-gray-400">
-                    <div class="flex justify-between items-center">
-                        <span>Subtotal (<span x-text="cartCount"></span> items):</span>
+                <!-- Financial Breakdown & Quick Action Chips -->
+                <div class="flex items-center justify-between text-xs">
+                    <div class="flex items-center space-x-1.5 min-w-0">
+                        <span class="text-gray-400">Subtotal (<span x-text="cartCount"></span>):</span>
                         <span class="text-white font-bold">Rs. <span x-text="format(subtotal)"></span></span>
+                        <span x-show="discountAmount > 0" class="text-[#C9A050] font-semibold text-[11px]" style="display: none;">(-<span x-text="format(discountAmount)"></span>)</span>
+                        <span x-show="bagCount > 0" class="text-emerald-400 font-semibold text-[11px]" style="display: none;">(+<span x-text="format(bagTotal)"></span>)</span>
                     </div>
 
-                    <!-- Discount summary line (Visible only when discount > 0) -->
-                    <div class="flex justify-between items-center text-[#C9A050] font-medium" x-show="discountAmount > 0" style="display: none;">
-                        <span>Discount (<span x-text="discountLabel"></span>):</span>
-                        <span class="font-bold">- Rs. <span x-text="format(discountAmount)"></span></span>
-                    </div>
-
-                    <!-- Polythene Bags Charge Line (Visible only when bagCount > 0) -->
-                    <div class="flex justify-between items-center text-emerald-400 font-medium" x-show="bagCount > 0" style="display: none;">
-                        <span>Polythene Bags (<span x-text="bagCount"></span> &times; Rs. 5.00):</span>
-                        <span class="font-bold">+ Rs. <span x-text="format(bagTotal)"></span></span>
-                    </div>
-                </div>
-
-                <!-- Option 3: Collapsible Secondary Controls Toolbar (Discount & Bags Chips) -->
-                <div class="space-y-1.5">
-                    <div class="grid grid-cols-2 gap-2">
+                    <!-- Mini Action Chips for Discount & Polythene Bags -->
+                    <div class="flex items-center space-x-1 shrink-0">
                         <!-- Discount Chip Button -->
                         <button type="button"
                                 @click="expandDiscount = !expandDiscount; if(expandDiscount) expandBags = false;"
                                 :class="discountAmount > 0 
-                                    ? 'bg-[#C9A050]/20 border-[#C9A050] text-[#C9A050] font-black shadow-sm' 
-                                    : (expandDiscount ? 'bg-white/10 border-white/40 text-white font-bold' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5 font-semibold')"
-                                class="flex items-center justify-between px-2.5 py-1.5 rounded-xl border text-[11px] transition-all cursor-pointer select-none">
-                            <div class="flex items-center space-x-1.5 min-w-0">
-                                <span class="w-4 h-4 rounded-md flex items-center justify-center text-[10px] font-black shrink-0"
-                                      :class="discountAmount > 0 ? 'bg-[#C9A050] text-[#051411]' : 'bg-white/10 text-gray-300'">%</span>
-                                <span class="truncate">
-                                    <template x-if="discountAmount === 0"><span>Discount (0%)</span></template>
-                                    <template x-if="discountAmount > 0"><span x-text="'-Rs. ' + format(discountAmount)"></span></template>
-                                </span>
-                            </div>
-                            <svg class="w-3.5 h-3.5 transition-transform duration-200 shrink-0 ml-1"
+                                    ? 'bg-[#C9A050]/20 border-[#C9A050] text-[#C9A050] font-bold shadow-sm' 
+                                    : (expandDiscount ? 'bg-white/15 border-white/40 text-white font-bold' : 'bg-black/40 border-white/10 text-gray-400 hover:text-white hover:bg-white/5 font-semibold')"
+                                class="flex items-center space-x-1 px-2 py-1 rounded-lg border text-[10px] transition-all cursor-pointer select-none"
+                                title="Discount settings">
+                            <span class="w-3.5 h-3.5 rounded flex items-center justify-center text-[9px] font-black shrink-0"
+                                  :class="discountAmount > 0 ? 'bg-[#C9A050] text-[#051411]' : 'bg-white/10 text-gray-300'">%</span>
+                            <span class="truncate max-w-[70px]">
+                                <template x-if="discountAmount === 0"><span>Discount</span></template>
+                                <template x-if="discountAmount > 0"><span x-text="'-Rs.' + format(discountAmount)"></span></template>
+                            </span>
+                            <svg class="w-2.5 h-2.5 transition-transform duration-200 shrink-0"
                                  :class="expandDiscount ? 'rotate-180 text-white' : 'text-gray-400'"
                                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
@@ -848,155 +835,157 @@
                         <button type="button"
                                 @click="expandBags = !expandBags; if(expandBags) expandDiscount = false;"
                                 :class="bagCount > 0 
-                                    ? 'bg-emerald-950/70 border-emerald-500 text-emerald-300 font-black shadow-sm' 
-                                    : (expandBags ? 'bg-white/10 border-white/40 text-white font-bold' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5 font-semibold')"
-                                class="flex items-center justify-between px-2.5 py-1.5 rounded-xl border text-[11px] transition-all cursor-pointer select-none">
-                            <div class="flex items-center space-x-1.5 min-w-0">
-                                <span class="text-xs shrink-0">🛍️</span>
-                                <span class="truncate">
-                                    <template x-if="bagCount === 0"><span>Bags (0)</span></template>
-                                    <template x-if="bagCount > 0"><span x-text="bagCount + (bagCount > 1 ? ' Bags' : ' Bag') + ' (+Rs.' + format(bagTotal) + ')'"></span></template>
-                                </span>
-                            </div>
-                            <svg class="w-3.5 h-3.5 transition-transform duration-200 shrink-0 ml-1"
+                                    ? 'bg-emerald-950/70 border-emerald-500 text-emerald-300 font-bold shadow-sm' 
+                                    : (expandBags ? 'bg-white/15 border-white/40 text-white font-bold' : 'bg-black/40 border-white/10 text-gray-400 hover:text-white hover:bg-white/5 font-semibold')"
+                                class="flex items-center space-x-1 px-2 py-1 rounded-lg border text-[10px] transition-all cursor-pointer select-none"
+                                title="Polythene bags (+Rs. 5 each)">
+                            <span class="text-[10px] shrink-0">🛍️</span>
+                            <span class="truncate max-w-[80px]">
+                                <template x-if="bagCount === 0"><span>Bags</span></template>
+                                <template x-if="bagCount > 0"><span x-text="bagCount + (bagCount > 1 ? ' Bags' : ' Bag')"></span></template>
+                            </span>
+                            <svg class="w-2.5 h-2.5 transition-transform duration-200 shrink-0"
                                  :class="expandBags ? 'rotate-180 text-white' : 'text-gray-400'"
                                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
                     </div>
+                </div>
 
-                    <!-- Collapsible Discount Drawer -->
-                    <div x-show="expandDiscount"
-                         x-transition:enter="transition ease-out duration-150"
-                         x-transition:enter-start="opacity-0 -translate-y-1 scale-[0.98]"
-                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave="transition ease-in duration-100"
-                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave-end="opacity-0 -translate-y-1 scale-[0.98]"
-                         class="p-2.5 bg-black/50 border border-[#C9A050]/40 rounded-2xl space-y-2"
-                         style="display: none;">
-                        <div class="flex items-center justify-between text-[11px]">
-                            <span class="font-bold text-gray-300">Select Discount:</span>
-                            <button type="button" @click="expandDiscount = false" class="text-xs text-[#C9A050] hover:underline font-bold">Done ✕</button>
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <button type="button" @click="discountType = 'none'" :class="discountType === 'none' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors">0%</button>
-                            <button type="button" @click="discountType = '5'" :class="discountType === '5' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors">5%</button>
-                            <button type="button" @click="discountType = '10'" :class="discountType === '10' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors">10%</button>
-                            <button type="button" @click="discountType = '15'" :class="discountType === '15' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors">15%</button>
-                            <button type="button" @click="discountType = 'custom'" :class="discountType === 'custom' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors">Custom</button>
-                        </div>
-                        <div x-show="discountType === 'custom'" class="pt-1">
-                            <input type="number" 
-                                   x-model="customDiscountAmount" 
-                                   placeholder="Custom discount amount (Rs.)"
-                                   class="w-full px-2.5 py-1.5 bg-black/60 border border-[#C9A050]/50 focus:border-[#C9A050] rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none">
-                        </div>
+                <!-- Collapsible Drawers (Appear directly when expanded, taking zero space when closed) -->
+                <!-- Collapsible Discount Drawer -->
+                <div x-show="expandDiscount"
+                     x-transition:enter="transition ease-out duration-150"
+                     x-transition:enter-start="opacity-0 -translate-y-1 scale-[0.98]"
+                     x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave="transition ease-in duration-100"
+                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave-end="opacity-0 -translate-y-1 scale-[0.98]"
+                     class="p-2 bg-black/60 border border-[#C9A050]/40 rounded-xl space-y-1.5"
+                     style="display: none;">
+                    <div class="flex items-center justify-between text-[11px]">
+                        <span class="font-bold text-gray-300">Select Discount:</span>
+                        <button type="button" @click="expandDiscount = false" class="text-xs text-[#C9A050] hover:underline font-bold cursor-pointer">Done ✕</button>
                     </div>
+                    <div class="flex items-center space-x-1">
+                        <button type="button" @click="discountType = 'none'" :class="discountType === 'none' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">0%</button>
+                        <button type="button" @click="discountType = '5'" :class="discountType === '5' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">5%</button>
+                        <button type="button" @click="discountType = '10'" :class="discountType === '10' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">10%</button>
+                        <button type="button" @click="discountType = '15'" :class="discountType === '15' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">15%</button>
+                        <button type="button" @click="discountType = 'custom'" :class="discountType === 'custom' ? 'bg-[#C9A050] text-[#051411] font-black' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">Custom</button>
+                    </div>
+                    <div x-show="discountType === 'custom'" class="pt-0.5">
+                        <input type="number" 
+                               x-model="customDiscountAmount" 
+                               placeholder="Custom discount amount (Rs.)"
+                               class="w-full px-2.5 py-1 bg-black/60 border border-[#C9A050]/50 focus:border-[#C9A050] rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none">
+                    </div>
+                </div>
 
-                    <!-- Collapsible Polythene Bags Drawer -->
-                    <div x-show="expandBags"
-                         x-transition:enter="transition ease-out duration-150"
-                         x-transition:enter-start="opacity-0 -translate-y-1 scale-[0.98]"
-                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave="transition ease-in duration-100"
-                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-                         x-transition:leave-end="opacity-0 -translate-y-1 scale-[0.98]"
-                         class="p-2.5 bg-black/50 border border-emerald-500/40 rounded-2xl space-y-2"
-                         style="display: none;">
-                        <div class="flex items-center justify-between text-[11px]">
-                            <div class="flex items-center space-x-1.5">
-                                <span class="font-bold text-gray-200">Polythene Bags</span>
-                                <span class="text-[10px] text-emerald-400 font-semibold">(Rs. 5.00 each)</span>
-                            </div>
-                            <button type="button" @click="expandBags = false" class="text-xs text-emerald-400 hover:underline font-bold">Done ✕</button>
+                <!-- Collapsible Polythene Bags Drawer -->
+                <div x-show="expandBags"
+                     x-transition:enter="transition ease-out duration-150"
+                     x-transition:enter-start="opacity-0 -translate-y-1 scale-[0.98]"
+                     x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave="transition ease-in duration-100"
+                     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                     x-transition:leave-end="opacity-0 -translate-y-1 scale-[0.98]"
+                     class="p-2 bg-black/60 border border-emerald-500/40 rounded-xl space-y-1.5"
+                     style="display: none;">
+                    <div class="flex items-center justify-between text-[11px]">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="font-bold text-gray-200">Polythene Bags</span>
+                            <span class="text-[10px] text-emerald-400 font-semibold">(Rs. 5.00 each)</span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <!-- Stepper -->
-                            <div class="flex items-center space-x-1 bg-black/60 border border-white/10 rounded-xl p-0.5 shrink-0">
-                                <button type="button"
-                                        @click="decrementBags()"
-                                        :disabled="bagCount <= 0"
-                                        class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-white font-black text-xs flex items-center justify-center disabled:opacity-30 active:scale-95 transition-all cursor-pointer"
-                                        title="Decrease bags">
-                                    &minus;
-                                </button>
-                                <span class="w-8 text-center text-xs font-black text-white" x-text="bagCount">0</span>
-                                <button type="button"
-                                        @click="incrementBags()"
-                                        class="w-7 h-7 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-[#051411] font-black text-xs flex items-center justify-center active:scale-95 transition-all cursor-pointer"
-                                        title="Add polythene bag (+Rs. 5)">
-                                    +
-                                </button>
-                            </div>
+                        <button type="button" @click="expandBags = false" class="text-xs text-emerald-400 hover:underline font-bold cursor-pointer">Done ✕</button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <!-- Stepper -->
+                        <div class="flex items-center space-x-1 bg-black/60 border border-white/10 rounded-lg p-0.5 shrink-0">
+                            <button type="button"
+                                    @click="decrementBags()"
+                                    :disabled="bagCount <= 0"
+                                    class="w-6 h-6 rounded bg-white/5 hover:bg-white/15 text-white font-black text-xs flex items-center justify-center disabled:opacity-30 active:scale-95 transition-all cursor-pointer"
+                                    title="Decrease bags">
+                                &minus;
+                            </button>
+                            <span class="w-6 text-center text-xs font-black text-white" x-text="bagCount">0</span>
+                            <button type="button"
+                                    @click="incrementBags()"
+                                    class="w-6 h-6 rounded bg-emerald-500 hover:bg-emerald-400 text-[#051411] font-black text-xs flex items-center justify-center active:scale-95 transition-all cursor-pointer"
+                                    title="Add polythene bag (+Rs. 5)">
+                                +
+                            </button>
+                        </div>
 
-                            <!-- Quick Preset Count Buttons -->
-                            <div class="flex items-center space-x-1 flex-1">
-                                <button type="button" @click="setBags(0)" :class="bagCount === 0 ? 'bg-white/20 text-white font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1.5 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">0</button>
-                                <button type="button" @click="setBags(1)" :class="bagCount === 1 ? 'bg-emerald-500 text-[#051411] font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1.5 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">1</button>
-                                <button type="button" @click="setBags(2)" :class="bagCount === 2 ? 'bg-emerald-500 text-[#051411] font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1.5 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">2</button>
-                                <button type="button" @click="setBags(3)" :class="bagCount === 3 ? 'bg-emerald-500 text-[#051411] font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1.5 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">3</button>
-                                <button type="button" @click="setBags(5)" :class="bagCount === 5 ? 'bg-emerald-500 text-[#051411] font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1.5 rounded-lg text-[10px] border border-white/10 transition-colors cursor-pointer">5</button>
-                            </div>
+                        <!-- Quick Preset Count Buttons -->
+                        <div class="flex items-center space-x-1 flex-1">
+                            <button type="button" @click="setBags(0)" :class="bagCount === 0 ? 'bg-white/20 text-white font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-md text-[10px] border border-white/10 transition-colors cursor-pointer">0</button>
+                            <button type="button" @click="setBags(1)" :class="bagCount === 1 ? 'bg-emerald-500 text-[#051411] font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-md text-[10px] border border-white/10 transition-colors cursor-pointer">1</button>
+                            <button type="button" @click="setBags(2)" :class="bagCount === 2 ? 'bg-emerald-500 text-[#051411] font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-md text-[10px] border border-white/10 transition-colors cursor-pointer">2</button>
+                            <button type="button" @click="setBags(3)" :class="bagCount === 3 ? 'bg-emerald-500 text-[#051411] font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-md text-[10px] border border-white/10 transition-colors cursor-pointer">3</button>
+                            <button type="button" @click="setBags(5)" :class="bagCount === 5 ? 'bg-emerald-500 text-[#051411] font-bold' : 'bg-white/5 text-gray-400 hover:text-white'" class="flex-1 py-1 rounded-md text-[10px] border border-white/10 transition-colors cursor-pointer">5</button>
                         </div>
                     </div>
                 </div>
 
-                    <!-- Grand Total Line -->
-                    <div class="pt-2 border-t border-white/10 flex items-baseline justify-between">
-                        <span class="text-sm font-black uppercase text-white tracking-wider">Net Total</span>
-                        <span class="text-2xl sm:text-3xl font-black text-[#C9A050] tracking-tight">
-                            <span class="text-xs font-bold text-gray-400">Rs.</span>
-                            <span x-text="format(grandTotal)"></span>
-                        </span>
-                    </div>
+                <!-- Grand Total Line -->
+                <div class="pt-1.5 border-t border-white/10 flex items-baseline justify-between">
+                    <span class="text-xs font-black uppercase text-gray-300 tracking-wider">Net Total</span>
+                    <span class="text-xl sm:text-2xl font-black text-[#C9A050] tracking-tight">
+                        <span class="text-[11px] font-bold text-gray-400">Rs.</span>
+                        <span x-text="format(grandTotal)"></span>
+                    </span>
+                </div>
 
                 <!-- Payment Method Tabs -->
-                <div class="space-y-2 pt-1">
-                    <div class="grid grid-cols-3 gap-1.5 p-1 bg-black/40 border border-white/10 rounded-2xl text-xs font-bold">
+                <div class="space-y-1.5">
+                    <div class="grid grid-cols-3 gap-1 p-0.5 bg-black/40 border border-white/10 rounded-xl text-xs font-bold">
                         <button type="button" 
                                 @click="paymentMethod = 'Cash'"
                                 :class="paymentMethod === 'Cash' ? 'bg-[#C9A050] text-[#051411] shadow' : 'text-gray-400 hover:text-white'"
-                                class="py-2 rounded-xl text-center transition-colors cursor-pointer flex items-center justify-center space-x-1">
+                                class="py-1.5 rounded-lg text-center transition-colors cursor-pointer flex items-center justify-center space-x-1">
                             <span>Cash</span>
                         </button>
                         <button type="button" 
                                 @click="paymentMethod = 'Card'"
                                 :class="paymentMethod === 'Card' ? 'bg-[#C9A050] text-[#051411] shadow' : 'text-gray-400 hover:text-white'"
-                                class="py-2 rounded-xl text-center transition-colors cursor-pointer flex items-center justify-center space-x-1">
+                                class="py-1.5 rounded-lg text-center transition-colors cursor-pointer flex items-center justify-center space-x-1">
                             <span>Card</span>
                         </button>
                         <button type="button" 
                                 @click="paymentMethod = 'Online'"
                                 :class="paymentMethod === 'Online' ? 'bg-[#C9A050] text-[#051411] shadow' : 'text-gray-400 hover:text-white'"
-                                class="py-2 rounded-xl text-center transition-colors cursor-pointer flex items-center justify-center space-x-1">
+                                class="py-1.5 rounded-lg text-center transition-colors cursor-pointer flex items-center justify-center space-x-1">
                             <span>QR / Online</span>
                         </button>
                     </div>
 
                     <!-- Cash Quick Tender & Change (Visible only on Cash) -->
-                    <div x-show="paymentMethod === 'Cash'" class="space-y-2 pt-1">
-                        <div class="flex items-center space-x-1.5">
-                            <button type="button" @click="setExactCash()" class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white font-bold text-[11px] border border-white/10 shrink-0">Exact</button>
-                            <button type="button" @click="setTenderPreset(500)" class="flex-1 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white font-bold text-[11px] border border-white/10">500</button>
-                            <button type="button" @click="setTenderPreset(1000)" class="flex-1 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white font-bold text-[11px] border border-white/10">1,000</button>
-                            <button type="button" @click="setTenderPreset(2000)" class="flex-1 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white font-bold text-[11px] border border-white/10">2,000</button>
-                            <button type="button" @click="setTenderPreset(5000)" class="flex-1 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white font-bold text-[11px] border border-white/10">5,000</button>
+                    <div x-show="paymentMethod === 'Cash'" class="space-y-1.5 pt-0.5">
+                        <!-- Preset Pills -->
+                        <div class="flex items-center space-x-1">
+                            <button type="button" @click="setExactCash()" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white font-bold text-[10px] border border-white/10 shrink-0 cursor-pointer">Exact</button>
+                            <button type="button" @click="setTenderPreset(500)" class="flex-1 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white font-bold text-[10px] border border-white/10 cursor-pointer">500</button>
+                            <button type="button" @click="setTenderPreset(1000)" class="flex-1 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white font-bold text-[10px] border border-white/10 cursor-pointer">1,000</button>
+                            <button type="button" @click="setTenderPreset(2000)" class="flex-1 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white font-bold text-[10px] border border-white/10 cursor-pointer">2,000</button>
+                            <button type="button" @click="setTenderPreset(5000)" class="flex-1 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white font-bold text-[10px] border border-white/10 cursor-pointer">5,000</button>
                         </div>
 
-                        <div class="flex items-center space-x-2">
+                        <!-- Tendered Input & Change Return -->
+                        <div class="flex items-center space-x-1.5">
                             <div class="relative flex-1">
-                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-xs font-bold text-gray-500">Rs.</span>
+                                <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-[11px] font-bold text-gray-500">Rs.</span>
                                 <input type="number"
                                        x-model="cashTendered"
                                        placeholder="Cash Given"
-                                       class="w-full pl-9 pr-3 py-2 bg-black/40 border border-white/15 focus:border-[#C9A050] rounded-xl text-xs sm:text-sm font-bold text-white placeholder-gray-500 focus:outline-none">
+                                       class="w-full pl-7 pr-2.5 py-1.5 bg-black/40 border border-white/15 focus:border-[#C9A050] rounded-lg text-xs font-bold text-white placeholder-gray-500 focus:outline-none">
                             </div>
 
-                            <div class="px-3 py-2 rounded-xl text-xs font-black min-w-[130px] text-right"
+                            <div class="px-2.5 py-1.5 rounded-lg text-xs font-black shrink-0 flex items-center space-x-1.5"
                                  :class="isChangeDue ? 'bg-emerald-950/80 border border-emerald-500/40 text-emerald-300' : 'bg-black/30 border border-white/10 text-gray-400'">
-                                <span class="text-[10px] uppercase font-bold block" :class="isChangeDue ? 'text-emerald-400' : 'text-gray-500'">Change Return</span>
+                                <span class="text-[10px] uppercase font-bold" :class="isChangeDue ? 'text-emerald-400' : 'text-gray-500'">Change:</span>
                                 <span>Rs. <span x-text="format(changeAmount)"></span></span>
                             </div>
                         </div>
@@ -1007,13 +996,13 @@
                 <button type="button"
                         @click="processCheckout()"
                         :disabled="cart.length === 0 || submitting"
-                        class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-[#C9A050] to-[#b3893c] hover:brightness-105 active:scale-[0.99] text-[#051411] text-base sm:text-lg font-black shadow-xl shadow-[#C9A050]/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-2.5 cursor-pointer">
-                    <svg x-show="submitting" class="w-5 h-5 animate-spin text-[#051411]" fill="none" viewBox="0 0 24 24" style="display: none;">
+                        class="w-full py-2.5 sm:py-3 px-4 rounded-xl bg-gradient-to-r from-[#C9A050] to-[#b3893c] hover:brightness-105 active:scale-[0.99] text-[#051411] text-sm sm:text-base font-black shadow-lg shadow-[#C9A050]/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-2 cursor-pointer">
+                    <svg x-show="submitting" class="w-4 h-4 animate-spin text-[#051411]" fill="none" viewBox="0 0 24 24" style="display: none;">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
                     </svg>
                     <span x-text="submitting ? 'Processing Sale & Bill...' : 'Checkout & Print Bill (F9)'"></span>
-                    <svg x-show="!submitting" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg x-show="!submitting" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                     </svg>
                 </button>
