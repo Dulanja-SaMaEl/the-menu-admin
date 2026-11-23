@@ -131,6 +131,14 @@
             letter-spacing: 0.5px;
         }
 
+        .bag-included-notice {
+            font-size: 10px;
+            font-weight: 700;
+            color: #111111;
+            margin-top: 4px;
+            letter-spacing: 0.2px;
+        }
+
         .grand-total-box {
             border: 2px solid #000000;
             border-radius: 4px;
@@ -217,6 +225,12 @@
                 Takeaway Order
             @endif
         </div>
+
+        @if($orderType !== 'dine_in')
+            <div class="bag-included-notice">
+                * Polythene bag (Rs. 5/-) is included with your meal *
+            </div>
+        @endif
     </div>
 
     <div class="sep"></div>
@@ -296,7 +310,7 @@
 
     @if($bagCount > 0)
         <div class="row">
-            <span>Carry Bags ({{ $bagCount }} &times; Rs. 5.00):</span>
+            <span>Extra Carry Bags ({{ $bagCount }} &times; Rs. 5.00):</span>
             <span class="bold">+ Rs. {{ number_format($bagTotal, 2) }}</span>
         </div>
     @endif

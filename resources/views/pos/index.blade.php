@@ -900,6 +900,9 @@
                         </div>
                         <button type="button" @click="expandBags = false" class="text-xs text-emerald-400 hover:underline font-bold cursor-pointer">Done ✕</button>
                     </div>
+                    <p class="text-[10px] text-gray-400 leading-tight">
+                        * Takeaway meals already include 1 packing bag (Rs. 5/-). Use this to add extra bags.
+                    </p>
                     <div class="flex items-center space-x-2">
                         <!-- Stepper -->
                         <div class="flex items-center space-x-1 bg-black/60 border border-white/10 rounded-lg p-0.5 shrink-0">
