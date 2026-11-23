@@ -735,63 +735,64 @@
                 </div>
             </div>
 
-            <!-- Scrollable Cart Line Items -->
-            <div class="flex-1 overflow-y-auto divide-y divide-white/5 p-3 space-y-2 pos-scrollbar min-h-0">
+            <!-- Scrollable Cart Line Items (Compact Single-Line Flow - Option 1) -->
+            <div class="flex-1 overflow-y-auto p-2.5 sm:p-3 space-y-1.5 pos-scrollbar min-h-0">
                 <template x-for="item in cart" :key="item.id">
-                    <div class="py-2 px-2.5 bg-white/5 hover:bg-white/[0.08] rounded-2xl transition-colors border border-white/5">
-                        <div class="flex items-start justify-between gap-2">
-                            <div class="min-w-0 flex-1">
-                                <div class="flex items-center space-x-1.5 flex-wrap">
-                                    <p class="text-xs sm:text-sm font-bold text-white leading-snug truncate" x-text="item.name"></p>
-                                    <template x-if="item.portion_size">
-                                        <span class="text-[9px] bg-[#C9A050]/20 text-[#C9A050] font-black px-1.5 py-0.5 rounded border border-[#C9A050]/30 shrink-0" x-text="item.portion_size"></span>
-                                    </template>
-                                </div>
-                                <p class="text-[11px] text-gray-400 font-medium">
-                                    Rs. <span x-text="format(item.price)"></span> each
-                                </p>
+                    <div class="py-1.5 px-2.5 bg-white/[0.04] hover:bg-white/[0.08] rounded-xl transition-all border border-white/5 flex items-center justify-between gap-2 group">
+                        
+                        <!-- Left: Item Name, Portion, Unit Price -->
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center space-x-1.5">
+                                <p class="text-xs sm:text-[13px] font-bold text-white truncate leading-tight" x-text="item.name" :title="item.name"></p>
+                                <template x-if="item.portion_size">
+                                    <span class="text-[9px] bg-[#C9A050]/20 text-[#C9A050] font-black px-1.5 py-0.5 rounded border border-[#C9A050]/30 shrink-0 leading-none" x-text="item.portion_size"></span>
+                                </template>
                             </div>
+                            <p class="text-[10px] text-gray-400 font-medium leading-none mt-0.5">
+                                <span class="text-gray-500">@</span> Rs. <span x-text="format(item.price)"></span>
+                            </p>
+                        </div>
 
+                        <!-- Center: Compact Stepper -->
+                        <div class="flex items-center space-x-0.5 bg-black/50 border border-white/10 rounded-lg p-0.5 shrink-0">
                             <button type="button"
-                                    @click="removeItem(item.id)"
-                                    class="p-1 text-gray-500 hover:text-rose-400 transition-colors cursor-pointer"
-                                    title="Remove item">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    @click="decrement(item.id)"
+                                    class="w-5 h-5 rounded-md bg-white/5 hover:bg-white/15 text-white font-black text-[11px] flex items-center justify-center active:scale-95 transition-all cursor-pointer"
+                                    title="Decrease quantity">
+                                &minus;
+                            </button>
+                            <span class="w-6 text-center text-xs font-black text-white tabular-nums" x-text="item.quantity"></span>
+                            <button type="button"
+                                    @click="increment(item.id)"
+                                    class="w-5 h-5 rounded-md bg-[#C9A050] text-[#051411] font-black text-[11px] flex items-center justify-center active:scale-95 transition-all cursor-pointer"
+                                    title="Increase quantity">
+                                +
                             </button>
                         </div>
 
-                        <!-- Stepper & Line Total -->
-                        <div class="mt-2 flex items-center justify-between">
-                            <div class="flex items-center space-x-1 bg-black/40 border border-white/10 rounded-xl p-0.5">
-                                <button type="button"
-                                        @click="decrement(item.id)"
-                                        class="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/15 text-white font-black text-xs flex items-center justify-center active:scale-95 transition-all cursor-pointer">
-                                    &minus;
-                                </button>
-                                <span class="w-7 text-center text-xs font-black text-white" x-text="item.quantity"></span>
-                                <button type="button"
-                                        @click="increment(item.id)"
-                                        class="w-6 h-6 rounded-lg bg-[#C9A050] text-[#051411] font-black text-xs flex items-center justify-center active:scale-95 transition-all cursor-pointer">
-                                    +
-                                </button>
-                            </div>
-
-                            <div class="text-right">
-                                <span class="text-xs sm:text-sm font-black text-white">
-                                    Rs. <span x-text="format(item.price * item.quantity)"></span>
-                                </span>
-                            </div>
+                        <!-- Right: Line Total Price & Quick Remove -->
+                        <div class="flex items-center space-x-1.5 shrink-0 text-right">
+                            <span class="text-xs sm:text-[13px] font-black text-white tabular-nums min-w-[65px]">
+                                Rs. <span x-text="format(item.price * item.quantity)"></span>
+                            </span>
+                            <button type="button"
+                                    @click="removeItem(item.id)"
+                                    class="p-1 text-gray-500 hover:text-rose-400 transition-colors cursor-pointer rounded-md hover:bg-rose-500/10"
+                                    title="Remove item">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
                         </div>
+
                     </div>
                 </template>
 
                 <!-- Empty Cart State -->
-                <div x-show="cart.length === 0" class="h-full min-h-[180px] flex flex-col items-center justify-center text-center p-6 text-gray-500">
-                    <svg class="w-12 h-12 mb-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div x-show="cart.length === 0" class="h-full min-h-[160px] flex flex-col items-center justify-center text-center p-6 text-gray-500">
+                    <svg class="w-10 h-10 mb-2.5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>
-                    <p class="text-sm font-bold text-gray-400">Order is empty</p>
-                    <p class="text-xs text-gray-600 mt-1 max-w-[200px]">Tap or click any menu item from the catalog to build this bill.</p>
+                    <p class="text-xs font-bold text-gray-400">Order is empty</p>
+                    <p class="text-[11px] text-gray-600 mt-0.5 max-w-[200px]">Tap or click any menu item from the catalog to build this bill.</p>
                 </div>
             </div>
 
