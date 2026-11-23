@@ -226,7 +226,7 @@
             @endif
         </div>
 
-        @if($orderType !== 'dine_in')
+        @if($orderType === 'takeaway')
             <div class="bag-included-notice">
                 * Polythene bag (Rs. 5/-) is included with your meal *
             </div>
